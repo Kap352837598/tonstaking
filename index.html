@@ -36,68 +36,70 @@
 
   <div class="status" id="status"></div>
 
-  <script type="module">
-    import { TonConnectUI } from "https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js";
+  <!-- 1) Подключаем TON Connect UI как обычный скрипт -->
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 
-    // ВСТАВЬ СЮДА СВОЙ TON-АДРЕС (куда будут платить)
-    const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
+<!-- 2) Наш код (без type="module") -->
+<script>
+  // В UMD-сборке TonConnectUI лежит в глобальной переменной TON_CONNECT_UI
+  const TonConnectUI = window.TON_CONNECT_UI.TonConnectUI;
 
-    // manifest будет лежать на этом же сайте (мы добавим файл ниже)
-    const tonConnectUI = new TonConnectUI({
-      manifestUrl: `${location.origin}/tonconnect-manifest.json`,
-      buttonRootId: "connect"
-    });
+  // ВСТАВЬ СЮДА СВОЙ TON-АДРЕС (куда будут платить)
+  const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
 
-    const payBtn = document.getElementById("pay");
-    const amountEl = document.getElementById("amount");
-    const statusEl = document.getElementById("status");
+  const tonConnectUI = new TonConnectUI({
+    manifestUrl: `${location.origin}/tonconnect-manifest.json`,
+    buttonRootId: "connect"
+  });
 
-    function setStatus(msg) { statusEl.textContent = msg; }
+  const payBtn = document.getElementById("pay");
+  const amountEl = document.getElementById("amount");
+  const statusEl = document.getElementById("status");
 
-    tonConnectUI.onStatusChange(wallet => {
-      payBtn.disabled = !wallet;
-      setStatus(wallet ? "Кошелёк подключён ✅" : "Подключи кошелёк, чтобы продолжить.");
-    });
+  function setStatus(msg) { statusEl.textContent = msg; }
 
-    function makePaymentId() {
-      return "TOPUP-" + Math.random().toString(16).slice(2) + "-" + Date.now();
+  tonConnectUI.onStatusChange(wallet => {
+    payBtn.disabled = !wallet;
+    setStatus(wallet ? "Кошелёк подключён ✅" : "Подключи кошелёк, чтобы продолжить.");
+  });
+
+  function makePaymentId() {
+    return "TOPUP-" + Math.random().toString(16).slice(2) + "-" + Date.now();
+  }
+
+  payBtn.addEventListener("click", async () => {
+    setStatus("");
+
+    const amountTon = Number(String(amountEl.value).replace(",", "."));
+    if (!Number.isFinite(amountTon) || amountTon <= 0) {
+      setStatus("Введите корректную сумму TON.");
+      return;
     }
 
-    payBtn.addEventListener("click", async () => {
-      setStatus("");
+    const paymentId = makePaymentId();
+    const nano = BigInt(Math.round(amountTon * 1e9)).toString(); // TON -> nanoTON
 
-      const amountTon = Number(String(amountEl.value).replace(",", "."));
-      if (!Number.isFinite(amountTon) || amountTon <= 0) {
-        setStatus("Введите корректную сумму TON.");
-        return;
-      }
+    const comment = `Пополнение ${paymentId}`;
+    const payloadBase64 = btoa(unescape(encodeURIComponent(comment)));
 
-      const paymentId = makePaymentId();
-      const nano = BigInt(Math.round(amountTon * 1e9)).toString(); // TON -> nanoTON
+    try {
+      await tonConnectUI.sendTransaction({
+        validUntil: Math.floor(Date.now() / 1000) + 300,
+        messages: [{
+          address: RECEIVER_ADDRESS,
+          amount: nano,
+          payload: payloadBase64
+        }]
+      });
 
-      // Комментарий для ручной проверки платежей:
-      const comment = `Пополнение ${paymentId}`;
-      const payloadBase64 = btoa(unescape(encodeURIComponent(comment)));
-
-      try {
-        await tonConnectUI.sendTransaction({
-          validUntil: Math.floor(Date.now() / 1000) + 300,
-          messages: [{
-            address: RECEIVER_ADDRESS,
-            amount: nano,
-            payload: payloadBase64
-          }]
-        });
-
-        setStatus(
-          "Запрос отправлен в кошелёк. Если ты подтвердил — деньги уйдут на наш адрес.\n\n" +
-          "Твой Payment ID (сохрани): " + paymentId + "\n\n" +
-          "После оплаты пришли Payment ID администратору (или себе), чтобы легко найти платёж."
-        );
-      } catch (e) {
-        setStatus("Отменено или произошла ошибка. Попробуй ещё раз.");
-      }
-    });
-  </script>
+      setStatus(
+        "Запрос отправлен в кошелёк. Если ты подтвердил — деньги уйдут на наш адрес.\n\n" +
+        "Твой Payment ID (сохрани): " + paymentId
+      );
+    } catch (e) {
+      setStatus("Отменено или произошла ошибка. Попробуй ещё раз.");
+    }
+  });
+</script>
 </body>
 </html>
