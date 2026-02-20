@@ -86,10 +86,9 @@
       await tonConnectUI.sendTransaction({
         validUntil: Math.floor(Date.now() / 1000) + 300,
         messages: [{
-          address: RECEIVER_ADDRESS,
-          amount: nano,
-          payload: payloadBase64
-        }]
+  address: RECEIVER_ADDRESS,
+  amount: nano
+}]
       });
 
       setStatus(
