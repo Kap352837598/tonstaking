@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard — Staking</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{ --b: rgba(15,23,42,.10); --sh: 0 18px 60px rgba(2,6,23,.10); --blue: rgba(2,132,199,.95); }
+    .card{ border:1px solid var(--b); background: rgba(255,255,255,.92); border-radius: 20px; box-shadow: var(--sh); }
+    .muted{ color: rgba(15,23,42,.65); }
+    .btn{ border-radius: 999px; padding:.7rem 1.1rem; font-weight:600; }
+    .btnP{ background: linear-gradient(180deg, rgba(14,165,233,1), rgba(2,132,199,1)); color:#fff; }
+    .btnP:hover{ filter: brightness(.98); }
+    .btnW{ background:#fff; border:1px solid var(--b); }
+    .sidebarItem{ border-radius: 14px; padding:.75rem 1rem; display:flex; align-items:center; gap:.7rem; }
+    .sidebarItemActive{ background: rgba(14,165,233,.14); border:1px solid rgba(2,132,199,.25); }
+    input[type="range"]{
+      -webkit-appearance:none; width:100%; height:6px; border-radius:999px;
+      background: linear-gradient(90deg, var(--blue), rgba(56,189,248,.35)); outline:none;
+    }
+    input[type="range"]::-webkit-slider-thumb{
+      -webkit-appearance:none; width:18px;height:18px;border-radius:999px; background:white;
+      border:2px solid var(--blue); box-shadow:0 8px 18px rgba(2,6,23,.18); cursor:pointer;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50">
+  <div class="min-h-screen flex">
+    <!-- SIDEBAR -->
+    <aside class="w-[280px] hidden md:flex flex-col gap-4 p-5 bg-white border-r border-slate-200">
+      <div class="flex items-center gap-3 px-2 py-2">
+        <div class="h-10 w-10 rounded-2xl bg-sky-500"></div>
+        <div class="font-semibold text-lg">Your Brand</div>
+      </div>
+
+      <button class="btn btnP w-full flex items-center justify-center gap-2">
+        <span>🔗</span> Подключить кошелёк
+      </button>
+
+      <nav class="mt-2 space-y-2">
+        <div class="sidebarItem sidebarItemActive">
+          <span>🪙</span><span class="font-semibold">Стейкинг</span>
+        </div>
+        <div class="sidebarItem bg-slate-50 border border-slate-200">
+          <span>📜</span><span>История</span>
+        </div>
+        <div class="sidebarItem bg-slate-50 border border-slate-200">
+          <span>💬</span><span>Поддержка</span>
+        </div>
+        <div class="sidebarItem bg-slate-50 border border-slate-200">
+          <span>👥</span><span>Реф. программа</span>
+        </div>
+        <div class="sidebarItem bg-slate-50 border border-slate-200">
+          <span>🎁</span><span>Промокод</span>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1">
+      <!-- TOP BAR -->
+      <div class="h-[72px] bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8">
+        <div class="flex items-center gap-3">
+          <div class="md:hidden">
+            <div class="h-10 w-10 rounded-2xl bg-sky-500"></div>
+          </div>
+          <div class="flex items-center gap-2 text-lg font-semibold">
+            <span>🪙</span> Стейкинг
+          </div>
+        </div>
+
+        <!-- здесь можно поставить TON Connect кнопку -->
+        <button class="btn btnP flex items-center gap-2">
+          <span>🔗</span> Подключить кошелёк
+        </button>
+      </div>
+
+      <div class="px-4 md:px-8 py-6 space-y-6">
+        <!-- 3 tips -->
+        <div class="grid lg:grid-cols-3 gap-4">
+          <div class="card p-4 flex items-center justify-between">
+            <div class="text-sm muted">Укажите сумму инвестиции в TON, количество дней можно не выбирать.</div>
+            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
+          </div>
+          <div class="card p-4 flex items-center justify-between">
+            <div class="text-sm muted">Нажмите “В стейкинг” и подтвердите перевод в кошельке.</div>
+            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
+          </div>
+          <div class="card p-4 flex items-center justify-between bg-gradient-to-r from-white to-sky-100">
+            <div class="text-sm muted">Ежедневно получайте начисления, вывод возможен в любой момент.</div>
+            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
+          </div>
+        </div>
+
+        <!-- balance + assets -->
+        <div class="grid lg:grid-cols-3 gap-4">
+          <div class="card p-6 relative overflow-hidden">
+            <div class="font-semibold">Баланс депозита</div>
+            <div class="mt-4 grid grid-cols-2 gap-4">
+              <div>
+                <div class="text-xs muted">Сумма вклада</div>
+                <div class="text-2xl font-bold">0.00 TON</div>
+              </div>
+              <div>
+                <div class="text-xs muted">По курсу</div>
+                <div class="text-2xl font-bold">$0.00</div>
+              </div>
+              <div>
+                <div class="text-xs muted">После баланса</div>
+                <div class="text-2xl font-bold">0.00 TON</div>
+              </div>
+              <div>
+                <div class="text-xs muted">По курсу</div>
+                <div class="text-2xl font-bold">$0.00</div>
+              </div>
+            </div>
+            <button class="mt-5 w-full rounded-2xl border border-sky-600 text-sky-700 font-semibold py-3 hover:bg-sky-50">
+              Вывести
+            </button>
+
+            <!-- декоративные дуги -->
+            <div class="absolute -right-24 -bottom-24 w-72 h-72 rounded-full border border-sky-200"></div>
+            <div class="absolute -right-16 -bottom-16 w-60 h-60 rounded-full border border-sky-200"></div>
+            <div class="absolute -right-8 -bottom-8 w-48 h-48 rounded-full border border-sky-200"></div>
+          </div>
+
+          <div class="card p-6 lg:col-span-2 relative overflow-hidden">
+            <div class="font-semibold">
+              Стоимость активов <span class="text-sm font-normal text-sky-600">(обновляется 1 раз в час)</span>
+            </div>
+
+            <div class="mt-8 flex justify-center">
+              <button class="btn btnP flex items-center gap-2">
+                <span>🔗</span> Подключить кошелёк
+              </button>
+            </div>
+
+            <div class="absolute -right-24 -bottom-24 w-72 h-72 rounded-full border border-sky-200"></div>
+            <div class="absolute -right-16 -bottom-16 w-60 h-60 rounded-full border border-sky-200"></div>
+            <div class="absolute -right-8 -bottom-8 w-48 h-48 rounded-full border border-sky-200"></div>
+          </div>
+        </div>
+
+        <!-- add staking + daily income -->
+        <div class="grid lg:grid-cols-3 gap-4 items-start">
+          <div class="lg:col-span-2">
+            <div class="text-lg font-bold mb-3">Добавить в стейкинг</div>
+
+            <div class="card p-6">
+              <!-- TON slider -->
+              <div class="rounded-2xl bg-sky-50 border border-sky-100 p-4">
+                <div class="flex items-center justify-between text-sm">
+                  <div class="font-semibold"><span id="amountOut">950</span></div>
+                  <div class="muted">TON</div>
+                </div>
+                <input id="amountRange" type="range" min="10" max="10000" step="10" value="950" class="mt-3" />
+              </div>
+
+              <!-- DAYS slider -->
+              <div class="mt-4 rounded-2xl bg-sky-50 border border-sky-100 p-4">
+                <div class="flex items-center justify-between text-sm">
+                  <div class="font-semibold"><span id="daysOut">30</span></div>
+                  <div class="muted">Дней</div>
+                </div>
+                <input id="daysRange" type="range" min="1" max="30" step="1" value="30" class="mt-3" />
+              </div>
+
+              <!-- result pills -->
+              <div class="mt-4 rounded-2xl border border-sky-200 bg-white p-4">
+                <div class="grid md:grid-cols-3 gap-3 text-sm">
+                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                    <div class="muted">В сутки</div>
+                    <div id="rateOut" class="font-bold">—</div>
+                  </div>
+                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                    <div class="muted">За 24 часа</div>
+                    <div id="dayProfitOut" class="font-bold">—</div>
+                  </div>
+                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                    <div class="muted">За 30 дней</div>
+                    <div id="monthProfitOut" class="font-bold">—</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-5 flex justify-end">
+                <a href="../" class="hidden"></a>
+                <button class="btn btnP px-7 py-3 rounded-2xl">
+                  В стейкинг →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- right daily income -->
+          <div class="card p-6 relative overflow-hidden">
+            <div class="font-bold">Ежедневный доход</div>
+            <div class="mt-2 text-2xl font-bold">$0.00</div>
+            <div class="text-sm muted">0.00 TON</div>
+
+            <div class="mt-4 text-sm text-sky-700">Заработано за период инвестирования:</div>
+            <div class="mt-1 text-xl font-bold">0.00 TON</div>
+            <div class="text-sm muted">$0.00</div>
+
+            <!-- “ring” -->
+            <div class="absolute top-6 right-6 w-24 h-24 rounded-full bg-white border border-slate-200 flex items-center justify-center shadowSoft">
+              <div class="w-20 h-20 rounded-full border-4 border-emerald-400 flex items-center justify-center">
+                <div class="text-xl font-extrabold">—%</div>
+              </div>
+            </div>
+
+            <div class="mt-6 text-sm muted">
+              Здесь будет описание условий. Позже заменим под твой текст.
+            </div>
+
+            <div class="absolute -right-24 -bottom-24 w-72 h-72 rounded-full border border-sky-200"></div>
+            <div class="absolute -right-16 -bottom-16 w-60 h-60 rounded-full border border-sky-200"></div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // твои тарифы (как мы делали)
+    function getPlan(amount){
+      if(amount >= 10 && amount < 1000) return {name:'Basic', rate:0.003};
+      if(amount >= 1000 && amount < 5000) return {name:'Pro', rate:0.007};
+      if(amount >= 5000 && amount <= 10000) return {name:'Premium', rate:0.011};
+      return null;
+    }
+
+    const amountRange = document.getElementById('amountRange');
+    const daysRange = document.getElementById('daysRange');
+    const amountOut = document.getElementById('amountOut');
+    const daysOut = document.getElementById('daysOut');
+
+    const rateOut = document.getElementById('rateOut');
+    const dayProfitOut = document.getElementById('dayProfitOut');
+    const monthProfitOut = document.getElementById('monthProfitOut');
+
+    function fmtTon(v){ return (Math.round(v*100)/100).toFixed(2) + " TON"; }
+
+    function render(){
+      const amount = Number(amountRange.value);
+      const days = Number(daysRange.value);
+
+      amountOut.textContent = String(amount);
+      daysOut.textContent = String(days);
+
+      const plan = getPlan(amount);
+      if(!plan){
+        rateOut.textContent = "—";
+        dayProfitOut.textContent = "—";
+        monthProfitOut.textContent = "—";
+        return;
+      }
+
+      const dayProfit = amount * plan.rate;
+      const monthProfit = amount * plan.rate * 30;
+
+      rateOut.textContent = (plan.rate*100).toFixed(1) + "%";
+      dayProfitOut.textContent = "+ " + fmtTon(dayProfit);
+      monthProfitOut.textContent = "+ " + fmtTon(monthProfit);
+    }
+
+    amountRange.addEventListener('input', render);
+    daysRange.addEventListener('input', render);
+    render();
+  </script>
+</body>
+</html>
