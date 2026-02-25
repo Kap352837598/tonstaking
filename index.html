@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,55 +7,81 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root{
-      --card: rgba(255,255,255,.78);
       --border: rgba(15, 23, 42, .10);
       --shadow: 0 18px 60px rgba(2, 6, 23, .10);
+      --blue: rgba(2,132,199,.95);
     }
-    .glass { backdrop-filter: blur(12px); background: var(--card); }
-    .shadowSoft { box-shadow: var(--shadow); }
-    .gridBg {
+
+    /* Background similar vibe (not 1:1) */
+    .hero-bg{
+      background:
+        radial-gradient(circle at 12% 28%, rgba(56,189,248,.28), transparent 52%),
+        radial-gradient(circle at 40% 10%, rgba(147,197,253,.18), transparent 48%),
+        radial-gradient(circle at 88% 18%, rgba(99,102,241,.12), transparent 50%),
+        linear-gradient(135deg, rgba(56,189,248,.28), rgba(255,255,255,0) 55%),
+        linear-gradient(180deg, rgba(241, 250, 255, 1), rgba(255,255,255,1));
+    }
+    .rings{
       background-image:
-        radial-gradient(circle at 18% 15%, rgba(56,189,248,.25), transparent 42%),
-        radial-gradient(circle at 82% 12%, rgba(99,102,241,.20), transparent 46%),
-        radial-gradient(circle at 50% 88%, rgba(34,197,94,.10), transparent 46%);
+        radial-gradient(circle at 20% 35%, transparent 0 58%, rgba(2,132,199,.12) 59% 59.5%, transparent 60%),
+        radial-gradient(circle at 18% 40%, transparent 0 70%, rgba(2,132,199,.10) 71% 71.5%, transparent 72%),
+        radial-gradient(circle at 25% 60%, transparent 0 64%, rgba(2,132,199,.10) 65% 65.5%, transparent 66%);
+      background-repeat:no-repeat;
+      background-size: 800px 800px, 950px 950px, 820px 820px;
+      background-position: -220px -140px, -260px -220px, -180px -120px;
     }
-    .chip { border: 1px solid var(--border); background: rgba(255,255,255,.85); }
-    .card { border: 1px solid var(--border); background: rgba(255,255,255,.90); }
+
+    .glass { backdrop-filter: blur(12px); background: rgba(255,255,255,.82); }
+    .shadowSoft { box-shadow: var(--shadow); }
+    .card { border: 1px solid var(--border); background: rgba(255,255,255,.92); }
     .muted { color: rgba(15,23,42,.65); }
 
-    /* Slider styling (clean, “product” look) */
+    /* Sliders */
     input[type="range"]{
       -webkit-appearance:none;
       width:100%;
       height:6px;
       border-radius:999px;
-      background: linear-gradient(90deg, rgba(2,132,199,.85), rgba(56,189,248,.35));
+      background: linear-gradient(90deg, var(--blue), rgba(56,189,248,.35));
       outline:none;
     }
     input[type="range"]::-webkit-slider-thumb{
       -webkit-appearance:none;
       width:18px;height:18px;border-radius:999px;
       background:white;
-      border:2px solid rgba(2,132,199,.9);
+      border:2px solid var(--blue);
       box-shadow:0 8px 18px rgba(2,6,23,.18);
       cursor:pointer;
     }
     input[type="range"]::-moz-range-thumb{
       width:18px;height:18px;border-radius:999px;
       background:white;
-      border:2px solid rgba(2,132,199,.9);
+      border:2px solid var(--blue);
       box-shadow:0 8px 18px rgba(2,6,23,.18);
       cursor:pointer;
     }
+
+    /* “Pill” chips like in screenshot */
+    .pill{
+      display:inline-flex; align-items:center; gap:.5rem;
+      padding:.55rem .85rem;
+      border:1px solid rgba(2,132,199,.18);
+      border-radius:999px;
+      background: rgba(255,255,255,.85);
+      color: rgba(15,23,42,.75);
+      font-size: .95rem;
+    }
+    .pill svg{ width:18px; height:18px; }
   </style>
 </head>
 
-<body class="bg-slate-50 text-slate-900 gridBg">
+<body class="bg-white text-slate-900">
+
   <!-- HEADER -->
   <header class="sticky top-0 z-50 border-b border-slate-200 glass">
     <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="h-9 w-9 rounded-2xl bg-sky-500"></div>
+        <div class="h-10 w-10 rounded-2xl bg-sky-500 flex items-center justify-center text-white font-bold">T</div>
         <div class="leading-tight">
           <div class="font-semibold">Stake Platform</div>
           <div class="text-xs muted" data-i18n="tagline">Demo landing</div>
@@ -63,11 +89,11 @@
       </div>
 
       <nav class="hidden lg:flex gap-6 text-sm muted">
-        <a href="#home" class="hover:text-slate-900" data-i18n="navHome">Home</a>
-        <a href="#advantages" class="hover:text-slate-900" data-i18n="navAdvantages">Advantages</a>
-        <a href="#how" class="hover:text-slate-900" data-i18n="navHow">How to start</a>
-        <a href="#plans" class="hover:text-slate-900" data-i18n="navPlans">Plans</a>
-        <a href="#calc" class="hover:text-slate-900" data-i18n="navCalc">Calculator</a>
+        <a href="#home" class="hover:text-slate-900" data-i18n="navHome">Главная</a>
+        <a href="#advantages" class="hover:text-slate-900" data-i18n="navAdvantages">Наши преимущества</a>
+        <a href="#how" class="hover:text-slate-900" data-i18n="navHow">Как начать</a>
+        <a href="#plans" class="hover:text-slate-900" data-i18n="navPlans">Тарифы</a>
+        <a href="#calc" class="hover:text-slate-900" data-i18n="navCalc">Калькулятор</a>
         <a href="#faq" class="hover:text-slate-900" data-i18n="navFaq">FAQ</a>
       </nav>
 
@@ -75,143 +101,133 @@
         <button id="langEN" class="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-medium hover:bg-slate-50">EN</button>
         <button id="langRU" class="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-medium hover:bg-slate-50">RU</button>
 
-        <a href="#topup" class="rounded-2xl bg-sky-600 px-4 py-2 text-white text-sm font-medium hover:bg-sky-700" data-i18n="stakeNow">
+        <a href="#topup" class="rounded-2xl bg-sky-600 px-5 py-2.5 text-white text-sm font-medium hover:bg-sky-700 shadowSoft" data-i18n="stakeNow">
           Stake Now
         </a>
       </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section id="home" class="mx-auto max-w-6xl px-4 pt-12 pb-10">
-    <div class="grid lg:grid-cols-2 gap-10 items-start">
-      <div>
-        <div class="inline-flex items-center gap-2 rounded-full chip px-3 py-1 text-xs muted shadowSoft">
-          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-          <span data-i18n="liveDemo">Live demo</span>
-        </div>
+  <!-- HERO (like your screenshot vibe) -->
+  <section id="home" class="hero-bg rings">
+    <div class="mx-auto max-w-6xl px-4 py-10 md:py-14">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <!-- Left -->
+        <div>
+          <div class="flex flex-wrap gap-3">
+            <span class="pill">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M4 18V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M8 18V11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 18V8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 18V13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 18V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span data-i18n="pill1">Высокий ROI</span>
+            </span>
 
-        <h1 class="mt-4 text-4xl md:text-5xl font-bold leading-tight">
-          <span data-i18n="heroA">Staking in</span>
-          <span class="text-sky-700">TON</span><br class="hidden md:block" />
-          <span data-i18n="heroB">simple & transparent</span>
-        </h1>
+            <span class="pill">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M7 12h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 7v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span data-i18n="pill2">Просто</span>
+            </span>
 
-        <p class="mt-4 muted text-lg" data-i18n="heroDesc">
-          Connect wallet, choose amount and confirm in your wallet.
-        </p>
-
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="#topup" class="rounded-2xl bg-sky-600 px-5 py-3 text-white font-medium hover:bg-sky-700" data-i18n="ctaStart">
-            Start now
-          </a>
-          <a href="#calc" class="rounded-2xl border border-slate-300 bg-white px-5 py-3 font-medium hover:bg-slate-50" data-i18n="ctaCalc">
-            Calculator
-          </a>
-        </div>
-
-        <!-- “Stats” row like the example, but with dashes -->
-        <div class="mt-8 grid grid-cols-3 gap-3">
-          <div class="rounded-3xl card p-4 shadowSoft">
-            <div class="text-xs muted" data-i18n="stat1">Total staked</div>
-            <div class="mt-1 text-xl font-bold">—</div>
-            <div class="mt-1 text-xs muted" data-i18n="demo">demo</div>
+            <span class="pill">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V7l8-4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+              <span data-i18n="pill3">Безопасно</span>
+            </span>
           </div>
-          <div class="rounded-3xl card p-4 shadowSoft">
-            <div class="text-xs muted" data-i18n="stat2">Users</div>
-            <div class="mt-1 text-xl font-bold">—</div>
-            <div class="mt-1 text-xs muted" data-i18n="demo">demo</div>
+
+          <h1 class="mt-6 text-5xl md:text-6xl font-extrabold leading-[0.98]">
+            <span data-i18n="heroLine1">Получайте</span><br />
+            <span class="text-sky-600" data-i18n="heroLine2">пассивный</span><br />
+            <span data-i18n="heroLine3">доход в TON</span>
+          </h1>
+
+          <p class="mt-6 max-w-xl text-lg muted" data-i18n="heroDesc">
+            Демонстрационный текст. Позже заменим описание и добавим любые блоки/картинки.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a href="#topup" class="rounded-2xl bg-sky-600 px-7 py-3 text-white font-semibold hover:bg-sky-700 shadowSoft" data-i18n="heroBtn1">
+              Начать сейчас →
+            </a>
+
+            <a href="#calc" class="rounded-2xl border border-slate-300 bg-white px-7 py-3 font-semibold hover:bg-slate-50" data-i18n="heroBtn2">
+              Калькулятор
+            </a>
           </div>
-          <div class="rounded-3xl card p-4 shadowSoft">
-            <div class="text-xs muted" data-i18n="stat3">APR</div>
-            <div class="mt-1 text-xl font-bold">—</div>
-            <div class="mt-1 text-xs muted" data-i18n="demo">demo</div>
+
+          <div class="mt-6 text-sm muted" data-i18n="heroNote">
+            * Это демо-страница. Числа/тексты мы поменяем позже.
           </div>
         </div>
-      </div>
 
-      <!-- Right side “trusted / audit / start” -->
-      <div class="rounded-3xl card p-6 shadowSoft">
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="text-sm muted" data-i18n="trusted">Trusted by</div>
-            <div class="mt-1 font-semibold" data-i18n="trustedSub">Partners & community</div>
+        <!-- Right: image placeholder -->
+        <div class="relative">
+          <div class="rounded-[36px] border border-slate-200 bg-white/75 glass shadowSoft p-6">
+            <div class="text-sm muted" data-i18n="rightCardTitle">3D image placeholder</div>
+
+            <!-- Placeholder (replace with <img src="..."> later) -->
+            <div class="mt-4 h-[340px] md:h-[420px] rounded-[28px] border border-slate-200 bg-gradient-to-br from-sky-100 via-white to-indigo-100 flex items-center justify-center text-slate-500">
+              <div class="text-center">
+                <div class="text-xl font-semibold" data-i18n="rightCardText1">Здесь будет картинка</div>
+                <div class="mt-2 text-sm muted" data-i18n="rightCardText2">Скинешь изображение — вставим</div>
+              </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-3 gap-3 text-sm">
+              <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center">
+                <div class="text-xs muted" data-i18n="mini1">TVL</div>
+                <div class="font-bold">—</div>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center">
+                <div class="text-xs muted" data-i18n="mini2">Users</div>
+                <div class="font-bold">—</div>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center">
+                <div class="text-xs muted" data-i18n="mini3">APR</div>
+                <div class="font-bold">—</div>
+              </div>
+            </div>
           </div>
-          <div class="text-xs muted">—</div>
         </div>
 
-        <div class="mt-4 grid grid-cols-3 gap-3 text-sm">
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center" data-i18n="badge1">Audit</div>
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center" data-i18n="badge2">Security</div>
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center" data-i18n="badge3">Support</div>
-        </div>
-
-        <div class="mt-5 rounded-2xl bg-slate-50 p-4">
-          <div class="text-sm font-semibold" data-i18n="quickStart">Quick start</div>
-          <ol class="mt-2 list-decimal ml-5 text-sm text-slate-700 space-y-1">
-            <li data-i18n="qs1">Connect wallet</li>
-            <li data-i18n="qs2">Choose amount</li>
-            <li data-i18n="qs3">Confirm transaction</li>
-          </ol>
-        </div>
-
-        <a href="#topup" class="mt-5 block w-full text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700" data-i18n="goTopup">
-          Go to staking
-        </a>
       </div>
     </div>
   </section>
 
   <!-- ADVANTAGES -->
-  <section id="advantages" class="mx-auto max-w-6xl px-4 py-12">
+  <section id="advantages" class="mx-auto max-w-6xl px-4 py-14">
     <div class="flex items-end justify-between gap-4">
       <div>
-        <h2 class="text-2xl font-bold" data-i18n="advTitle">Our advantages</h2>
-        <p class="mt-2 muted" data-i18n="advDesc">Visual placeholders. We’ll replace later.</p>
+        <h2 class="text-2xl font-bold" data-i18n="advTitle">Наши преимущества</h2>
+        <p class="mt-2 muted" data-i18n="advDesc">Пока заглушки — ты потом скажешь, что тут должно быть.</p>
       </div>
       <a href="#topup" class="hidden md:inline-flex rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-50" data-i18n="stakeNowArrow">
         Stake now →
       </a>
     </div>
 
-    <div class="mt-6 grid md:grid-cols-4 gap-4">
-      <div class="rounded-3xl card p-6 shadowSoft">
-        <div class="font-semibold">—</div>
-        <p class="mt-2 text-sm muted">—</p>
-      </div>
-      <div class="rounded-3xl card p-6 shadowSoft">
-        <div class="font-semibold">—</div>
-        <p class="mt-2 text-sm muted">—</p>
-      </div>
-      <div class="rounded-3xl card p-6 shadowSoft">
-        <div class="font-semibold">—</div>
-        <p class="mt-2 text-sm muted">—</p>
-      </div>
-      <div class="rounded-3xl card p-6 shadowSoft">
-        <div class="font-semibold">—</div>
-        <p class="mt-2 text-sm muted">—</p>
-      </div>
+    <div class="mt-7 grid md:grid-cols-4 gap-4">
+      <div class="rounded-3xl card p-6 shadowSoft"><div class="font-semibold">—</div><p class="mt-2 text-sm muted">—</p></div>
+      <div class="rounded-3xl card p-6 shadowSoft"><div class="font-semibold">—</div><p class="mt-2 text-sm muted">—</p></div>
+      <div class="rounded-3xl card p-6 shadowSoft"><div class="font-semibold">—</div><p class="mt-2 text-sm muted">—</p></div>
+      <div class="rounded-3xl card p-6 shadowSoft"><div class="font-semibold">—</div><p class="mt-2 text-sm muted">—</p></div>
     </div>
   </section>
 
   <!-- HOW -->
-  <section id="how" class="bg-white/80 border-y border-slate-200 glass">
-    <div class="mx-auto max-w-6xl px-4 py-12">
-      <h2 class="text-2xl font-bold" data-i18n="howTitle">How to start</h2>
-      <p class="mt-2 muted" data-i18n="howDesc">Same “3 steps” feel.</p>
+  <section id="how" class="bg-slate-50 border-y border-slate-200">
+    <div class="mx-auto max-w-6xl px-4 py-14">
+      <h2 class="text-2xl font-bold" data-i18n="howTitle">Как начать</h2>
+      <p class="mt-2 muted" data-i18n="howDesc">3 шага (заглушки).</p>
 
-      <div class="mt-6 grid md:grid-cols-3 gap-4">
-        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+      <div class="mt-7 grid md:grid-cols-3 gap-4">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
           <div class="text-sky-700 font-semibold">01</div>
           <div class="mt-2 font-semibold text-lg">—</div>
           <div class="mt-1 text-sm muted">—</div>
         </div>
-        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
           <div class="text-sky-700 font-semibold">02</div>
           <div class="mt-2 font-semibold text-lg">—</div>
           <div class="mt-1 text-sm muted">—</div>
         </div>
-        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
           <div class="text-sky-700 font-semibold">03</div>
           <div class="mt-2 font-semibold text-lg">—</div>
           <div class="mt-1 text-sm muted">—</div>
@@ -221,52 +237,52 @@
   </section>
 
   <!-- PLANS -->
-  <section id="plans" class="mx-auto max-w-6xl px-4 py-12">
-    <h2 class="text-2xl font-bold" data-i18n="plansTitle">Plans</h2>
-    <p class="mt-2 muted" data-i18n="plansDesc">All values are placeholders for now.</p>
+  <section id="plans" class="mx-auto max-w-6xl px-4 py-14">
+    <h2 class="text-2xl font-bold" data-i18n="plansTitle">Тарифы</h2>
+    <p class="mt-2 muted" data-i18n="plansDesc">Пока без цифр — потом ты скажешь, что поставить.</p>
 
-    <div class="mt-6 grid md:grid-cols-3 gap-4">
+    <div class="mt-7 grid md:grid-cols-3 gap-4">
       <div class="rounded-3xl card p-6 shadowSoft">
         <div class="text-sm muted">Basic</div>
         <div class="mt-2 text-3xl font-bold">—</div>
         <div class="mt-2 text-sm muted">—</div>
-        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700" data-i18n="stakeBtn">Stake</a>
+        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-semibold hover:bg-sky-700" data-i18n="stakeBtn">Stake</a>
       </div>
 
       <div class="rounded-3xl border border-sky-200 bg-sky-50 p-6 shadowSoft">
         <div class="text-sm muted">Pro</div>
         <div class="mt-2 text-3xl font-bold">—</div>
         <div class="mt-2 text-sm muted">—</div>
-        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700" data-i18n="stakeBtn">Stake</a>
+        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-semibold hover:bg-sky-700" data-i18n="stakeBtn">Stake</a>
       </div>
 
       <div class="rounded-3xl card p-6 shadowSoft">
         <div class="text-sm muted">Premium</div>
         <div class="mt-2 text-3xl font-bold">—</div>
         <div class="mt-2 text-sm muted">—</div>
-        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700" data-i18n="stakeBtn">Stake</a>
+        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-semibold hover:bg-sky-700" data-i18n="stakeBtn">Stake</a>
       </div>
     </div>
   </section>
 
   <!-- CALC + TOPUP -->
-  <section id="calc" class="bg-white/80 border-y border-slate-200 glass">
-    <div class="mx-auto max-w-6xl px-4 py-12">
+  <section id="calc" class="bg-slate-50 border-y border-slate-200">
+    <div class="mx-auto max-w-6xl px-4 py-14">
       <div class="grid lg:grid-cols-2 gap-6 items-start">
-        <!-- Calculator with sliders -->
+        <!-- Calculator (numbers ON) -->
         <div class="rounded-3xl card p-6 shadowSoft">
           <div class="flex items-center justify-between gap-3">
             <div>
-              <div class="text-sm muted" data-i18n="calcSmall">Calculator</div>
-              <div class="text-xl font-bold" data-i18n="calcTitle">Profit calculator</div>
+              <div class="text-sm muted" data-i18n="calcSmall">Калькулятор</div>
+              <div class="text-xl font-bold" data-i18n="calcTitle">Расчёт прибыли</div>
             </div>
-            <div class="text-xs muted" data-i18n="calcNote">Sliders + manual input</div>
+            <div class="text-xs muted" data-i18n="calcNote">Бегунок + ручной ввод</div>
           </div>
 
           <!-- Amount -->
           <div class="mt-5">
             <div class="flex items-end justify-between">
-              <label class="text-sm font-medium" data-i18n="amountLabel">Amount (TON)</label>
+              <label class="text-sm font-medium" data-i18n="amountLabel">Сумма (TON)</label>
               <div class="text-sm font-semibold"><span id="amountOut">10</span> TON</div>
             </div>
             <div class="mt-2 grid grid-cols-3 gap-3 items-center">
@@ -274,7 +290,7 @@
               <div class="col-span-2">
                 <input id="amountRange" type="range" min="10" max="10000" step="10" value="10" />
                 <div class="mt-2 flex justify-between text-xs muted">
-                  <span>10</span><span>10,000</span>
+                  <span>10</span><span>10 000</span>
                 </div>
               </div>
             </div>
@@ -283,7 +299,7 @@
           <!-- Days -->
           <div class="mt-5">
             <div class="flex items-end justify-between">
-              <label class="text-sm font-medium" data-i18n="daysLabel">Days</label>
+              <label class="text-sm font-medium" data-i18n="daysLabel">Дни</label>
               <div class="text-sm font-semibold"><span id="daysOut">1</span></div>
             </div>
             <div class="mt-2 grid grid-cols-3 gap-3 items-center">
@@ -297,29 +313,32 @@
             </div>
           </div>
 
-          <!-- Results (placeholders shown as —, but tariff changes live) -->
-          <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+          <!-- Results -->
+          <div class="mt-5 rounded-2xl border border-slate-200 bg-white p-4">
             <div class="grid grid-cols-3 gap-3 text-sm">
-              <div class="rounded-xl border border-slate-200 bg-white p-3">
-                <div class="muted" data-i18n="planLabel">Plan</div>
+              <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                <div class="muted" data-i18n="planLabel">Тариф</div>
                 <div id="planOut" class="font-semibold">—</div>
               </div>
-              <div class="rounded-xl border border-slate-200 bg-white p-3">
-                <div class="muted" data-i18n="rateLabel">Rate</div>
+              <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                <div class="muted" data-i18n="rateLabel">Ставка</div>
                 <div id="rateOut" class="font-semibold">—</div>
               </div>
-              <div class="rounded-xl border border-slate-200 bg-white p-3">
-                <div class="muted" data-i18n="profitLabel">Profit</div>
+              <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                <div class="muted" data-i18n="profitLabel">Прибыль</div>
                 <div id="profitOut" class="font-semibold">—</div>
               </div>
             </div>
 
-            <div class="mt-3 rounded-xl border border-slate-200 bg-white p-3">
-              <div class="muted text-sm" data-i18n="totalLabel">Total return</div>
+            <div class="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+              <div class="muted text-sm" data-i18n="totalLabel">Итого получите</div>
               <div id="totalOut" class="text-xl font-bold">—</div>
             </div>
 
             <div id="calcError" class="mt-3 text-sm text-rose-600"></div>
+            <div class="mt-2 text-xs muted" data-i18n="calcFormulaNote">
+              Формула: прибыль = сумма × ставка × дни (без капитализации)
+            </div>
           </div>
         </div>
 
@@ -327,34 +346,34 @@
         <div id="topup" class="rounded-3xl card p-6 shadowSoft">
           <div class="flex items-end justify-between">
             <div>
-              <div class="text-sm muted" data-i18n="topupSmall">Stake Now</div>
-              <div class="mt-1 text-xl font-bold" data-i18n="topupTitle">Top up TON</div>
+              <div class="text-sm muted" data-i18n="topupSmall">Пополнение</div>
+              <div class="mt-1 text-xl font-bold" data-i18n="topupTitle">Пополнить TON</div>
             </div>
-            <div class="text-xs muted" data-i18n="topupConfirm">Confirm in wallet</div>
+            <div class="text-xs muted" data-i18n="topupConfirm">Подтверждение в кошельке</div>
           </div>
 
-          <div class="mt-4 rounded-2xl bg-slate-50 p-4 border border-slate-200">
+          <div class="mt-4 rounded-2xl bg-white p-4 border border-slate-200">
             <div id="connect" class="mb-3"></div>
 
-            <label class="text-sm font-medium" data-i18n="topupAmount">Amount (TON)</label>
+            <label class="text-sm font-medium" data-i18n="topupAmount">Сумма (TON)</label>
             <input id="payAmount" value="1" inputmode="decimal"
                    class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-400" />
 
             <div class="mt-3 flex gap-2 flex-wrap">
-              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-100" data-v="0.1">0.1</button>
-              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-100" data-v="0.5">0.5</button>
-              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-100" data-v="1">1</button>
-              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-100" data-v="2">2</button>
+              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-50" data-v="0.1">0.1</button>
+              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-50" data-v="0.5">0.5</button>
+              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-50" data-v="1">1</button>
+              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-50" data-v="2">2</button>
             </div>
 
             <button id="payBtn" disabled
-                    class="mt-4 w-full rounded-2xl bg-sky-600 px-4 py-3 font-medium text-white disabled:opacity-50 hover:bg-sky-700"
+                    class="mt-4 w-full rounded-2xl bg-sky-600 px-4 py-3 font-semibold text-white disabled:opacity-50 hover:bg-sky-700"
                     data-i18n="depositBtn">
-              Deposit
+              Пополнить
             </button>
 
             <div id="payStatus" class="mt-4 text-sm text-slate-700 whitespace-pre-line"></div>
-            <div class="mt-2 text-xs muted" data-i18n="feeNote">Network fee is paid by the user.</div>
+            <div class="mt-2 text-xs muted" data-i18n="feeNote">Комиссию сети оплачивает пользователь.</div>
           </div>
         </div>
       </div>
@@ -362,17 +381,16 @@
   </section>
 
   <!-- FAQ -->
-  <section id="faq" class="mx-auto max-w-6xl px-4 py-12">
+  <section id="faq" class="mx-auto max-w-6xl px-4 py-14">
     <h2 class="text-2xl font-bold" data-i18n="faqTitle">FAQ</h2>
-
     <div class="mt-6 space-y-3">
       <details class="rounded-3xl card p-5 shadowSoft">
-        <summary class="font-semibold cursor-pointer" data-i18n="faq1Q">Is it automatic withdrawal?</summary>
-        <div class="mt-2 text-sm muted" data-i18n="faq1A">No. Only after user confirms in wallet.</div>
+        <summary class="font-semibold cursor-pointer" data-i18n="faq1Q">Это списывается автоматически?</summary>
+        <div class="mt-2 text-sm muted" data-i18n="faq1A">Нет. Только после подтверждения пользователем в кошельке.</div>
       </details>
       <details class="rounded-3xl card p-5 shadowSoft">
-        <summary class="font-semibold cursor-pointer" data-i18n="faq2Q">How does calculator work?</summary>
-        <div class="mt-2 text-sm muted" data-i18n="faq2A">It updates when you move sliders or type values.</div>
+        <summary class="font-semibold cursor-pointer" data-i18n="faq2Q">Почему нужны бегунки?</summary>
+        <div class="mt-2 text-sm muted" data-i18n="faq2A">Чтобы быстро менять сумму и срок, и сразу видеть расчёт.</div>
       </details>
     </div>
   </section>
@@ -391,55 +409,58 @@
     const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
 
     // ====== i18n ======
-    let currentLang = localStorage.getItem('lang') || 'en';
+    let currentLang = localStorage.getItem('lang') || 'ru';
+
     const T = {
+      ru: {
+        tagline:"Демо-лендинг",
+        navHome:"Главная", navAdvantages:"Наши преимущества", navHow:"Как начать", navPlans:"Тарифы", navCalc:"Калькулятор", navFaq:"FAQ",
+        stakeNow:"Stake Now",
+        pill1:"Высокий ROI", pill2:"Просто", pill3:"Безопасно",
+        heroLine1:"Получайте", heroLine2:"пассивный", heroLine3:"доход в TON",
+        heroDesc:"Демонстрационный текст. Позже заменим описание и добавим любые блоки/картинки.",
+        heroBtn1:"Начать сейчас →", heroBtn2:"Калькулятор",
+        heroNote:"* Это демо-страница. Числа/тексты мы поменяем позже.",
+        rightCardTitle:"3D image placeholder",
+        rightCardText1:"Здесь будет картинка", rightCardText2:"Скинешь изображение — вставим",
+        mini1:"TVL", mini2:"Users", mini3:"APR",
+        advTitle:"Наши преимущества", advDesc:"Пока заглушки — ты потом скажешь, что тут должно быть.", stakeNowArrow:"Stake now →",
+        howTitle:"Как начать", howDesc:"3 шага (заглушки).",
+        plansTitle:"Тарифы", plansDesc:"Пока без цифр — потом ты скажешь, что поставить.", stakeBtn:"Stake",
+        calcSmall:"Калькулятор", calcTitle:"Расчёт прибыли", calcNote:"Бегунок + ручной ввод",
+        amountLabel:"Сумма (TON)", daysLabel:"Дни",
+        planLabel:"Тариф", rateLabel:"Ставка", profitLabel:"Прибыль", totalLabel:"Итого получите",
+        calcFormulaNote:"Формула: прибыль = сумма × ставка × дни (без капитализации)",
+        topupSmall:"Пополнение", topupTitle:"Пополнить TON", topupConfirm:"Подтверждение в кошельке",
+        topupAmount:"Сумма (TON)", depositBtn:"Пополнить", feeNote:"Комиссию сети оплачивает пользователь.",
+        faqTitle:"FAQ",
+        faq1Q:"Это списывается автоматически?", faq1A:"Нет. Только после подтверждения пользователем в кошельке.",
+        faq2Q:"Почему нужны бегунки?", faq2A:"Чтобы быстро менять сумму и срок, и сразу видеть расчёт."
+      },
       en: {
         tagline:"Demo landing",
         navHome:"Home", navAdvantages:"Advantages", navHow:"How to start", navPlans:"Plans", navCalc:"Calculator", navFaq:"FAQ",
         stakeNow:"Stake Now",
-        liveDemo:"Live demo",
-        heroA:"Staking in", heroB:"simple & transparent",
-        heroDesc:"Connect wallet, choose amount and confirm in your wallet.",
-        ctaStart:"Start now", ctaCalc:"Calculator",
-        stat1:"Total staked", stat2:"Users", stat3:"APR", demo:"demo",
-        trusted:"Trusted by", trustedSub:"Partners & community",
-        badge1:"Audit", badge2:"Security", badge3:"Support",
-        quickStart:"Quick start", qs1:"Connect wallet", qs2:"Choose amount", qs3:"Confirm transaction",
-        goTopup:"Go to staking",
-        advTitle:"Our advantages", advDesc:"Visual placeholders. We’ll replace later.", stakeNowArrow:"Stake now →",
-        howTitle:"How to start", howDesc:"Same “3 steps” feel.",
-        plansTitle:"Plans", plansDesc:"All values are placeholders for now.", stakeBtn:"Stake",
-        calcSmall:"Calculator", calcTitle:"Profit calculator", calcNote:"Sliders + manual input",
+        pill1:"High ROI", pill2:"Simple", pill3:"Secure",
+        heroLine1:"Get", heroLine2:"passive", heroLine3:"income in TON",
+        heroDesc:"Demo text. We’ll replace copy and images later.",
+        heroBtn1:"Start now →", heroBtn2:"Calculator",
+        heroNote:"* Demo page. We’ll change numbers/text later.",
+        rightCardTitle:"3D image placeholder",
+        rightCardText1:"Your image goes here", rightCardText2:"Send an image — we’ll insert it",
+        mini1:"TVL", mini2:"Users", mini3:"APR",
+        advTitle:"Advantages", advDesc:"Placeholders for now.", stakeNowArrow:"Stake now →",
+        howTitle:"How to start", howDesc:"3 steps (placeholders).",
+        plansTitle:"Plans", plansDesc:"No numbers yet — we’ll add later.", stakeBtn:"Stake",
+        calcSmall:"Calculator", calcTitle:"Profit calculator", calcNote:"Slider + manual input",
         amountLabel:"Amount (TON)", daysLabel:"Days",
         planLabel:"Plan", rateLabel:"Rate", profitLabel:"Profit", totalLabel:"Total return",
-        topupSmall:"Stake Now", topupTitle:"Top up TON", topupConfirm:"Confirm in wallet",
+        calcFormulaNote:"Formula: profit = amount × rate × days (no compounding)",
+        topupSmall:"Top up", topupTitle:"Top up TON", topupConfirm:"Confirm in wallet",
         topupAmount:"Amount (TON)", depositBtn:"Deposit", feeNote:"Network fee is paid by the user.",
-        faqTitle:"FAQ", faq1Q:"Is it automatic withdrawal?", faq1A:"No. Only after user confirms in wallet.",
-        faq2Q:"How does calculator work?", faq2A:"It updates when you move sliders or type values."
-      },
-      ru: {
-        tagline:"Демо-лендинг",
-        navHome:"Главная", navAdvantages:"Преимущества", navHow:"Как начать", navPlans:"Тарифы", navCalc:"Калькулятор", navFaq:"FAQ",
-        stakeNow:"Пополнить",
-        liveDemo:"Демо",
-        heroA:"Стейкинг в", heroB:"просто и прозрачно",
-        heroDesc:"Подключи кошелёк, выбери сумму и подтверди перевод в кошельке.",
-        ctaStart:"Начать", ctaCalc:"Калькулятор",
-        stat1:"Всего внесено", stat2:"Пользователи", stat3:"Доходность", demo:"демо",
-        trusted:"Нам доверяют", trustedSub:"Партнёры и сообщество",
-        badge1:"Аудит", badge2:"Безопасность", badge3:"Поддержка",
-        quickStart:"Быстрый старт", qs1:"Подключи кошелёк", qs2:"Выбери сумму", qs3:"Подтверди перевод",
-        goTopup:"К пополнению",
-        advTitle:"Преимущества", advDesc:"Пока заглушки — позже заменим.", stakeNowArrow:"Пополнить →",
-        howTitle:"Как начать", howDesc:"Тот же вайб «3 шага».",
-        plansTitle:"Тарифы", plansDesc:"Пока везде заглушки.", stakeBtn:"Пополнить",
-        calcSmall:"Калькулятор", calcTitle:"Расчёт прибыли", calcNote:"Бегунки + ручной ввод",
-        amountLabel:"Сумма (TON)", daysLabel:"Дни",
-        planLabel:"Тариф", rateLabel:"Ставка", profitLabel:"Прибыль", totalLabel:"Итого получите",
-        topupSmall:"Пополнение", topupTitle:"Пополнить TON", topupConfirm:"Подтверждение в кошельке",
-        topupAmount:"Сумма (TON)", depositBtn:"Пополнить", feeNote:"Комиссию сети оплачивает пользователь.",
-        faqTitle:"FAQ", faq1Q:"Это списывается автоматически?", faq1A:"Нет. Только после подтверждения в кошельке.",
-        faq2Q:"Как работает калькулятор?", faq2A:"Он меняется при движении бегунков или вводе значений."
+        faqTitle:"FAQ",
+        faq1Q:"Is it automatic withdrawal?", faq1A:"No. Only after user confirms in wallet.",
+        faq2Q:"Why sliders?", faq2A:"To quickly change amount & days and instantly see the result."
       }
     };
 
@@ -453,7 +474,7 @@
     document.getElementById('langEN').addEventListener('click', ()=>{ currentLang='en'; applyLang(); });
     document.getElementById('langRU').addEventListener('click', ()=>{ currentLang='ru'; applyLang(); });
 
-    // ====== Calculator sliders + manual input ======
+    // ====== Calculator sliders + manual input (NUMBERS ON) ======
     const amountRange = document.getElementById('amountRange');
     const daysRange = document.getElementById('daysRange');
     const amountInput = document.getElementById('amountInput');
@@ -469,17 +490,16 @@
     function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
     function parseNum(v){ const n = Number(String(v).replace(',', '.').trim()); return Number.isFinite(n)? n : NaN; }
 
-    // Тарифы пока считаем внутри, но выводим “—” (ты просил).
-    // Когда скажешь — включим цифры обратно (1 строка).
+    // твои тарифы
     function getPlan(amount){
-      // your actual tariffs (kept here for later), but output hidden for now
+      // Basic: 10 <= a < 1000
+      // Pro: 1000 <= a < 5000
+      // Premium: 5000 <= a <= 10000
       if(amount >= 10 && amount < 1000) return {name:'Basic', rate:0.003};
       if(amount >= 1000 && amount < 5000) return {name:'Pro', rate:0.007};
       if(amount >= 5000 && amount <= 10000) return {name:'Premium', rate:0.011};
       return null;
     }
-
-    let showNumbers = false; // <— сейчас везде “—”. Потом включим true.
 
     function renderCalc(){
       const amount = clamp(Math.round(parseNum(amountRange.value)), 10, 10000);
@@ -505,22 +525,18 @@
         return;
       }
 
-      // Compute (kept for later)
-      const profit = amount * plan.rate * days;
+      const profit = amount * plan.rate * days; // simple % per day
       const total = amount + profit;
 
-      // Output placeholders now
-      planOut.textContent = showNumbers ? plan.name : "—";
-      rateOut.textContent = showNumbers ? ((plan.rate*100).toFixed(1) + "%") : "—";
-      profitOut.textContent = showNumbers ? (profit.toFixed(4) + " TON") : "—";
-      totalOut.textContent = showNumbers ? (total.toFixed(4) + " TON") : "—";
+      planOut.textContent = plan.name;
+      rateOut.textContent = (plan.rate * 100).toFixed(1) + "% / day";
+      profitOut.textContent = profit.toFixed(4) + " TON";
+      totalOut.textContent = total.toFixed(4) + " TON";
     }
 
-    // Range -> UI
     amountRange.addEventListener('input', renderCalc);
     daysRange.addEventListener('input', renderCalc);
 
-    // Manual input -> Range
     amountInput.addEventListener('input', ()=>{
       const v = parseNum(amountInput.value);
       if(!Number.isFinite(v)) return;
