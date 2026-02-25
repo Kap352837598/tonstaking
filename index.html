@@ -3,102 +3,290 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Пополнение TON</title>
+  <title>TON Staking — Депозит TON</title>
+
+  <!-- Tailwind через CDN (без установок) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 520px; margin: 40px auto; padding: 0 14px; }
-    input, button { font-size: 16px; padding: 12px; width: 100%; box-sizing: border-box; }
-    button { cursor: pointer; margin-top: 12px; }
-    .row { margin: 14px 0; }
-    .hint { color: #555; font-size: 14px; line-height: 1.4; }
-    .status { margin-top: 14px; white-space: pre-line; }
-    .box { padding: 14px; border: 1px solid #ddd; border-radius: 12px; }
+    /* лёгкий “телеграм-стайл” */
+    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,.7); }
   </style>
 </head>
-<body>
-  <h1>Пополнение баланса TON</h1>
+<body class="bg-slate-50 text-slate-900">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 glass">
+    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="h-9 w-9 rounded-xl bg-sky-500"></div>
+        <div class="leading-tight">
+          <div class="font-semibold">TON Staking</div>
+          <div class="text-xs text-slate-500">Депозит TON через кошелёк</div>
+        </div>
+      </div>
 
-  <div class="row box">
-    <div id="connect"></div>
-    <div class="hint" style="margin-top:10px">
-      1) Подключи кошелёк<br/>
-      2) Введи сумму<br/>
-      3) Нажми «Пополнить» и подтверди в кошельке
+      <nav class="hidden md:flex gap-6 text-sm text-slate-600">
+        <a href="#advantages" class="hover:text-slate-900">Преимущества</a>
+        <a href="#how" class="hover:text-slate-900">Как начать</a>
+        <a href="#plans" class="hover:text-slate-900">Тарифы</a>
+        <a href="#faq" class="hover:text-slate-900">FAQ</a>
+      </nav>
+
+      <a href="#stake" class="rounded-xl bg-sky-600 px-4 py-2 text-white text-sm font-medium hover:bg-sky-700">
+        Stake now
+      </a>
     </div>
-  </div>
+  </header>
 
-  <div class="row">
-    <label>Сумма (TON)</label>
-    <input id="amount" value="1" inputmode="decimal" />
-    <div class="hint" style="margin-top:8px">Комиссию сети обычно платит пользователь.</div>
-  </div>
+  <!-- Hero -->
+  <section class="mx-auto max-w-6xl px-4 pt-14 pb-10">
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+          Пополнение / депозит TON<br class="hidden md:block" />
+          через Tonkeeper
+        </h1>
+        <p class="mt-4 text-slate-600 text-lg">
+          Подключи кошелёк, выбери сумму и подтверди перевод. Деньги отправляются только после подтверждения пользователем.
+        </p>
 
-  <button id="pay" disabled>Пополнить</button>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#stake" class="rounded-xl bg-sky-600 px-5 py-3 text-white font-medium hover:bg-sky-700">
+            Начать
+          </a>
+          <a href="#how" class="rounded-xl border border-slate-300 px-5 py-3 font-medium text-slate-800 hover:bg-white">
+            Как это работает
+          </a>
+        </div>
 
-  <div class="status" id="status"></div>
+        <div class="mt-6 grid grid-cols-3 gap-3 text-sm">
+          <div class="rounded-2xl border border-slate-200 bg-white p-4">
+            <div class="font-semibold">Просто</div>
+            <div class="text-slate-500 mt-1">1–2 клика</div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-4">
+            <div class="font-semibold">Прозрачно</div>
+            <div class="text-slate-500 mt-1">перевод TON</div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-4">
+            <div class="font-semibold">Безопасно</div>
+            <div class="text-slate-500 mt-1">только confirm</div>
+          </div>
+        </div>
+      </div>
 
-  <!-- 1) Подключаем TON Connect UI как обычный скрипт -->
-<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div class="text-sm text-slate-500">Быстрый старт</div>
+        <div class="mt-2 text-xl font-semibold">Подключи кошелёк и пополни</div>
+        <div class="mt-4 rounded-2xl bg-slate-50 p-4">
+          <ol class="list-decimal ml-5 text-slate-700 text-sm space-y-1">
+            <li>Нажми Connect wallet</li>
+            <li>Введи сумму</li>
+            <li>Нажми «Пополнить» и подтверди в кошельке</li>
+          </ol>
+        </div>
+        <div class="mt-4">
+          <a href="#stake" class="block w-full text-center rounded-xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700">
+            Перейти к пополнению
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- 2) Наш код (без type="module") -->
-<script>
-  // В UMD-сборке TonConnectUI лежит в глобальной переменной TON_CONNECT_UI
-  const TonConnectUI = window.TON_CONNECT_UI.TonConnectUI;
+  <!-- Advantages -->
+  <section id="advantages" class="mx-auto max-w-6xl px-4 py-12">
+    <h2 class="text-2xl font-bold">Преимущества</h2>
+    <p class="mt-2 text-slate-600">Минимум шагов, понятная логика, подтверждение только в кошельке.</p>
 
-  // ВСТАВЬ СЮДА СВОЙ TON-АДРЕС (куда будут платить)
-  const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
+    <div class="mt-6 grid md:grid-cols-4 gap-4">
+      <div class="rounded-2xl border border-slate-200 bg-white p-5">
+        <div class="font-semibold">Подтверждение</div>
+        <div class="text-slate-500 text-sm mt-1">Только через Confirm в Tonkeeper</div>
+      </div>
+      <div class="rounded-2xl border border-slate-200 bg-white p-5">
+        <div class="font-semibold">Без скрытых списаний</div>
+        <div class="text-slate-500 text-sm mt-1">Никаких автоматических выводов</div>
+      </div>
+      <div class="rounded-2xl border border-slate-200 bg-white p-5">
+        <div class="font-semibold">Чистая транзакция</div>
+        <div class="text-slate-500 text-sm mt-1">Обычный перевод TON</div>
+      </div>
+      <div class="rounded-2xl border border-slate-200 bg-white p-5">
+        <div class="font-semibold">Готово для Pages</div>
+        <div class="text-slate-500 text-sm mt-1">Работает на GitHub Pages</div>
+      </div>
+    </div>
+  </section>
 
-  const tonConnectUI = new TonConnectUI({
-    manifestUrl: "https://kap352837598.github.io/tonstaking/tonconnect-manifest.json",
-    buttonRootId: "connect"
-  });
+  <!-- How -->
+  <section id="how" class="bg-white border-y border-slate-200">
+    <div class="mx-auto max-w-6xl px-4 py-12">
+      <h2 class="text-2xl font-bold">Как начать</h2>
+      <div class="mt-6 grid md:grid-cols-3 gap-4">
+        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+          <div class="text-sky-700 font-semibold">01</div>
+          <div class="mt-2 font-semibold">Подключи кошелёк</div>
+          <div class="mt-1 text-sm text-slate-600">Через TON Connect (Tonkeeper Extension)</div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+          <div class="text-sky-700 font-semibold">02</div>
+          <div class="mt-2 font-semibold">Выбери сумму</div>
+          <div class="mt-1 text-sm text-slate-600">Например 0.1 / 1 / 2 TON</div>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+          <div class="text-sky-700 font-semibold">03</div>
+          <div class="mt-2 font-semibold">Подтверди перевод</div>
+          <div class="mt-1 text-sm text-slate-600">Окно подтверждения открывается в Tonkeeper</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  const payBtn = document.getElementById("pay");
-  const amountEl = document.getElementById("amount");
-  const statusEl = document.getElementById("status");
+  <!-- Plans (просто внешний блок под стиль) -->
+  <section id="plans" class="mx-auto max-w-6xl px-4 py-12">
+    <h2 class="text-2xl font-bold">Тарифы</h2>
+    <p class="mt-2 text-slate-600">Поставь любые “планы” (если нужно). Я оставил пример.</p>
 
-  function setStatus(msg) { statusEl.textContent = msg; }
+    <div class="mt-6 grid md:grid-cols-3 gap-4">
+      <div class="rounded-2xl border border-slate-200 bg-white p-6">
+        <div class="font-semibold">Starter</div>
+        <div class="mt-2 text-3xl font-bold">—</div>
+        <div class="mt-2 text-sm text-slate-500">Опиши условия здесь</div>
+      </div>
+      <div class="rounded-2xl border border-sky-200 bg-sky-50 p-6">
+        <div class="font-semibold">Pro</div>
+        <div class="mt-2 text-3xl font-bold">—</div>
+        <div class="mt-2 text-sm text-slate-500">Опиши условия здесь</div>
+      </div>
+      <div class="rounded-2xl border border-slate-200 bg-white p-6">
+        <div class="font-semibold">Max</div>
+        <div class="mt-2 text-3xl font-bold">—</div>
+        <div class="mt-2 text-sm text-slate-500">Опиши условия здесь</div>
+      </div>
+    </div>
+  </section>
 
-  tonConnectUI.onStatusChange(wallet => {
-    payBtn.disabled = !wallet;
-    setStatus(wallet ? "Кошелёк подключён ✅" : "Подключи кошелёк, чтобы продолжить.");
-  });
+  <!-- Stake widget -->
+  <section id="stake" class="mx-auto max-w-6xl px-4 pb-16">
+    <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 class="text-2xl font-bold">Пополнение TON</h2>
+      <p class="mt-2 text-slate-600">Подключи кошелёк, укажи сумму, подтверди перевод.</p>
 
-  function makePaymentId() {
-    return "TOPUP-" + Math.random().toString(16).slice(2) + "-" + Date.now();
-  }
+      <div class="mt-6 grid md:grid-cols-2 gap-6">
+        <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+          <div id="connect" class="mb-3"></div>
 
-  payBtn.addEventListener("click", async () => {
-    setStatus("");
+          <label class="text-sm font-medium">Сумма (TON)</label>
+          <input id="amount" value="1" inputmode="decimal"
+                 class="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-400" />
 
-    const amountTon = Number(String(amountEl.value).replace(",", "."));
-    if (!Number.isFinite(amountTon) || amountTon <= 0) {
-      setStatus("Введите корректную сумму TON.");
-      return;
+          <button id="pay" disabled
+                  class="mt-4 w-full rounded-xl bg-sky-600 px-4 py-3 font-medium text-white disabled:opacity-50 hover:bg-sky-700">
+            Пополнить
+          </button>
+
+          <div id="status" class="mt-4 text-sm text-slate-700 whitespace-pre-line"></div>
+          <div class="mt-2 text-xs text-slate-500">Комиссию сети обычно платит пользователь.</div>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-5">
+          <div class="font-semibold">Важно</div>
+          <ul class="mt-2 text-sm text-slate-600 list-disc ml-5 space-y-1">
+            <li>Транзакция уйдёт только после Confirm в кошельке.</li>
+            <li>Убедись, что адрес получателя правильный.</li>
+            <li>Если Confirm не открывается — попробуй другой браузер/инкогнито.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="bg-white border-t border-slate-200">
+    <div class="mx-auto max-w-6xl px-4 py-12">
+      <h2 class="text-2xl font-bold">FAQ</h2>
+
+      <div class="mt-6 space-y-3">
+        <details class="rounded-2xl border border-slate-200 p-5 bg-slate-50">
+          <summary class="font-semibold cursor-pointer">Это списывается автоматически?</summary>
+          <div class="mt-2 text-sm text-slate-600">Нет. Только после подтверждения в кошельке (Confirm).</div>
+        </details>
+
+        <details class="rounded-2xl border border-slate-200 p-5 bg-slate-50">
+          <summary class="font-semibold cursor-pointer">Почему мы убрали комментарий?</summary>
+          <div class="mt-2 text-sm text-slate-600">
+            В некоторых версиях Tonkeeper Extension “сырой” payload ломает подтверждение. Без payload работает стабильно.
+            Если нужен комментарий — сделаем правильный BOC-пayload (чуть сложнее).
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <footer class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-500">
+    © <span id="y"></span> TON Staking. Все транзакции подтверждаются пользователем в кошельке.
+  </footer>
+
+  <!-- TON Connect UI (UMD) -->
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const TonConnectUI = window.TON_CONNECT_UI.TonConnectUI;
+
+    // ⚠️ ВСТАВЬ СВОЙ TON-АДРЕС (получатель платежей)
+    const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
+
+    const tonConnectUI = new TonConnectUI({
+      manifestUrl: "https://kap352837598.github.io/tonstaking/tonconnect-manifest.json",
+      buttonRootId: "connect"
+    });
+
+    const payBtn = document.getElementById("pay");
+    const amountEl = document.getElementById("amount");
+    const statusEl = document.getElementById("status");
+
+    function setStatus(msg) { statusEl.textContent = msg; }
+
+    tonConnectUI.onStatusChange(wallet => {
+      payBtn.disabled = !wallet;
+      setStatus(wallet ? "Кошелёк подключён ✅" : "Подключи кошелёк, чтобы продолжить.");
+    });
+
+    // Надёжный перевод TON -> nanoTON (без float)
+    function toNanoFromInput(value) {
+      const parts = String(value).replace(",", ".").trim().split(".");
+      const whole = parts[0] || "0";
+      const frac = (parts[1] || "").padEnd(9, "0").slice(0, 9);
+      return (BigInt(whole) * 1000000000n + BigInt(frac)).toString();
     }
 
-    const paymentId = makePaymentId();
-    const nano = BigInt(Math.round(amountTon * 1e9)).toString(); // TON -> nanoTON
+    payBtn.addEventListener("click", async () => {
+      setStatus("");
 
-    const comment = `Пополнение ${paymentId}`;
-    const payloadBase64 = btoa(unescape(encodeURIComponent(comment)));
+      const v = String(amountEl.value).replace(",", ".").trim();
+      if (!v || Number(v) <= 0) {
+        setStatus("Введите корректную сумму TON.");
+        return;
+      }
 
-    try {
-      await tonConnectUI.sendTransaction({
-        validUntil: Math.floor(Date.now() / 1000) + 300,
-        messages: [{
-  address: RECEIVER_ADDRESS,
-  amount: nano
-}]
-      });
+      const nano = toNanoFromInput(v);
 
-      setStatus(
-        "Запрос отправлен в кошелёк. Если ты подтвердил — деньги уйдут на наш адрес.\n\n" +
-        "Твой Payment ID (сохрани): " + paymentId
-      );
-    } catch (e) {
-      setStatus("Отменено или произошла ошибка. Попробуй ещё раз.");
-    }
-  });
-</script>
+      try {
+        await tonConnectUI.sendTransaction({
+          validUntil: Math.floor(Date.now() / 1000) + 300,
+          messages: [{
+            address: RECEIVER_ADDRESS,
+            amount: nano
+          }]
+        });
+
+        setStatus("Запрос отправлен в кошелёк ✅\nЕсли подтвердил — перевод ушёл.");
+      } catch (e) {
+        setStatus("Отменено или произошла ошибка.");
+      }
+    });
+  </script>
 </body>
 </html>
