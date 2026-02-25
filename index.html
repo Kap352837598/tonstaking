@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,21 +25,24 @@
         <div class="h-9 w-9 rounded-2xl bg-sky-500"></div>
         <div class="leading-tight">
           <div class="font-semibold">Stake Platform</div>
-          <div class="text-xs text-slate-500">Demo landing + TON top up</div>
+          <div class="text-xs text-slate-500" data-i18n="tagline">Demo landing + TON top up</div>
         </div>
       </div>
 
       <nav class="hidden md:flex gap-6 text-sm text-slate-600">
-        <a href="#home" class="hover:text-slate-900">Home</a>
-        <a href="#advantages" class="hover:text-slate-900">Advantages</a>
-        <a href="#how" class="hover:text-slate-900">How to start</a>
-        <a href="#plans" class="hover:text-slate-900">Plans</a>
-        <a href="#calc" class="hover:text-slate-900">Calculator</a>
-        <a href="#faq" class="hover:text-slate-900">FAQ</a>
+        <a href="#home" class="hover:text-slate-900" data-i18n="navHome">Home</a>
+        <a href="#advantages" class="hover:text-slate-900" data-i18n="navAdvantages">Advantages</a>
+        <a href="#how" class="hover:text-slate-900" data-i18n="navHow">How to start</a>
+        <a href="#plans" class="hover:text-slate-900" data-i18n="navPlans">Plans</a>
+        <a href="#calc" class="hover:text-slate-900" data-i18n="navCalc">Calculator</a>
+        <a href="#faq" class="hover:text-slate-900" data-i18n="navFaq">FAQ</a>
       </nav>
 
       <div class="flex items-center gap-2">
-        <a href="#topup" class="rounded-2xl bg-sky-600 px-4 py-2 text-white text-sm font-medium hover:bg-sky-700">
+        <button id="langEN" class="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-medium hover:bg-slate-50">EN</button>
+        <button id="langRU" class="rounded-xl border border-slate-300 bg-white px-3 py-2 text-xs font-medium hover:bg-slate-50">RU</button>
+
+        <a href="#topup" class="rounded-2xl bg-sky-600 px-4 py-2 text-white text-sm font-medium hover:bg-sky-700" data-i18n="stakeNow">
           Stake Now
         </a>
       </div>
@@ -52,73 +55,72 @@
       <div>
         <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600 shadowSoft">
           <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-          Live demo • TON Connect
+          <span data-i18n="liveDemo">Live demo • TON Connect</span>
         </div>
 
         <h1 class="mt-4 text-4xl md:text-5xl font-bold leading-tight">
-          Staking / Top up in <span class="text-sky-700">TON</span><br class="hidden md:block" />
-          with wallet confirmation
+          <span data-i18n="heroTitleA">Staking / Top up in</span>
+          <span class="text-sky-700">TON</span><br class="hidden md:block" />
+          <span data-i18n="heroTitleB">with wallet confirmation</span>
         </h1>
 
-        <p class="mt-4 text-slate-600 text-lg">
+        <p class="mt-4 text-slate-600 text-lg" data-i18n="heroDesc">
           Connect wallet → choose amount → confirm transaction in Tonkeeper. Nothing happens without user confirmation.
         </p>
 
         <div class="mt-6 flex flex-wrap gap-3">
-          <a href="#topup" class="rounded-2xl bg-sky-600 px-5 py-3 text-white font-medium hover:bg-sky-700">
+          <a href="#topup" class="rounded-2xl bg-sky-600 px-5 py-3 text-white font-medium hover:bg-sky-700" data-i18n="ctaStart">
             Stake Now
           </a>
-          <a href="#plans" class="rounded-2xl border border-slate-300 px-5 py-3 font-medium hover:bg-white">
+          <a href="#plans" class="rounded-2xl border border-slate-300 px-5 py-3 font-medium hover:bg-white" data-i18n="ctaPlans">
             View Plans
           </a>
         </div>
 
-        <!-- Stats row (как у них) -->
         <div class="mt-8 grid grid-cols-3 gap-3">
           <div class="rounded-3xl border border-slate-200 bg-white p-4 shadowSoft">
-            <div class="text-xs text-slate-500">Total Staked</div>
+            <div class="text-xs text-slate-500" data-i18n="stat1Label">Total Staked</div>
             <div class="mt-1 text-xl font-bold">12,345 TON</div>
-            <div class="mt-1 text-xs text-slate-500">demo numbers</div>
+            <div class="mt-1 text-xs text-slate-500" data-i18n="demoNumbers">demo numbers</div>
           </div>
           <div class="rounded-3xl border border-slate-200 bg-white p-4 shadowSoft">
-            <div class="text-xs text-slate-500">Users</div>
+            <div class="text-xs text-slate-500" data-i18n="stat2Label">Users</div>
             <div class="mt-1 text-xl font-bold">1,024</div>
-            <div class="mt-1 text-xs text-slate-500">demo numbers</div>
+            <div class="mt-1 text-xs text-slate-500" data-i18n="demoNumbers">demo numbers</div>
           </div>
           <div class="rounded-3xl border border-slate-200 bg-white p-4 shadowSoft">
-            <div class="text-xs text-slate-500">APY</div>
+            <div class="text-xs text-slate-500" data-i18n="stat3Label">APY</div>
             <div class="mt-1 text-xl font-bold">—%</div>
-            <div class="mt-1 text-xs text-slate-500">set later</div>
+            <div class="mt-1 text-xs text-slate-500" data-i18n="setLater">set later</div>
           </div>
         </div>
       </div>
 
-      <!-- Right card (как у них: “trusted / audited / start”) -->
       <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
         <div class="flex items-center justify-between">
           <div>
-            <div class="text-sm text-slate-500">Trusted by</div>
-            <div class="mt-1 font-semibold">Partners & community</div>
+            <div class="text-sm text-slate-500" data-i18n="trustedBy">Trusted by</div>
+            <div class="mt-1 font-semibold" data-i18n="trustedSub">Partners & community</div>
           </div>
           <div class="text-xs text-slate-500">demo</div>
         </div>
 
         <div class="mt-4 grid grid-cols-3 gap-3 text-sm">
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center">Audit</div>
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center">KYC</div>
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center">Support</div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center" data-i18n="badgeAudit">Audit</div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center" data-i18n="badgeKyc">KYC</div>
+          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center" data-i18n="badgeSupport">Support</div>
         </div>
 
         <div class="mt-5 rounded-2xl bg-slate-50 p-4">
-          <div class="text-sm font-semibold">Quick start</div>
+          <div class="text-sm font-semibold" data-i18n="quickStart">Quick start</div>
           <ol class="mt-2 list-decimal ml-5 text-sm text-slate-700 space-y-1">
-            <li>Connect wallet</li>
-            <li>Enter amount</li>
-            <li>Confirm in Tonkeeper</li>
+            <li data-i18n="qs1">Connect wallet</li>
+            <li data-i18n="qs2">Enter amount</li>
+            <li data-i18n="qs3">Confirm in Tonkeeper</li>
           </ol>
         </div>
 
-        <a href="#topup" class="mt-5 block w-full text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700">
+        <a href="#topup" class="mt-5 block w-full text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700" data-i18n="goToStaking">
           Go to staking
         </a>
       </div>
@@ -129,30 +131,30 @@
   <section id="advantages" class="mx-auto max-w-6xl px-4 py-12">
     <div class="flex items-end justify-between gap-4">
       <div>
-        <h2 class="text-2xl font-bold">Our advantages</h2>
-        <p class="mt-2 text-slate-600">Same section style as the example site (cards + short text).</p>
+        <h2 class="text-2xl font-bold" data-i18n="advTitle">Our advantages</h2>
+        <p class="mt-2 text-slate-600" data-i18n="advDesc">Cards layout like the example. Replace text later.</p>
       </div>
-      <a href="#topup" class="hidden md:inline-flex rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-50">
+      <a href="#topup" class="hidden md:inline-flex rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-50" data-i18n="stakeNowArrow">
         Stake now →
       </a>
     </div>
 
     <div class="mt-6 grid md:grid-cols-4 gap-4">
       <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-        <div class="font-semibold">Audited</div>
-        <p class="mt-2 text-sm text-slate-600">Demo text. Replace later.</p>
+        <div class="font-semibold" data-i18n="adv1T">Audited</div>
+        <p class="mt-2 text-sm text-slate-600" data-i18n="adv1D">Demo text. Replace later.</p>
       </div>
       <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-        <div class="font-semibold">Transparency</div>
-        <p class="mt-2 text-sm text-slate-600">Transactions are confirmed in wallet.</p>
+        <div class="font-semibold" data-i18n="adv2T">Transparency</div>
+        <p class="mt-2 text-sm text-slate-600" data-i18n="adv2D">Transactions are confirmed in wallet.</p>
       </div>
       <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-        <div class="font-semibold">Fast</div>
-        <p class="mt-2 text-sm text-slate-600">Simple UX for top up.</p>
+        <div class="font-semibold" data-i18n="adv3T">Fast</div>
+        <p class="mt-2 text-sm text-slate-600" data-i18n="adv3D">Simple UX for top up.</p>
       </div>
       <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-        <div class="font-semibold">Support</div>
-        <p class="mt-2 text-sm text-slate-600">Add your support channel later.</p>
+        <div class="font-semibold" data-i18n="adv4T">Support</div>
+        <p class="mt-2 text-sm text-slate-600" data-i18n="adv4D">Add your support channel later.</p>
       </div>
     </div>
   </section>
@@ -160,24 +162,24 @@
   <!-- HOW TO START -->
   <section id="how" class="bg-white border-y border-slate-200">
     <div class="mx-auto max-w-6xl px-4 py-12">
-      <h2 class="text-2xl font-bold">How to start</h2>
-      <p class="mt-2 text-slate-600">3-step blocks like in the example.</p>
+      <h2 class="text-2xl font-bold" data-i18n="howTitle">How to start</h2>
+      <p class="mt-2 text-slate-600" data-i18n="howDesc">3-step blocks like in the example.</p>
 
       <div class="mt-6 grid md:grid-cols-3 gap-4">
         <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
           <div class="text-sky-700 font-semibold">01</div>
-          <div class="mt-2 font-semibold text-lg">Connect wallet</div>
-          <div class="mt-1 text-sm text-slate-600">Tonkeeper / other wallets</div>
+          <div class="mt-2 font-semibold text-lg" data-i18n="how1T">Connect wallet</div>
+          <div class="mt-1 text-sm text-slate-600" data-i18n="how1D">Tonkeeper / other wallets</div>
         </div>
         <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
           <div class="text-sky-700 font-semibold">02</div>
-          <div class="mt-2 font-semibold text-lg">Choose amount</div>
-          <div class="mt-1 text-sm text-slate-600">0.1 / 1 / 2 TON</div>
+          <div class="mt-2 font-semibold text-lg" data-i18n="how2T">Choose amount</div>
+          <div class="mt-1 text-sm text-slate-600" data-i18n="how2D">From 10 to 10,000 TON</div>
         </div>
         <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
           <div class="text-sky-700 font-semibold">03</div>
-          <div class="mt-2 font-semibold text-lg">Confirm</div>
-          <div class="mt-1 text-sm text-slate-600">Transaction in wallet</div>
+          <div class="mt-2 font-semibold text-lg" data-i18n="how3T">Confirm</div>
+          <div class="mt-1 text-sm text-slate-600" data-i18n="how3D">Transaction in wallet</div>
         </div>
       </div>
     </div>
@@ -185,71 +187,93 @@
 
   <!-- PLANS -->
   <section id="plans" class="mx-auto max-w-6xl px-4 py-12">
-    <h2 class="text-2xl font-bold">Plans</h2>
-    <p class="mt-2 text-slate-600">Card layout same vibe as the example (demo numbers).</p>
+    <h2 class="text-2xl font-bold" data-i18n="plansTitle">Plans</h2>
+    <p class="mt-2 text-slate-600" data-i18n="plansDesc">Daily rate depends on the deposit amount.</p>
 
     <div class="mt-6 grid md:grid-cols-3 gap-4">
       <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
         <div class="text-sm text-slate-500">Basic</div>
-        <div class="mt-2 text-3xl font-bold">—%</div>
-        <div class="mt-2 text-sm text-slate-600">10–899 TON</div>
-        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700">Stake</a>
+        <div class="mt-2 text-3xl font-bold">0.3% <span class="text-base font-semibold text-slate-500" data-i18n="perDay">/ day</span></div>
+        <div class="mt-2 text-sm text-slate-600" data-i18n="basicRange">10–1000 TON</div>
+        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700" data-i18n="stakeBtn">Stake</a>
       </div>
 
       <div class="rounded-3xl border border-sky-200 bg-sky-50 p-6 shadowSoft">
         <div class="text-sm text-slate-500">Pro</div>
-        <div class="mt-2 text-3xl font-bold">—%</div>
-        <div class="mt-2 text-sm text-slate-600">900–2199 TON</div>
-        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700">Stake</a>
+        <div class="mt-2 text-3xl font-bold">0.7% <span class="text-base font-semibold text-slate-500" data-i18n="perDay">/ day</span></div>
+        <div class="mt-2 text-sm text-slate-600" data-i18n="proRange">1000–5000 TON</div>
+        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700" data-i18n="stakeBtn">Stake</a>
       </div>
 
       <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
         <div class="text-sm text-slate-500">Premium</div>
-        <div class="mt-2 text-3xl font-bold">—%</div>
-        <div class="mt-2 text-sm text-slate-600">2200+ TON</div>
-        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700">Stake</a>
+        <div class="mt-2 text-3xl font-bold">1.1% <span class="text-base font-semibold text-slate-500" data-i18n="perDay">/ day</span></div>
+        <div class="mt-2 text-sm text-slate-600" data-i18n="premiumRange">5000–10000 TON</div>
+        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700" data-i18n="stakeBtn">Stake</a>
       </div>
     </div>
   </section>
 
-  <!-- CALCULATOR (как блок на примере) -->
+  <!-- CALC + TOPUP -->
   <section id="calc" class="bg-white border-y border-slate-200">
     <div class="mx-auto max-w-6xl px-4 py-12">
       <div class="grid md:grid-cols-2 gap-6 items-start">
-        <div>
-          <h2 class="text-2xl font-bold">Calculator</h2>
-          <p class="mt-2 text-slate-600">Demo calculator (visual). We'll replace formulas later.</p>
-
-          <div class="mt-6 rounded-3xl border border-slate-200 bg-slate-50 p-6">
-            <label class="text-sm font-medium">Amount (TON)</label>
-            <input id="calcAmount" value="10" inputmode="decimal"
-                   class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-400" />
-            <label class="text-sm font-medium mt-4 block">Days</label>
-            <input id="calcDays" value="30" inputmode="numeric"
-                   class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-400" />
-
-            <div class="mt-4 rounded-2xl bg-white border border-slate-200 p-4">
-              <div class="text-sm text-slate-500">Estimated result (demo)</div>
-              <div id="calcOut" class="mt-1 text-2xl font-bold">— TON</div>
-              <div class="mt-1 text-xs text-slate-500">We’ll set the real logic later</div>
+        <!-- Calculator -->
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <div class="text-sm text-slate-500" data-i18n="calcTitleSmall">Calculator</div>
+              <div class="text-xl font-bold" data-i18n="calcTitle">Profit calculator</div>
             </div>
+            <div class="text-xs text-slate-500" data-i18n="calcNote">Simple daily % (no compounding)</div>
+          </div>
+
+          <label class="text-sm font-medium mt-4 block" data-i18n="amountLabel">Amount (TON)</label>
+          <input id="calcAmount" value="10" inputmode="decimal"
+                 class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-400" />
+
+          <label class="text-sm font-medium mt-4 block" data-i18n="daysLabel">Days (1–30)</label>
+          <input id="calcDays" value="1" inputmode="numeric"
+                 class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-400" />
+
+          <div class="mt-4 rounded-2xl bg-slate-50 border border-slate-200 p-4">
+            <div class="text-sm text-slate-500" data-i18n="planLabel">Plan</div>
+            <div id="calcPlan" class="mt-1 text-lg font-bold">—</div>
+
+            <div class="mt-3 grid grid-cols-2 gap-3 text-sm">
+              <div class="rounded-xl border border-slate-200 bg-white p-3">
+                <div class="text-slate-500" data-i18n="dailyLabel">Daily rate</div>
+                <div id="calcRate" class="font-semibold">—</div>
+              </div>
+              <div class="rounded-xl border border-slate-200 bg-white p-3">
+                <div class="text-slate-500" data-i18n="profitLabel">Profit</div>
+                <div id="calcProfit" class="font-semibold">—</div>
+              </div>
+            </div>
+
+            <div class="mt-3 rounded-xl border border-slate-200 bg-white p-3 text-sm">
+              <div class="text-slate-500" data-i18n="totalLabel">Total return</div>
+              <div id="calcTotal" class="text-xl font-bold">—</div>
+            </div>
+
+            <div id="calcError" class="mt-3 text-sm text-rose-600"></div>
           </div>
         </div>
 
-        <!-- TOPUP (popолнение) -->
+        <!-- Top up -->
         <div id="topup" class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
           <div class="flex items-end justify-between">
             <div>
-              <div class="text-sm text-slate-500">Stake Now</div>
-              <div class="mt-1 text-xl font-bold">Top up TON</div>
+              <div class="text-sm text-slate-500" data-i18n="topupSmall">Stake Now</div>
+              <div class="mt-1 text-xl font-bold" data-i18n="topupTitle">Top up TON</div>
             </div>
-            <div class="text-xs text-slate-500">Confirm in wallet</div>
+            <div class="text-xs text-slate-500" data-i18n="topupConfirm">Confirm in wallet</div>
           </div>
 
           <div class="mt-4 rounded-2xl bg-slate-50 p-4">
             <div id="connect" class="mb-3"></div>
 
-            <label class="text-sm font-medium">Amount (TON)</label>
+            <label class="text-sm font-medium" data-i18n="topupAmount">Amount (TON)</label>
             <input id="amount" value="1" inputmode="decimal"
                    class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-400" />
 
@@ -261,18 +285,19 @@
             </div>
 
             <button id="pay" disabled
-                    class="mt-4 w-full rounded-2xl bg-sky-600 px-4 py-3 font-medium text-white disabled:opacity-50 hover:bg-sky-700">
+                    class="mt-4 w-full rounded-2xl bg-sky-600 px-4 py-3 font-medium text-white disabled:opacity-50 hover:bg-sky-700"
+                    data-i18n="depositBtn">
               Deposit
             </button>
 
             <div id="status" class="mt-4 text-sm text-slate-700 whitespace-pre-line"></div>
-            <div class="mt-2 text-xs text-slate-500">Network fee is paid by the user.</div>
+            <div class="mt-2 text-xs text-slate-500" data-i18n="feeNote">Network fee is paid by the user.</div>
           </div>
 
           <div class="mt-4 text-sm text-slate-600">
             <ul class="list-disc ml-5 space-y-1">
-              <li>Check address & amount in wallet</li>
-              <li>No transaction without confirmation</li>
+              <li data-i18n="note1">Check address & amount in wallet</li>
+              <li data-i18n="note2">No transaction without confirmation</li>
             </ul>
           </div>
         </div>
@@ -282,15 +307,15 @@
 
   <!-- FAQ -->
   <section id="faq" class="mx-auto max-w-6xl px-4 py-12">
-    <h2 class="text-2xl font-bold">FAQ</h2>
+    <h2 class="text-2xl font-bold" data-i18n="faqTitle">FAQ</h2>
     <div class="mt-6 space-y-3">
       <details class="rounded-3xl border border-slate-200 p-5 bg-white shadowSoft">
-        <summary class="font-semibold cursor-pointer">Is it automatic withdrawal?</summary>
-        <div class="mt-2 text-sm text-slate-600">No. Only after user confirms in wallet.</div>
+        <summary class="font-semibold cursor-pointer" data-i18n="faq1Q">Is it automatic withdrawal?</summary>
+        <div class="mt-2 text-sm text-slate-600" data-i18n="faq1A">No. Only after user confirms in wallet.</div>
       </details>
       <details class="rounded-3xl border border-slate-200 p-5 bg-white shadowSoft">
-        <summary class="font-semibold cursor-pointer">Why without comment?</summary>
-        <div class="mt-2 text-sm text-slate-600">For stability with Tonkeeper Extension. We can add proper BOC payload later.</div>
+        <summary class="font-semibold cursor-pointer" data-i18n="faq2Q">How is profit calculated?</summary>
+        <div class="mt-2 text-sm text-slate-600" data-i18n="faq2A">Simple daily percentage: profit = amount × rate × days (no compounding).</div>
       </details>
     </div>
   </section>
@@ -301,30 +326,276 @@
 
   <!-- TON Connect UI -->
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Demo calc
-    const calcAmount = document.getElementById('calcAmount');
-    const calcDays = document.getElementById('calcDays');
-    const calcOut = document.getElementById('calcOut');
-    function updateCalc(){
-      const a = Number(String(calcAmount.value).replace(',', '.'));
-      const d = Number(String(calcDays.value).replace(',', '.'));
-      if(!Number.isFinite(a) || !Number.isFinite(d) || a<=0 || d<=0) { calcOut.textContent = "— TON"; return; }
-      const demoRate = 0.001; // demo placeholder
-      const res = a + (a * demoRate * d);
-      calcOut.textContent = res.toFixed(4) + " TON";
-    }
-    calcAmount.addEventListener('input', updateCalc);
-    calcDays.addEventListener('input', updateCalc);
-    updateCalc();
-
-    // TON Connect
-    const TonConnectUI = window.TON_CONNECT_UI.TonConnectUI;
-
-    // 🔴 ВСТАВЬ СВОЙ TON-АДРЕС (получатель)
+    // ====== SETTINGS ======
+    // 🔴 ВСТАВЬ СВОЙ TON-АДРЕС (получатель платежей)
     const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
+
+    // ====== i18n ======
+    let currentLang = localStorage.getItem('lang') || 'en';
+
+    const T = {
+      en: {
+        tagline: "Demo landing + TON top up",
+        navHome: "Home",
+        navAdvantages: "Advantages",
+        navHow: "How to start",
+        navPlans: "Plans",
+        navCalc: "Calculator",
+        navFaq: "FAQ",
+        stakeNow: "Stake Now",
+        liveDemo: "Live demo • TON Connect",
+        heroTitleA: "Staking / Top up in",
+        heroTitleB: "with wallet confirmation",
+        heroDesc: "Connect wallet → choose amount → confirm transaction in Tonkeeper. Nothing happens without user confirmation.",
+        ctaStart: "Stake Now",
+        ctaPlans: "View Plans",
+        stat1Label: "Total Staked",
+        stat2Label: "Users",
+        stat3Label: "APY",
+        demoNumbers: "demo numbers",
+        setLater: "set later",
+        trustedBy: "Trusted by",
+        trustedSub: "Partners & community",
+        badgeAudit: "Audit",
+        badgeKyc: "KYC",
+        badgeSupport: "Support",
+        quickStart: "Quick start",
+        qs1: "Connect wallet",
+        qs2: "Enter amount",
+        qs3: "Confirm in Tonkeeper",
+        goToStaking: "Go to staking",
+        advTitle: "Our advantages",
+        advDesc: "Cards layout like the example. Replace text later.",
+        stakeNowArrow: "Stake now →",
+        adv1T: "Audited",
+        adv1D: "Demo text. Replace later.",
+        adv2T: "Transparency",
+        adv2D: "Transactions are confirmed in wallet.",
+        adv3T: "Fast",
+        adv3D: "Simple UX for top up.",
+        adv4T: "Support",
+        adv4D: "Add your support channel later.",
+        howTitle: "How to start",
+        howDesc: "3-step blocks like in the example.",
+        how1T: "Connect wallet",
+        how1D: "Tonkeeper / other wallets",
+        how2T: "Choose amount",
+        how2D: "From 10 to 10,000 TON",
+        how3T: "Confirm",
+        how3D: "Transaction in wallet",
+        plansTitle: "Plans",
+        plansDesc: "Daily rate depends on the deposit amount.",
+        perDay: "/ day",
+        basicRange: "10–1000 TON",
+        proRange: "1000–5000 TON",
+        premiumRange: "5000–10000 TON",
+        stakeBtn: "Stake",
+        calcTitleSmall: "Calculator",
+        calcTitle: "Profit calculator",
+        calcNote: "Simple daily % (no compounding)",
+        amountLabel: "Amount (TON)",
+        daysLabel: "Days (1–30)",
+        planLabel: "Plan",
+        dailyLabel: "Daily rate",
+        profitLabel: "Profit",
+        totalLabel: "Total return",
+        errRange: "Enter amount from 10 to 10,000 TON and days from 1 to 30.",
+        planBasic: "Basic",
+        planPro: "Pro",
+        planPremium: "Premium",
+        topupSmall: "Stake Now",
+        topupTitle: "Top up TON",
+        topupConfirm: "Confirm in wallet",
+        topupAmount: "Amount (TON)",
+        depositBtn: "Deposit",
+        feeNote: "Network fee is paid by the user.",
+        note1: "Check address & amount in wallet",
+        note2: "No transaction without confirmation",
+        faqTitle: "FAQ",
+        faq1Q: "Is it automatic withdrawal?",
+        faq1A: "No. Only after user confirms in wallet.",
+        faq2Q: "How is profit calculated?",
+        faq2A: "Simple daily percentage: profit = amount × rate × days (no compounding)."
+      },
+      ru: {
+        tagline: "Демо-лендинг + пополнение TON",
+        navHome: "Главная",
+        navAdvantages: "Преимущества",
+        navHow: "Как начать",
+        navPlans: "Тарифы",
+        navCalc: "Калькулятор",
+        navFaq: "FAQ",
+        stakeNow: "Пополнить",
+        liveDemo: "Демо • TON Connect",
+        heroTitleA: "Пополнение / депозит в",
+        heroTitleB: "с подтверждением в кошельке",
+        heroDesc: "Подключи кошелёк → выбери сумму → подтверди перевод в Tonkeeper. Без подтверждения ничего не происходит.",
+        ctaStart: "Начать",
+        ctaPlans: "Тарифы",
+        stat1Label: "Всего внесено",
+        stat2Label: "Пользователи",
+        stat3Label: "Доходность",
+        demoNumbers: "демо-цифры",
+        setLater: "позже",
+        trustedBy: "Нам доверяют",
+        trustedSub: "Партнёры и сообщество",
+        badgeAudit: "Аудит",
+        badgeKyc: "KYC",
+        badgeSupport: "Поддержка",
+        quickStart: "Быстрый старт",
+        qs1: "Подключи кошелёк",
+        qs2: "Введи сумму",
+        qs3: "Подтверди в Tonkeeper",
+        goToStaking: "К пополнению",
+        advTitle: "Преимущества",
+        advDesc: "Сетка карточек как в примере. Тексты заменим позже.",
+        stakeNowArrow: "Пополнить →",
+        adv1T: "Проверено",
+        adv1D: "Демо-текст. Заменим позже.",
+        adv2T: "Прозрачность",
+        adv2D: "Транзакции подтверждаются в кошельке.",
+        adv3T: "Быстро",
+        adv3D: "Простой UX пополнения.",
+        adv4T: "Поддержка",
+        adv4D: "Добавим контакты поддержки позже.",
+        howTitle: "Как начать",
+        howDesc: "3 шага как в примере.",
+        how1T: "Подключи кошелёк",
+        how1D: "Tonkeeper / другие кошельки",
+        how2T: "Выбери сумму",
+        how2D: "От 10 до 10 000 TON",
+        how3T: "Подтверди",
+        how3D: "Перевод в кошельке",
+        plansTitle: "Тарифы",
+        plansDesc: "Ставка в день зависит от суммы депозита.",
+        perDay: "в день",
+        basicRange: "10–1000 TON",
+        proRange: "1000–5000 TON",
+        premiumRange: "5000–10000 TON",
+        stakeBtn: "Пополнить",
+        calcTitleSmall: "Калькулятор",
+        calcTitle: "Расчёт прибыли",
+        calcNote: "Простой % в день (без сложного процента)",
+        amountLabel: "Сумма (TON)",
+        daysLabel: "Дней (1–30)",
+        planLabel: "Тариф",
+        dailyLabel: "Ставка в день",
+        profitLabel: "Прибыль",
+        totalLabel: "Итого получите",
+        errRange: "Введите сумму от 10 до 10 000 TON и дни от 1 до 30.",
+        planBasic: "Basic",
+        planPro: "Pro",
+        planPremium: "Premium",
+        topupSmall: "Пополнение",
+        topupTitle: "Пополнить TON",
+        topupConfirm: "Подтверждение в кошельке",
+        topupAmount: "Сумма (TON)",
+        depositBtn: "Пополнить",
+        feeNote: "Комиссию сети оплачивает пользователь.",
+        note1: "Проверь адрес и сумму в кошельке",
+        note2: "Без подтверждения перевод не уйдёт",
+        faqTitle: "FAQ",
+        faq1Q: "Это списывается автоматически?",
+        faq1A: "Нет. Только после подтверждения пользователем в кошельке.",
+        faq2Q: "Как считается прибыль?",
+        faq2A: "Простой процент: прибыль = сумма × ставка × дни (без капитализации)."
+      }
+    };
+
+    function applyLang() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (T[currentLang] && T[currentLang][key]) el.textContent = T[currentLang][key];
+      });
+      localStorage.setItem('lang', currentLang);
+      updateCalc();
+    }
+
+    document.getElementById('langEN').addEventListener('click', () => { currentLang = 'en'; applyLang(); });
+    document.getElementById('langRU').addEventListener('click', () => { currentLang = 'ru'; applyLang(); });
+
+    // ====== Calculator ======
+    function parseNumber(x) {
+      const v = String(x).replace(",", ".").trim();
+      const n = Number(v);
+      return Number.isFinite(n) ? n : NaN;
+    }
+
+    function getPlan(amountTon) {
+      // Fixed boundaries to avoid overlap:
+      // Basic: 10 <= amount < 1000
+      // Pro:   1000 <= amount < 5000
+      // Premium: 5000 <= amount <= 10000
+      if (amountTon >= 10 && amountTon < 1000) return { key: 'planBasic', rate: 0.003 };
+      if (amountTon >= 1000 && amountTon < 5000) return { key: 'planPro', rate: 0.007 };
+      if (amountTon >= 5000 && amountTon <= 10000) return { key: 'planPremium', rate: 0.011 };
+      return null;
+    }
+
+    function fmtTon(v) {
+      return v.toFixed(4) + " TON";
+    }
+
+    function updateCalc() {
+      const amountEl = document.getElementById('calcAmount');
+      const daysEl = document.getElementById('calcDays');
+      const planEl = document.getElementById('calcPlan');
+      const rateEl = document.getElementById('calcRate');
+      const profitEl = document.getElementById('calcProfit');
+      const totalEl = document.getElementById('calcTotal');
+      const errEl = document.getElementById('calcError');
+
+      const amount = parseNumber(amountEl.value);
+      const days = parseNumber(daysEl.value);
+
+      errEl.textContent = "";
+
+      if (!Number.isFinite(amount) || !Number.isFinite(days) || amount < 10 || amount > 10000 || days < 1 || days > 30) {
+        planEl.textContent = "—";
+        rateEl.textContent = "—";
+        profitEl.textContent = "—";
+        totalEl.textContent = "—";
+        errEl.textContent = T[currentLang].errRange;
+        return;
+      }
+
+      const plan = getPlan(amount);
+      if (!plan) {
+        errEl.textContent = T[currentLang].errRange;
+        return;
+      }
+
+      // Simple daily percent (no compounding)
+      const profit = amount * plan.rate * days;
+      const total = amount + profit;
+
+      planEl.textContent = T[currentLang][plan.key];
+      rateEl.textContent = (plan.rate * 100).toFixed(1) + "%";
+      profitEl.textContent = fmtTon(profit);
+      totalEl.textContent = fmtTon(total);
+    }
+
+    document.getElementById('calcAmount').addEventListener('input', updateCalc);
+    document.getElementById('calcDays').addEventListener('input', updateCalc);
+
+    // ====== Top up helpers ======
+    document.querySelectorAll('.quick').forEach(btn => {
+      btn.addEventListener('click', () => document.getElementById('amount').value = btn.dataset.v);
+    });
+
+    function toNanoFromInput(value) {
+      const parts = String(value).replace(",", ".").trim().split(".");
+      const whole = parts[0] || "0";
+      const frac = (parts[1] || "").padEnd(9, "0").slice(0, 9);
+      return (BigInt(whole) * 1000000000n + BigInt(frac)).toString();
+    }
+
+    // ====== TON Connect ======
+    const TonConnectUI = window.TON_CONNECT_UI.TonConnectUI;
 
     const tonConnectUI = new TonConnectUI({
       manifestUrl: "https://kap352837598.github.io/tonstaking/tonconnect-manifest.json",
@@ -339,26 +610,16 @@
 
     tonConnectUI.onStatusChange(wallet => {
       payBtn.disabled = !wallet;
-      setStatus(wallet ? "Wallet connected ✅" : "Connect wallet to continue.");
+      setStatus(wallet ? (currentLang === 'ru' ? "Кошелёк подключён ✅" : "Wallet connected ✅")
+                       : (currentLang === 'ru' ? "Подключи кошелёк, чтобы продолжить." : "Connect wallet to continue."));
     });
-
-    document.querySelectorAll('.quick').forEach(btn => {
-      btn.addEventListener('click', () => amountEl.value = btn.dataset.v);
-    });
-
-    function toNanoFromInput(value) {
-      const parts = String(value).replace(",", ".").trim().split(".");
-      const whole = parts[0] || "0";
-      const frac = (parts[1] || "").padEnd(9, "0").slice(0, 9);
-      return (BigInt(whole) * 1000000000n + BigInt(frac)).toString();
-    }
 
     payBtn.addEventListener("click", async () => {
       setStatus("");
 
       const v = String(amountEl.value).replace(",", ".").trim();
       if (!v || Number(v) <= 0) {
-        setStatus("Enter a valid TON amount.");
+        setStatus(currentLang === 'ru' ? "Введите корректную сумму TON." : "Enter a valid TON amount.");
         return;
       }
 
@@ -373,11 +634,17 @@
           }]
         });
 
-        setStatus("Request sent ✅\nConfirm in wallet to complete.");
+        setStatus(currentLang === 'ru'
+          ? "Запрос отправлен в кошелёк ✅\nПодтверди в Tonkeeper, чтобы завершить."
+          : "Request sent ✅\nConfirm in wallet to complete."
+        );
       } catch (e) {
-        setStatus("Canceled or error.");
+        setStatus(currentLang === 'ru' ? "Отменено или произошла ошибка." : "Canceled or error.");
       }
     });
+
+    // init
+    applyLang();
   </script>
 </body>
 </html>
