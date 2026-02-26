@@ -284,162 +284,180 @@
   </div>
 
   <!-- TonConnect UI -->
-  <script type="module">
-    import { TonConnectUI } from "https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js";
+  <script>
+  // ✅ ВКЛАДКИ ДОЛЖНЫ РАБОТАТЬ ВСЕГДА (даже если TonConnect сломался)
 
-    // ✅ ВАЖНО: поставь СВОЙ адрес получателя (куда приходят TON)
-    const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW"; // <-- замени
+  const tabMap = {
+    staking: {title:"Стейкинг", icon:"🪙"},
+    history: {title:"История", icon:"📜"},
+    support: {title:"Поддержка", icon:"💬"},
+    ref: {title:"Реф. программа", icon:"👥"},
+    promo: {title:"Промокод", icon:"🎁"},
+  };
 
-    const tonConnectUI = new TonConnectUI({
+  function showTab(key){
+    document.querySelectorAll('.tabBlock').forEach(s => s.classList.add('hidden'));
+    const t = document.getElementById('tab-' + key);
+    if (t) t.classList.remove('hidden');
+
+    document.querySelectorAll('.sidebarItem').forEach(i => i.classList.remove('sidebarItemActive'));
+    const b = document.querySelector(`.sidebarItem[data-tab="${key}"]`);
+    if (b) b.classList.add('sidebarItemActive');
+
+    const title = document.getElementById('topTitle');
+    const icon = document.getElementById('topTitleIcon');
+    if (title) title.textContent = tabMap[key]?.title || "—";
+    if (icon) icon.textContent = tabMap[key]?.icon || "•";
+  }
+
+  document.querySelectorAll('.sidebarItem').forEach(item => {
+    item.addEventListener('click', () => showTab(item.dataset.tab));
+  });
+
+  // reveal-on-scroll
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) e.target.classList.add('show');
+    });
+  }, {threshold: 0.12});
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // открыть дефолтную вкладку
+  showTab('staking');
+</script>
+
+<script type="module">
+  import { TonConnectUI } from "https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js";
+
+  // ✅ ВАЖНО: поставь СВОЙ адрес получателя (куда приходят TON)
+  const RECEIVER_ADDRESS = "UQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; // <-- замени на свой
+
+  const statusEl = document.getElementById('status');
+  const addrSide = document.getElementById('addrSide');
+  const btnTextTop = document.getElementById('connectBtnTextTop');
+  const btnTextSide = document.getElementById('connectBtnTextSide');
+
+  function setStatus(t){ if(statusEl) statusEl.textContent = t || ""; }
+
+  let tonConnectUI;
+  try{
+    tonConnectUI = new TonConnectUI({
       manifestUrl: `${location.origin}/tonconnect-manifest.json`
     });
+  }catch(e){
+    setStatus("Ошибка TonConnect (не загрузился модуль). Открой консоль (F12) и скинь ошибку.");
+  }
 
-    const statusEl = document.getElementById('status');
-    const addrSide = document.getElementById('addrSide');
-    const btnTextTop = document.getElementById('connectBtnTextTop');
-    const btnTextSide = document.getElementById('connectBtnTextSide');
+  async function connect(){
+    if(!tonConnectUI){ setStatus("TonConnect не загрузился."); return; }
+    await tonConnectUI.openModal();
+  }
 
-    function setStatus(t){ if(statusEl) statusEl.textContent = t || ""; }
+  // кнопки подключения
+  document.getElementById('connectBtnTop')?.addEventListener('click', connect);
+  document.getElementById('connectBtnSide')?.addEventListener('click', connect);
+  document.getElementById('connectBtnMid')?.addEventListener('click', connect);
 
-    async function connect(){
-      await tonConnectUI.openModal();
-    }
-
-    document.getElementById('connectBtnTop').addEventListener('click', connect);
-    document.getElementById('connectBtnSide').addEventListener('click', connect);
-    document.getElementById('connectBtnMid').addEventListener('click', connect);
-
+  if(tonConnectUI){
     tonConnectUI.onStatusChange(wallet => {
       const connected = !!wallet;
-      btnTextTop.textContent = connected ? "Кошелёк подключён" : "Подключить кошелёк";
-      btnTextSide.textContent = connected ? "Кошелёк подключён" : "Подключить кошелёк";
-      addrSide.textContent = "Wallet: " + (wallet?.account?.address || "—");
+      if(btnTextTop) btnTextTop.textContent = connected ? "Кошелёк подключён" : "Подключить кошелёк";
+      if(btnTextSide) btnTextSide.textContent = connected ? "Кошелёк подключён" : "Подключить кошелёк";
+      if(addrSide) addrSide.textContent = "Wallet: " + (wallet?.account?.address || "—");
     });
+  }
 
-    // тарифы
-    function getPlan(amount){
-      if(amount >= 10 && amount < 1000) return {name:'Basic', rate:0.003};
-      if(amount >= 1000 && amount < 5000) return {name:'Pro', rate:0.007};
-      if(amount >= 5000 && amount <= 10000) return {name:'Premium', rate:0.011};
-      return null;
+  // тарифы (твои)
+  function getPlan(amount){
+    if(amount >= 10 && amount < 1000) return {name:'Basic', rate:0.003};
+    if(amount >= 1000 && amount < 5000) return {name:'Pro', rate:0.007};
+    if(amount >= 5000 && amount <= 10000) return {name:'Premium', rate:0.011};
+    return null;
+  }
+
+  const amountRange = document.getElementById('amountRange');
+  const daysRange = document.getElementById('daysRange');
+  const amountOut = document.getElementById('amountOut');
+  const daysOut = document.getElementById('daysOut');
+  const rateOut = document.getElementById('rateOut');
+  const dayProfitOut = document.getElementById('dayProfitOut');
+  const monthProfitOut = document.getElementById('monthProfitOut');
+  const ringRate = document.getElementById('ringRate');
+  const earnedTon = document.getElementById('earnedTon');
+
+  function fmtTon(v){ return (Math.round(v*100)/100).toFixed(2) + " TON"; }
+
+  function renderCalc(){
+    const amount = Number(amountRange?.value || 0);
+    const days = Number(daysRange?.value || 0);
+    if(amountOut) amountOut.textContent = String(amount);
+    if(daysOut) daysOut.textContent = String(days);
+
+    const plan = getPlan(amount);
+    if(!plan){
+      if(rateOut) rateOut.textContent = "—";
+      if(dayProfitOut) dayProfitOut.textContent = "—";
+      if(monthProfitOut) monthProfitOut.textContent = "—";
+      if(ringRate) ringRate.textContent = "—%";
+      if(earnedTon) earnedTon.textContent = "0.00";
+      return;
     }
 
-    const amountRange = document.getElementById('amountRange');
-    const daysRange = document.getElementById('daysRange');
-    const amountOut = document.getElementById('amountOut');
-    const daysOut = document.getElementById('daysOut');
-    const rateOut = document.getElementById('rateOut');
-    const dayProfitOut = document.getElementById('dayProfitOut');
-    const monthProfitOut = document.getElementById('monthProfitOut');
-    const ringRate = document.getElementById('ringRate');
-    const earnedTon = document.getElementById('earnedTon');
+    const dayProfit = amount * plan.rate;
+    const monthProfit = amount * plan.rate * 30;
+    const earned = amount * plan.rate * days;
 
-    function fmtTon(v){ return (Math.round(v*100)/100).toFixed(2) + " TON"; }
+    const ratePct = (plan.rate*100).toFixed(1) + "%";
+    if(rateOut) rateOut.textContent = ratePct;
+    if(ringRate) ringRate.textContent = ratePct;
+    if(dayProfitOut) dayProfitOut.textContent = "+ " + fmtTon(dayProfit);
+    if(monthProfitOut) monthProfitOut.textContent = "+ " + fmtTon(monthProfit);
+    if(earnedTon) earnedTon.textContent = (Math.round(earned*100)/100).toFixed(2);
+  }
 
-    function renderCalc(){
-      const amount = Number(amountRange.value);
-      const days = Number(daysRange.value);
-      amountOut.textContent = String(amount);
-      daysOut.textContent = String(days);
+  amountRange?.addEventListener('input', renderCalc);
+  daysRange?.addEventListener('input', renderCalc);
+  renderCalc();
 
-      const plan = getPlan(amount);
-      if(!plan){
-        rateOut.textContent = "—";
-        dayProfitOut.textContent = "—";
-        monthProfitOut.textContent = "—";
-        ringRate.textContent = "—%";
-        earnedTon.textContent = "0.00";
-        return;
-      }
+  // транзакция
+  document.getElementById('stakeBtn')?.addEventListener('click', async () => {
+    setStatus("");
 
-      const dayProfit = amount * plan.rate;
-      const monthProfit = amount * plan.rate * 30;
-      const earned = amount * plan.rate * days;
-
-      const ratePct = (plan.rate*100).toFixed(1) + "%";
-      rateOut.textContent = ratePct;
-      ringRate.textContent = ratePct;
-      dayProfitOut.textContent = "+ " + fmtTon(dayProfit);
-      monthProfitOut.textContent = "+ " + fmtTon(monthProfit);
-      earnedTon.textContent = (Math.round(earned*100)/100).toFixed(2);
+    if(!tonConnectUI){
+      setStatus("TonConnect не загрузился.");
+      return;
     }
 
-    amountRange.addEventListener('input', renderCalc);
-    daysRange.addEventListener('input', renderCalc);
-    renderCalc();
+    const wallet = tonConnectUI.wallet;
+    if(!wallet){
+      setStatus("Сначала подключи кошелёк.");
+      await tonConnectUI.openModal();
+      return;
+    }
 
-    // транзакция
-    document.getElementById('stakeBtn').addEventListener('click', async () => {
-      setStatus("");
+    const amountTon = Number(amountRange?.value || 0);
+    if(!Number.isFinite(amountTon) || amountTon <= 0){
+      setStatus("Неверная сумма.");
+      return;
+    }
 
-      const wallet = tonConnectUI.wallet;
-      if(!wallet){
-        setStatus("Сначала подключи кошелёк.");
-        await tonConnectUI.openModal();
-        return;
-      }
+    const valueNano = BigInt(Math.round(amountTon * 1e9)); // TON -> nanotons
 
-      const amountTon = Number(amountRange.value);
-      if(!Number.isFinite(amountTon) || amountTon <= 0){
-        setStatus("Неверная сумма.");
-        return;
-      }
-
-      const valueNano = BigInt(Math.round(amountTon * 1e9)); // TON -> nanotons
-
-      try{
-        await tonConnectUI.sendTransaction({
-          validUntil: Math.floor(Date.now()/1000) + 300,
-          messages: [{
-            address: RECEIVER_ADDRESS,
-            amount: valueNano.toString(),
-            payload: "stake"
-          }]
-        });
-
-        setStatus("Транзакция отправлена. Проверь кошелёк.");
-      }catch(e){
-        setStatus("Отменено или ошибка. Попробуй ещё раз.");
-      }
-    });
-
-    // табы
-    const tabMap = {
-      staking: {title:"Стейкинг", icon:"🪙"},
-      history: {title:"История", icon:"📜"},
-      support: {title:"Поддержка", icon:"💬"},
-      ref: {title:"Реф. программа", icon:"👥"},
-      promo: {title:"Промокод", icon:"🎁"},
-    };
-
-    function showTab(key){
-      document.querySelectorAll('.tabBlock').forEach(s => s.classList.add('hidden'));
-      document.getElementById('tab-' + key).classList.remove('hidden');
-
-      document.querySelectorAll('.sidebarItem').forEach(i => i.classList.remove('sidebarItemActive'));
-      document.querySelector(`.sidebarItem[data-tab="${key}"]`).classList.add('sidebarItemActive');
-
-      document.getElementById('topTitle').textContent = tabMap[key].title;
-      document.getElementById('topTitleIcon').textContent = tabMap[key].icon;
-
-      // при переключении таба — перезапускаем reveal
-      requestAnimationFrame(() => {
-        document.querySelectorAll('#tab-' + key + ' .reveal').forEach(el => el.classList.add('show'));
+    try{
+      await tonConnectUI.sendTransaction({
+        validUntil: Math.floor(Date.now()/1000) + 300,
+        messages: [{
+          address: RECEIVER_ADDRESS,
+          amount: valueNano.toString(),
+          payload: "stake"
+        }]
       });
+      setStatus("Транзакция отправлена. Проверь кошелёк.");
+    }catch(e){
+      setStatus("Отменено или ошибка. Попробуй ещё раз.");
     }
-
-    document.querySelectorAll('.sidebarItem').forEach(item => {
-      item.addEventListener('click', () => showTab(item.dataset.tab));
-    });
-
-    // reveal on scroll
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting) e.target.classList.add('show');
-      });
-    }, {threshold: 0.12});
-
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  </script>
+  });
+</script>
 </body>
 </html>
