@@ -14,29 +14,40 @@
 
     /* Background similar vibe (not 1:1) */
     .hero-bg{
-  background-image: url("assets/hero-bg.png");
-  background-size: cover;
-  background-position: right center;
+  /* Светлый фон слева (чтобы текст читался как на 2-й фотке) */
+  background:
+    radial-gradient(circle at 18% 22%, rgba(56,189,248,.22), transparent 55%),
+    linear-gradient(90deg, rgba(255,255,255,1) 0%,
+                          rgba(255,255,255,1) 56%,
+                          rgba(255,255,255,0) 72%),
+    url("assets/hero-bg.png");
+
   background-repeat: no-repeat;
+
+  /* 1) кружок/свечение слева
+     2) белая подложка слева
+     3) картинка справа */
+  background-position:
+    left 10% top 20%,
+    left top,
+    right 6% center;
+
+  /* ВАЖНО: картинка НЕ на весь блок, а “как объект справа” */
+  background-size:
+    900px 900px,
+    cover,
+    760px auto;
 }
 
-/* для телефона — картинка на весь фон */
-@media (max-width: 768px){
+/* На маленьких экранах — пусть картинка уходит вниз и становится меньше */
+@media (max-width: 900px){
   .hero-bg{
-    background-size:
-      700px 700px,
-      700px 700px,
-      700px 700px,
-      cover,
-      cover,
-      cover;
-    background-position:
-      10% 20%,
-      45% 5%,
-      85% 15%,
-      left top,
-      left top,
-      center bottom;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,.92) 60%, rgba(255,255,255,.60) 100%),
+      url("assets/hero-bg.png");
+    background-repeat:no-repeat;
+    background-position: left top, center bottom;
+    background-size: cover, 520px auto;
   }
 }
       background:
