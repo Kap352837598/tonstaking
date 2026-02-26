@@ -14,35 +14,10 @@
 
     /* Background similar vibe (not 1:1) */
     .hero-bg{
-  /* 1) мягкая светлая подложка */
-  background:
-    radial-gradient(circle at 12% 28%, rgba(56,189,248,.22), transparent 52%),
-    radial-gradient(circle at 40% 10%, rgba(147,197,253,.14), transparent 48%),
-    radial-gradient(circle at 88% 18%, rgba(99,102,241,.10), transparent 50%),
-    linear-gradient(135deg, rgba(56,189,248,.22), rgba(255,255,255,0) 55%),
-    linear-gradient(180deg, rgba(241, 250, 255, 1), rgba(255,255,255,1)),
-    /* 2) твоя картинка — снизу, как “единый фон” */
-    url("assets/hero-bg.png");
-
+  background-image: url("assets/hero-bg.png");
+  background-size: cover;
+  background-position: right center;
   background-repeat: no-repeat;
-
-  /* где расположены слои (последний — картинка справа) */
-  background-position:
-    12% 28%,
-    40% 10%,
-    88% 18%,
-    left top,
-    left top,
-    right center;
-
-  /* размеры слоёв (последний — размер картинки) */
-  background-size:
-    900px 900px,
-    900px 900px,
-    900px 900px,
-    cover,
-    cover,
-    980px auto;
 }
 
 /* для телефона — картинка на весь фон */
