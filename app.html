@@ -161,16 +161,7 @@
               <div class="ringBg2"></div>
             </div>
 
-            <div class="card p-6 shadowSoft lg:col-span-2 relative overflow-hidden">
-              <div class="font-semibold">
-                Стоимость активов <span class="text-sm font-normal text-sky-600">(обновляется 1 раз в час)</span>
-              </div>
-
-              <div class="mt-8 flex justify-center">
-                <button id="connectBtnMid" class="btn btnP flex items-center gap-2">
-                  <span>🔗</span> Подключить кошелёк
-                </button>
-              </div>
+            
 
               <div class="ringBg"></div>
               <div class="ringBg2"></div>
@@ -342,9 +333,10 @@
 
   let tonConnectUI;
   try{
-    tonConnectUI = new TonConnectUI({
-      manifestUrl: `${location.origin}/tonconnect-manifest.json`
-    });
+    const basePath = location.pathname.replace(/\/[^\/]*$/, '/'); // например "/tonstaking/"
+tonConnectUI = new TonConnectUI({
+  manifestUrl: `${location.origin}${basePath}tonconnect-manifest.json`
+});
   }catch(e){
     setStatus("Ошибка TonConnect (не загрузился модуль). Открой консоль (F12) и скинь ошибку.");
   }
