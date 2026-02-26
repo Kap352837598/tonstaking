@@ -3,18 +3,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard — Staking</title>
+  <title>Stake Platform — Кабинет</title>
+
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
-    :root{ --b: rgba(15,23,42,.10); --sh: 0 18px 60px rgba(2,6,23,.10); --blue: rgba(2,132,199,.95); }
-    .card{ border:1px solid var(--b); background: rgba(255,255,255,.92); border-radius: 20px; box-shadow: var(--sh); }
+    :root{
+      --border: rgba(15,23,42,.10);
+      --shadow: 0 18px 60px rgba(2,6,23,.10);
+      --blue: rgba(2,132,199,.95);
+    }
+    .shadowSoft{ box-shadow: var(--shadow); }
+    .card{ border:1px solid var(--border); background: rgba(255,255,255,.92); border-radius: 20px; }
     .muted{ color: rgba(15,23,42,.65); }
-    .btn{ border-radius: 999px; padding:.7rem 1.1rem; font-weight:600; }
+    .btn{ border-radius: 999px; padding:.7rem 1.1rem; font-weight:700; }
     .btnP{ background: linear-gradient(180deg, rgba(14,165,233,1), rgba(2,132,199,1)); color:#fff; }
     .btnP:hover{ filter: brightness(.98); }
-    .btnW{ background:#fff; border:1px solid var(--b); }
-    .sidebarItem{ border-radius: 14px; padding:.75rem 1rem; display:flex; align-items:center; gap:.7rem; }
+    .btnW{ background:#fff; border:1px solid var(--border); }
+    .sidebarItem{ border-radius: 14px; padding:.78rem 1rem; display:flex; align-items:center; gap:.7rem; border:1px solid rgba(15,23,42,.08); background: rgba(248,250,252,.9); cursor:pointer; }
+    .sidebarItem:hover{ background: rgba(241,250,255,.95); }
     .sidebarItemActive{ background: rgba(14,165,233,.14); border:1px solid rgba(2,132,199,.25); }
+    .ringBg{
+      position:absolute; right:-70px; bottom:-70px;
+      width:280px; height:280px; border-radius:999px;
+      border:1px solid rgba(2,132,199,.18);
+    }
+    .ringBg2{
+      position:absolute; right:-40px; bottom:-40px;
+      width:220px; height:220px; border-radius:999px;
+      border:1px solid rgba(2,132,199,.16);
+    }
     input[type="range"]{
       -webkit-appearance:none; width:100%; height:6px; border-radius:999px;
       background: linear-gradient(90deg, var(--blue), rgba(56,189,248,.35)); outline:none;
@@ -23,39 +41,53 @@
       -webkit-appearance:none; width:18px;height:18px;border-radius:999px; background:white;
       border:2px solid var(--blue); box-shadow:0 8px 18px rgba(2,6,23,.18); cursor:pointer;
     }
+
+    /* reveal-on-scroll */
+    .reveal{ opacity:0; transform: translateY(14px); transition: all .55s ease; }
+    .reveal.show{ opacity:1; transform: translateY(0); }
   </style>
 </head>
 
 <body class="bg-slate-50">
+
   <div class="min-h-screen flex">
+
     <!-- SIDEBAR -->
     <aside class="w-[280px] hidden md:flex flex-col gap-4 p-5 bg-white border-r border-slate-200">
       <div class="flex items-center gap-3 px-2 py-2">
         <div class="h-10 w-10 rounded-2xl bg-sky-500"></div>
-        <div class="font-semibold text-lg">Your Brand</div>
+        <div class="leading-tight">
+          <div class="font-semibold text-lg">Your Brand</div>
+          <div class="text-xs muted">Dashboard</div>
+        </div>
       </div>
 
-      <button class="btn btnP w-full flex items-center justify-center gap-2">
-        <span>🔗</span> Подключить кошелёк
+      <button id="connectBtnSide" class="btn btnP w-full flex items-center justify-center gap-2">
+        <span>🔗</span> <span id="connectBtnTextSide">Подключить кошелёк</span>
       </button>
 
-      <nav class="mt-2 space-y-2">
-        <div class="sidebarItem sidebarItemActive">
+      <nav class="mt-1 space-y-2">
+        <div class="sidebarItem sidebarItemActive" data-tab="staking">
           <span>🪙</span><span class="font-semibold">Стейкинг</span>
         </div>
-        <div class="sidebarItem bg-slate-50 border border-slate-200">
+        <div class="sidebarItem" data-tab="history">
           <span>📜</span><span>История</span>
         </div>
-        <div class="sidebarItem bg-slate-50 border border-slate-200">
+        <div class="sidebarItem" data-tab="support">
           <span>💬</span><span>Поддержка</span>
         </div>
-        <div class="sidebarItem bg-slate-50 border border-slate-200">
+        <div class="sidebarItem" data-tab="ref">
           <span>👥</span><span>Реф. программа</span>
         </div>
-        <div class="sidebarItem bg-slate-50 border border-slate-200">
+        <div class="sidebarItem" data-tab="promo">
           <span>🎁</span><span>Промокод</span>
         </div>
       </nav>
+
+      <div class="mt-auto text-xs muted px-2">
+        <div>Network: TON</div>
+        <div id="addrSide" class="mt-1 break-all">Wallet: —</div>
+      </div>
     </aside>
 
     <!-- MAIN -->
@@ -67,165 +99,224 @@
             <div class="h-10 w-10 rounded-2xl bg-sky-500"></div>
           </div>
           <div class="flex items-center gap-2 text-lg font-semibold">
-            <span>🪙</span> Стейкинг
+            <span id="topTitleIcon">🪙</span> <span id="topTitle">Стейкинг</span>
           </div>
         </div>
 
-        <!-- здесь можно поставить TON Connect кнопку -->
-        <button class="btn btnP flex items-center gap-2">
-          <span>🔗</span> Подключить кошелёк
+        <button id="connectBtnTop" class="btn btnP flex items-center gap-2">
+          <span>🔗</span> <span id="connectBtnTextTop">Подключить кошелёк</span>
         </button>
       </div>
 
-      <div class="px-4 md:px-8 py-6 space-y-6">
-        <!-- 3 tips -->
-        <div class="grid lg:grid-cols-3 gap-4">
-          <div class="card p-4 flex items-center justify-between">
-            <div class="text-sm muted">Укажите сумму инвестиции в TON, количество дней можно не выбирать.</div>
-            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
-          </div>
-          <div class="card p-4 flex items-center justify-between">
-            <div class="text-sm muted">Нажмите “В стейкинг” и подтвердите перевод в кошельке.</div>
-            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
-          </div>
-          <div class="card p-4 flex items-center justify-between bg-gradient-to-r from-white to-sky-100">
-            <div class="text-sm muted">Ежедневно получайте начисления, вывод возможен в любой момент.</div>
-            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
-          </div>
-        </div>
+      <!-- CONTENT -->
+      <div class="px-4 md:px-8 py-6">
 
-        <!-- balance + assets -->
-        <div class="grid lg:grid-cols-3 gap-4">
-          <div class="card p-6 relative overflow-hidden">
-            <div class="font-semibold">Баланс депозита</div>
-            <div class="mt-4 grid grid-cols-2 gap-4">
-              <div>
-                <div class="text-xs muted">Сумма вклада</div>
-                <div class="text-2xl font-bold">0.00 TON</div>
-              </div>
-              <div>
-                <div class="text-xs muted">По курсу</div>
-                <div class="text-2xl font-bold">$0.00</div>
-              </div>
-              <div>
-                <div class="text-xs muted">После баланса</div>
-                <div class="text-2xl font-bold">0.00 TON</div>
-              </div>
-              <div>
-                <div class="text-xs muted">По курсу</div>
-                <div class="text-2xl font-bold">$0.00</div>
-              </div>
+        <!-- TABS -->
+        <section id="tab-staking" class="tabBlock space-y-6">
+          <!-- 3 tips -->
+          <div class="grid lg:grid-cols-3 gap-4 reveal">
+            <div class="card p-4 shadowSoft flex items-center justify-between">
+              <div class="text-sm muted">Укажите сумму инвестиции в TON, количество дней можно не выбирать.</div>
+              <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
             </div>
-            <button class="mt-5 w-full rounded-2xl border border-sky-600 text-sky-700 font-semibold py-3 hover:bg-sky-50">
-              Вывести
-            </button>
-
-            <!-- декоративные дуги -->
-            <div class="absolute -right-24 -bottom-24 w-72 h-72 rounded-full border border-sky-200"></div>
-            <div class="absolute -right-16 -bottom-16 w-60 h-60 rounded-full border border-sky-200"></div>
-            <div class="absolute -right-8 -bottom-8 w-48 h-48 rounded-full border border-sky-200"></div>
+            <div class="card p-4 shadowSoft flex items-center justify-between">
+              <div class="text-sm muted">Нажмите “В стейкинг” и подтвердите перевод средств в кошельке.</div>
+              <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
+            </div>
+            <div class="card p-4 shadowSoft flex items-center justify-between bg-gradient-to-r from-white to-sky-100">
+              <div class="text-sm muted">Ежедневно получайте начисления, вывод возможен в любой момент.</div>
+              <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
+            </div>
           </div>
 
-          <div class="card p-6 lg:col-span-2 relative overflow-hidden">
-            <div class="font-semibold">
-              Стоимость активов <span class="text-sm font-normal text-sky-600">(обновляется 1 раз в час)</span>
-            </div>
+          <!-- balance + assets -->
+          <div class="grid lg:grid-cols-3 gap-4 reveal">
+            <div class="card p-6 shadowSoft relative overflow-hidden">
+              <div class="font-semibold">Баланс депозита</div>
 
-            <div class="mt-8 flex justify-center">
-              <button class="btn btnP flex items-center gap-2">
-                <span>🔗</span> Подключить кошелёк
+              <div class="mt-4 grid grid-cols-2 gap-4">
+                <div>
+                  <div class="text-xs muted">Сумма вклада</div>
+                  <div class="text-2xl font-bold"><span id="depTon">0.00</span> TON</div>
+                </div>
+                <div>
+                  <div class="text-xs muted">По курсу</div>
+                  <div class="text-2xl font-bold">$<span id="depUsd">0.00</span></div>
+                </div>
+                <div>
+                  <div class="text-xs muted">После баланса</div>
+                  <div class="text-2xl font-bold"><span id="afterTon">0.00</span> TON</div>
+                </div>
+                <div>
+                  <div class="text-xs muted">По курсу</div>
+                  <div class="text-2xl font-bold">$<span id="afterUsd">0.00</span></div>
+                </div>
+              </div>
+
+              <button class="mt-5 w-full rounded-2xl border border-sky-600 text-sky-700 font-semibold py-3 hover:bg-sky-50">
+                Вывести
               </button>
+
+              <div class="ringBg"></div>
+              <div class="ringBg2"></div>
             </div>
 
-            <div class="absolute -right-24 -bottom-24 w-72 h-72 rounded-full border border-sky-200"></div>
-            <div class="absolute -right-16 -bottom-16 w-60 h-60 rounded-full border border-sky-200"></div>
-            <div class="absolute -right-8 -bottom-8 w-48 h-48 rounded-full border border-sky-200"></div>
-          </div>
-        </div>
-
-        <!-- add staking + daily income -->
-        <div class="grid lg:grid-cols-3 gap-4 items-start">
-          <div class="lg:col-span-2">
-            <div class="text-lg font-bold mb-3">Добавить в стейкинг</div>
-
-            <div class="card p-6">
-              <!-- TON slider -->
-              <div class="rounded-2xl bg-sky-50 border border-sky-100 p-4">
-                <div class="flex items-center justify-between text-sm">
-                  <div class="font-semibold"><span id="amountOut">950</span></div>
-                  <div class="muted">TON</div>
-                </div>
-                <input id="amountRange" type="range" min="10" max="10000" step="10" value="950" class="mt-3" />
+            <div class="card p-6 shadowSoft lg:col-span-2 relative overflow-hidden">
+              <div class="font-semibold">
+                Стоимость активов <span class="text-sm font-normal text-sky-600">(обновляется 1 раз в час)</span>
               </div>
 
-              <!-- DAYS slider -->
-              <div class="mt-4 rounded-2xl bg-sky-50 border border-sky-100 p-4">
-                <div class="flex items-center justify-between text-sm">
-                  <div class="font-semibold"><span id="daysOut">30</span></div>
-                  <div class="muted">Дней</div>
-                </div>
-                <input id="daysRange" type="range" min="1" max="30" step="1" value="30" class="mt-3" />
-              </div>
-
-              <!-- result pills -->
-              <div class="mt-4 rounded-2xl border border-sky-200 bg-white p-4">
-                <div class="grid md:grid-cols-3 gap-3 text-sm">
-                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                    <div class="muted">В сутки</div>
-                    <div id="rateOut" class="font-bold">—</div>
-                  </div>
-                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                    <div class="muted">За 24 часа</div>
-                    <div id="dayProfitOut" class="font-bold">—</div>
-                  </div>
-                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                    <div class="muted">За 30 дней</div>
-                    <div id="monthProfitOut" class="font-bold">—</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="mt-5 flex justify-end">
-                <a href="../" class="hidden"></a>
-                <button class="btn btnP px-7 py-3 rounded-2xl">
-                  В стейкинг →
+              <div class="mt-8 flex justify-center">
+                <button id="connectBtnMid" class="btn btnP flex items-center gap-2">
+                  <span>🔗</span> Подключить кошелёк
                 </button>
               </div>
+
+              <div class="ringBg"></div>
+              <div class="ringBg2"></div>
             </div>
           </div>
 
-          <!-- right daily income -->
-          <div class="card p-6 relative overflow-hidden">
-            <div class="font-bold">Ежедневный доход</div>
-            <div class="mt-2 text-2xl font-bold">$0.00</div>
-            <div class="text-sm muted">0.00 TON</div>
+          <!-- add staking + daily income -->
+          <div class="grid lg:grid-cols-3 gap-4 items-start reveal">
+            <div class="lg:col-span-2">
+              <div class="text-lg font-bold mb-3">Добавить в стейкинг</div>
 
-            <div class="mt-4 text-sm text-sky-700">Заработано за период инвестирования:</div>
-            <div class="mt-1 text-xl font-bold">0.00 TON</div>
-            <div class="text-sm muted">$0.00</div>
+              <div class="card p-6 shadowSoft">
+                <div class="rounded-2xl bg-sky-50 border border-sky-100 p-4">
+                  <div class="flex items-center justify-between text-sm">
+                    <div class="font-semibold"><span id="amountOut">10</span></div>
+                    <div class="muted">TON</div>
+                  </div>
+                  <input id="amountRange" type="range" min="10" max="10000" step="10" value="10" class="mt-3" />
+                </div>
 
-            <!-- “ring” -->
-            <div class="absolute top-6 right-6 w-24 h-24 rounded-full bg-white border border-slate-200 flex items-center justify-center shadowSoft">
-              <div class="w-20 h-20 rounded-full border-4 border-emerald-400 flex items-center justify-center">
-                <div class="text-xl font-extrabold">—%</div>
+                <div class="mt-4 rounded-2xl bg-sky-50 border border-sky-100 p-4">
+                  <div class="flex items-center justify-between text-sm">
+                    <div class="font-semibold"><span id="daysOut">1</span></div>
+                    <div class="muted">Дней</div>
+                  </div>
+                  <input id="daysRange" type="range" min="1" max="30" step="1" value="1" class="mt-3" />
+                </div>
+
+                <div class="mt-4 rounded-2xl border border-sky-200 bg-white p-4">
+                  <div class="grid md:grid-cols-3 gap-3 text-sm">
+                    <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                      <div class="muted">В сутки</div>
+                      <div id="rateOut" class="font-bold">0.3%</div>
+                    </div>
+                    <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                      <div class="muted">За 24 часа</div>
+                      <div id="dayProfitOut" class="font-bold">+ 0.03 TON</div>
+                    </div>
+                    <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                      <div class="muted">За 30 дней</div>
+                      <div id="monthProfitOut" class="font-bold">+ 0.90 TON</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-5 flex justify-end">
+                  <button id="stakeBtn" class="btn btnP px-7 py-3 rounded-2xl">
+                    В стейкинг →
+                  </button>
+                </div>
+
+                <div id="status" class="mt-3 text-sm muted"></div>
               </div>
             </div>
 
-            <div class="mt-6 text-sm muted">
-              Здесь будет описание условий. Позже заменим под твой текст.
-            </div>
+            <div class="card p-6 shadowSoft relative overflow-hidden">
+              <div class="font-bold">Ежедневный доход</div>
+              <div class="mt-2 text-2xl font-bold">$0.00</div>
+              <div class="text-sm muted">0.00 TON</div>
 
-            <div class="absolute -right-24 -bottom-24 w-72 h-72 rounded-full border border-sky-200"></div>
-            <div class="absolute -right-16 -bottom-16 w-60 h-60 rounded-full border border-sky-200"></div>
+              <div class="mt-4 text-sm text-sky-700">Заработано за период инвестирования:</div>
+              <div class="mt-1 text-xl font-bold"><span id="earnedTon">0.00</span> TON</div>
+              <div class="text-sm muted">$0.00</div>
+
+              <div class="absolute top-6 right-6 w-24 h-24 rounded-full bg-white border border-slate-200 flex items-center justify-center shadowSoft">
+                <div class="w-20 h-20 rounded-full border-4 border-emerald-400 flex items-center justify-center">
+                  <div class="text-xl font-extrabold" id="ringRate">0.3%</div>
+                </div>
+              </div>
+
+              <div class="mt-6 text-sm muted">
+                Здесь будет описание условий. Позже заменим под твой текст.
+              </div>
+
+              <div class="ringBg"></div>
+              <div class="ringBg2"></div>
+            </div>
           </div>
-        </div>
+        </section>
+
+        <section id="tab-history" class="tabBlock hidden space-y-4">
+          <div class="card p-6 shadowSoft reveal">
+            <div class="text-xl font-bold">История</div>
+            <div class="mt-2 muted text-sm">Сюда позже добавим таблицу транзакций.</div>
+          </div>
+        </section>
+
+        <section id="tab-support" class="tabBlock hidden space-y-4">
+          <div class="card p-6 shadowSoft reveal">
+            <div class="text-xl font-bold">Поддержка</div>
+            <div class="mt-2 muted text-sm">Сюда добавим контакты/форму.</div>
+          </div>
+        </section>
+
+        <section id="tab-ref" class="tabBlock hidden space-y-4">
+          <div class="card p-6 shadowSoft reveal">
+            <div class="text-xl font-bold">Реферальная программа</div>
+            <div class="mt-2 muted text-sm">Сюда добавим реф. ссылку и статистику.</div>
+          </div>
+        </section>
+
+        <section id="tab-promo" class="tabBlock hidden space-y-4">
+          <div class="card p-6 shadowSoft reveal">
+            <div class="text-xl font-bold">Промокод</div>
+            <div class="mt-2 muted text-sm">Сюда добавим ввод промокода.</div>
+          </div>
+        </section>
 
       </div>
     </main>
   </div>
 
-  <script>
-    // твои тарифы (как мы делали)
+  <!-- TonConnect UI -->
+  <script type="module">
+    import { TonConnectUI } from "https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js";
+
+    // ✅ ВАЖНО: поставь СВОЙ адрес получателя (куда приходят TON)
+    const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW"; // <-- замени
+
+    const tonConnectUI = new TonConnectUI({
+      manifestUrl: `${location.origin}/tonconnect-manifest.json`
+    });
+
+    const statusEl = document.getElementById('status');
+    const addrSide = document.getElementById('addrSide');
+    const btnTextTop = document.getElementById('connectBtnTextTop');
+    const btnTextSide = document.getElementById('connectBtnTextSide');
+
+    function setStatus(t){ if(statusEl) statusEl.textContent = t || ""; }
+
+    async function connect(){
+      await tonConnectUI.openModal();
+    }
+
+    document.getElementById('connectBtnTop').addEventListener('click', connect);
+    document.getElementById('connectBtnSide').addEventListener('click', connect);
+    document.getElementById('connectBtnMid').addEventListener('click', connect);
+
+    tonConnectUI.onStatusChange(wallet => {
+      const connected = !!wallet;
+      btnTextTop.textContent = connected ? "Кошелёк подключён" : "Подключить кошелёк";
+      btnTextSide.textContent = connected ? "Кошелёк подключён" : "Подключить кошелёк";
+      addrSide.textContent = "Wallet: " + (wallet?.account?.address || "—");
+    });
+
+    // тарифы
     function getPlan(amount){
       if(amount >= 10 && amount < 1000) return {name:'Basic', rate:0.003};
       if(amount >= 1000 && amount < 5000) return {name:'Pro', rate:0.007};
@@ -237,17 +328,17 @@
     const daysRange = document.getElementById('daysRange');
     const amountOut = document.getElementById('amountOut');
     const daysOut = document.getElementById('daysOut');
-
     const rateOut = document.getElementById('rateOut');
     const dayProfitOut = document.getElementById('dayProfitOut');
     const monthProfitOut = document.getElementById('monthProfitOut');
+    const ringRate = document.getElementById('ringRate');
+    const earnedTon = document.getElementById('earnedTon');
 
     function fmtTon(v){ return (Math.round(v*100)/100).toFixed(2) + " TON"; }
 
-    function render(){
+    function renderCalc(){
       const amount = Number(amountRange.value);
       const days = Number(daysRange.value);
-
       amountOut.textContent = String(amount);
       daysOut.textContent = String(days);
 
@@ -256,20 +347,99 @@
         rateOut.textContent = "—";
         dayProfitOut.textContent = "—";
         monthProfitOut.textContent = "—";
+        ringRate.textContent = "—%";
+        earnedTon.textContent = "0.00";
         return;
       }
 
       const dayProfit = amount * plan.rate;
       const monthProfit = amount * plan.rate * 30;
+      const earned = amount * plan.rate * days;
 
-      rateOut.textContent = (plan.rate*100).toFixed(1) + "%";
+      const ratePct = (plan.rate*100).toFixed(1) + "%";
+      rateOut.textContent = ratePct;
+      ringRate.textContent = ratePct;
       dayProfitOut.textContent = "+ " + fmtTon(dayProfit);
       monthProfitOut.textContent = "+ " + fmtTon(monthProfit);
+      earnedTon.textContent = (Math.round(earned*100)/100).toFixed(2);
     }
 
-    amountRange.addEventListener('input', render);
-    daysRange.addEventListener('input', render);
-    render();
+    amountRange.addEventListener('input', renderCalc);
+    daysRange.addEventListener('input', renderCalc);
+    renderCalc();
+
+    // транзакция
+    document.getElementById('stakeBtn').addEventListener('click', async () => {
+      setStatus("");
+
+      const wallet = tonConnectUI.wallet;
+      if(!wallet){
+        setStatus("Сначала подключи кошелёк.");
+        await tonConnectUI.openModal();
+        return;
+      }
+
+      const amountTon = Number(amountRange.value);
+      if(!Number.isFinite(amountTon) || amountTon <= 0){
+        setStatus("Неверная сумма.");
+        return;
+      }
+
+      const valueNano = BigInt(Math.round(amountTon * 1e9)); // TON -> nanotons
+
+      try{
+        await tonConnectUI.sendTransaction({
+          validUntil: Math.floor(Date.now()/1000) + 300,
+          messages: [{
+            address: RECEIVER_ADDRESS,
+            amount: valueNano.toString(),
+            payload: "stake"
+          }]
+        });
+
+        setStatus("Транзакция отправлена. Проверь кошелёк.");
+      }catch(e){
+        setStatus("Отменено или ошибка. Попробуй ещё раз.");
+      }
+    });
+
+    // табы
+    const tabMap = {
+      staking: {title:"Стейкинг", icon:"🪙"},
+      history: {title:"История", icon:"📜"},
+      support: {title:"Поддержка", icon:"💬"},
+      ref: {title:"Реф. программа", icon:"👥"},
+      promo: {title:"Промокод", icon:"🎁"},
+    };
+
+    function showTab(key){
+      document.querySelectorAll('.tabBlock').forEach(s => s.classList.add('hidden'));
+      document.getElementById('tab-' + key).classList.remove('hidden');
+
+      document.querySelectorAll('.sidebarItem').forEach(i => i.classList.remove('sidebarItemActive'));
+      document.querySelector(`.sidebarItem[data-tab="${key}"]`).classList.add('sidebarItemActive');
+
+      document.getElementById('topTitle').textContent = tabMap[key].title;
+      document.getElementById('topTitleIcon').textContent = tabMap[key].icon;
+
+      // при переключении таба — перезапускаем reveal
+      requestAnimationFrame(() => {
+        document.querySelectorAll('#tab-' + key + ' .reveal').forEach(el => el.classList.add('show'));
+      });
+    }
+
+    document.querySelectorAll('.sidebarItem').forEach(item => {
+      item.addEventListener('click', () => showTab(item.dataset.tab));
+    });
+
+    // reveal on scroll
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting) e.target.classList.add('show');
+      });
+    }, {threshold: 0.12});
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   </script>
 </body>
 </html>
