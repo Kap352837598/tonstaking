@@ -14,40 +14,45 @@
 
     /* Background similar vibe (not 1:1) */
     .hero-bg{
-  /* Светлый фон слева (чтобы текст читался как на 2-й фотке) */
+  /* 1) голубое свечение слева
+     2) белая подложка слева
+     3) "растворяющий" слой справа (чтобы картинка не выглядела прямоугольником)
+     4) сама картинка */
   background:
     radial-gradient(circle at 18% 22%, rgba(56,189,248,.22), transparent 55%),
-    linear-gradient(90deg, rgba(255,255,255,1) 0%,
-                          rgba(255,255,255,1) 56%,
-                          rgba(255,255,255,0) 72%),
+    linear-gradient(90deg,
+      rgba(255,255,255,1) 0%,
+      rgba(255,255,255,1) 56%,
+      rgba(255,255,255,0) 72%),
+    radial-gradient(circle at 78% 55%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 58%),
     url("assets/hero-bg.png");
 
   background-repeat: no-repeat;
 
-  /* 1) кружок/свечение слева
-     2) белая подложка слева
-     3) картинка справа */
   background-position:
     left 10% top 20%,
     left top,
-    right 6% center;
+    right 0% center,
+    right -40px center;
 
-  /* ВАЖНО: картинка НЕ на весь блок, а “как объект справа” */
+  /* делаем картинку чуть больше + “мягко” вписываем */
   background-size:
     900px 900px,
     cover,
-    760px auto;
+    cover,
+    980px auto;
 }
 
-/* На маленьких экранах — пусть картинка уходит вниз и становится меньше */
+/* мобилка */
 @media (max-width: 900px){
   .hero-bg{
     background:
       linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,.92) 60%, rgba(255,255,255,.60) 100%),
+      radial-gradient(circle at 50% 85%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 60%),
       url("assets/hero-bg.png");
     background-repeat:no-repeat;
-    background-position: left top, center bottom;
-    background-size: cover, 520px auto;
+    background-position: left top, center bottom, center bottom;
+    background-size: cover, cover, 620px auto;
   }
 }
       background:
