@@ -1,359 +1,271 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stake Platform</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root{
-      --border: rgba(15,23,42,.10);
-      --shadow: 0 18px 60px rgba(2,6,23,.10);
-      --blue: rgba(2,132,199,.95);
-    }
-    .glass{ backdrop-filter: blur(12px); background: rgba(255,255,255,.82); }
-    .shadowSoft{ box-shadow: var(--shadow); }
-    .card{ border:1px solid var(--border); background: rgba(255,255,255,.92); }
-    .muted{ color: rgba(15,23,42,.65); }
-
-    /* HERO фон в стиле TON (стабильно, без перекрытий) */
-    .hero{
-      background:
-        radial-gradient(circle at 16% 28%, rgba(56,189,248,.26), transparent 55%),
-        radial-gradient(circle at 10% 30%, transparent 0 58%, rgba(2,132,199,.10) 59% 59.5%, transparent 60%),
-        radial-gradient(circle at 12% 40%, transparent 0 72%, rgba(2,132,199,.08) 73% 73.5%, transparent 74%),
-        linear-gradient(135deg, rgba(56,189,248,.18), rgba(255,255,255,0) 55%),
-        linear-gradient(180deg, rgba(241,250,255,1), rgba(255,255,255,1));
-      background-repeat:no-repeat;
-      background-size: cover, 980px 980px, 980px 980px, cover, cover;
-      background-position: left top, -260px -240px, -240px -220px, left top, left top;
-    }
-
-    /* Правая “3D картинка” — как отдельный слой, но без ломания верстки */
-    .heroArt{
-      position: relative;
-      width: 100%;
-      height: 520px;
-      border-radius: 36px;
-      border: 1px solid rgba(2,132,199,.12);
-      background:
-        radial-gradient(circle at 80% 50%, rgba(56,189,248,.18), transparent 55%),
-        linear-gradient(135deg, rgba(255,255,255,.65), rgba(255,255,255,.25));
-      overflow: hidden;
-    }
-    .heroArt::before{
-      content:"";
-      position:absolute; inset:0;
-      background: url("assets/hero.png") no-repeat right center;
-      background-size: contain;
-      opacity: 1;
-      pointer-events:none;
-    }
-    /* Если нет картинки, будет мягкий плейсхолдер */
-    .noimg .heroArt::before{ opacity:0; }
-    .heroArt .placeholder{
-      position:absolute; inset:0;
-      display:flex; align-items:center; justify-content:center;
-      color: rgba(15,23,42,.55);
-      font-weight:600;
-    }
-
-    .pill{
-      display:inline-flex; align-items:center; gap:.5rem;
-      padding:.55rem .85rem;
-      border:1px solid rgba(2,132,199,.18);
-      border-radius:999px;
-      background: rgba(255,255,255,.85);
-      color: rgba(15,23,42,.75);
-      font-size: .95rem;
-    }
-
-    input[type="range"]{
-      -webkit-appearance:none; width:100%; height:6px; border-radius:999px;
-      background: linear-gradient(90deg, var(--blue), rgba(56,189,248,.35));
-      outline:none;
-    }
-    input[type="range"]::-webkit-slider-thumb{
-      -webkit-appearance:none;
-      width:18px;height:18px;border-radius:999px;
-      background:white;border:2px solid var(--blue);
-      box-shadow:0 8px 18px rgba(2,6,23,.18);
-      cursor:pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TON Stake — пассивный доход в TON</title>
+    <!-- Подключаем новый файл стилей -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Подключаем шрифт Gilroy (можешь поменять на другой) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/gilroy@5.0.18/index.min.css">
 </head>
-
-<body class="bg-white text-slate-900">
-
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 border-b border-slate-200 glass">
-    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="h-10 w-10 rounded-2xl bg-sky-500 flex items-center justify-center text-white font-bold">T</div>
-        <div class="leading-tight">
-          <div class="font-semibold">Stake Platform</div>
-          <div class="text-xs muted">Демо-лендинг</div>
-        </div>
-      </div>
-
-      <nav class="hidden lg:flex gap-6 text-sm muted">
-        <a href="#home" class="hover:text-slate-900">Главная</a>
-        <a href="#advantages" class="hover:text-slate-900">Наши преимущества</a>
-        <a href="#how" class="hover:text-slate-900">Как начать</a>
-        <a href="#plans" class="hover:text-slate-900">Тарифы</a>
-        <a href="#calc" class="hover:text-slate-900">Калькулятор</a>
-        <a href="#faq" class="hover:text-slate-900">FAQ</a>
-      </nav>
-
-      <div class="flex items-center gap-2">
-        <a href="app.html" class="rounded-2xl bg-sky-600 px-5 py-2.5 text-white text-sm font-medium hover:bg-sky-700 shadowSoft">
-          Stake Now
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section id="home" class="hero">
-    <div class="mx-auto max-w-6xl px-4 py-10 md:py-14">
-      <div class="grid lg:grid-cols-2 gap-10 items-center">
-
-        <div>
-          <div class="flex flex-wrap gap-3">
-            <span class="pill">📈 Высокий ROI</span>
-            <span class="pill">✨ Просто</span>
-            <span class="pill">🛡️ Безопасно</span>
-          </div>
-
-          <h1 class="mt-6 text-5xl md:text-6xl font-extrabold leading-[0.98]">
-            Получайте<br />
-            <span class="text-sky-600">пассивный</span><br />
-            доход в TON
-          </h1>
-
-          <p class="mt-6 max-w-xl text-lg muted">
-            Демонстрационный текст. Позже заменим описание и добавим любые блоки/картинки.
-          </p>
-
-          <div class="mt-8 flex flex-wrap gap-4">
-            <a href="app.html" class="rounded-2xl bg-sky-600 px-7 py-3 text-white font-semibold hover:bg-sky-700 shadowSoft">
-              Начать сейчас →
-            </a>
-            <a href="#calc" class="rounded-2xl border border-slate-300 bg-white px-7 py-3 font-semibold hover:bg-slate-50">
-              Калькулятор
-            </a>
-          </div>
-
-          <div class="mt-8 grid grid-cols-3 gap-3 max-w-md text-sm">
-            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center">
-              <div class="text-xs muted">TVL</div><div class="font-bold">—</div>
+<body class="font-gilroy">
+    <!-- ШАПКА (ФИКСИРОВАННАЯ) -->
+    <header class="navbar">
+        <nav class="nav-container">
+            <div class="nav-left">
+                <a href="/" class="logo">
+                    <span class="logo-icon">⧩</span> TON Stake
+                </a>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center">
-              <div class="text-xs muted">Users</div><div class="font-bold">—</div>
+            <div class="nav-center">
+                <a href="#advantages" class="nav-link">Преимущества</a>
+                <a href="#how-to-start" class="nav-link">Как начать</a>
+                <a href="#plans" class="nav-link">Тарифы</a>
+                <a href="#faq" class="nav-link">FAQ</a>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-white p-4 text-center">
-              <div class="text-xs muted">APR</div><div class="font-bold">—</div>
+            <div class="nav-right">
+                <a href="#calculator" class="btn-stake">Stake Now</a>
             </div>
-          </div>
+        </nav>
+    </header>
+
+    <!-- ГЛАВНАЯ СЕКЦИЯ (HERO) -->
+    <section id="home" class="section-hero">
+        <div class="hero-container">
+            <div class="hero-text">
+                <div class="hero-badges">
+                    <span class="badge"><span class="badge-icon">📈</span> Высокий ROI</span>
+                    <span class="badge"><span class="badge-icon">✨</span> Просто</span>
+                    <span class="badge"><span class="badge-icon">🛡️</span> Безопасно</span>
+                </div>
+                <h1 class="hero-title">
+                    Получайте <span class="gradient-text">пассивный</span><br>доход в TON
+                </h1>
+                <p class="hero-description">
+                    TON Stake — автоматизированный стейкинг smart-контракт. Зарабатывай до 10% в сутки.
+                </p>
+                <div class="hero-actions">
+                    <a href="#calculator" class="btn-primary">Начать сейчас →</a>
+                    <a href="https://stake.tonstake.app/audit/CertiK_TONStake_Liquid_Staking_Protocol.pdf" target="_blank" class="btn-certik">
+                        <img src="https://raw.githubusercontent.com/kap352837598/kap352837598.github.io/refs/heads/main/images/certik.png" alt="Certik" class="certik-logo" onerror="this.style.display='none'">
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <!-- Замени src на свою картинку, если хочешь -->
+                <img src="https://raw.githubusercontent.com/kap352837598/kap352837598.github.io/refs/heads/main/assets/hero.png" alt="TON Hero" onerror="this.style.display='none'">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
         </div>
+        <!-- Фоновые круги -->
+        <div class="bg-circle bg-circle-large"></div>
+        <div class="bg-circle bg-circle-medium"></div>
+        <div class="bg-circle bg-circle-small"></div>
+    </section>
 
-        <div id="artWrap">
-          <div class="heroArt shadowSoft">
-            <div class="placeholder">Загрузи картинку в assets/hero.png</div>
-          </div>
+    <!-- ПРЕИМУЩЕСТВА -->
+    <section id="advantages" class="section-advantages">
+        <div class="container">
+            <h2 class="section-title">Преимущества <span class="gradient-text">TON Stake</span></h2>
+            <div class="advantages-grid">
+                <div class="advantage-card">
+                    <div class="card-icon">🛡️</div>
+                    <h3>Пройден аудит</h3>
+                    <p>Код смарт-контракта верифицирован. Результаты публичны.</p>
+                    <a href="https://stake.tonstake.app/audit/CertiK_TONStake_Liquid_Staking_Protocol.pdf" target="_blank" class="card-link">Посмотреть аудит →</a>
+                </div>
+                <div class="advantage-card">
+                    <div class="card-icon">📊</div>
+                    <h3>Фиксированный процент</h3>
+                    <p>Дивиденды начисляются автоматически в зависимости от суммы.</p>
+                    <a href="#plans" class="card-link">Посмотреть тарифы →</a>
+                </div>
+                <div class="advantage-card">
+                    <div class="card-icon">🔒</div>
+                    <h3>Гарантия надежности</h3>
+                    <p>Вывод только на кошелек отправителя. Ты контролируешь активы.</p>
+                    <a href="#calculator" class="card-link">Рассчитать доход →</a>
+                </div>
+                <div class="advantage-card">
+                    <div class="card-icon">⚙️</div>
+                    <h3>Smart-распределение</h3>
+                    <p>ИИ автоматически распределяет инвестиции и выплаты.</p>
+                    <a href="#faq" class="card-link">Подробнее →</a>
+                </div>
+            </div>
         </div>
+    </section>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- ADV -->
-  <section id="advantages" class="mx-auto max-w-6xl px-4 py-14">
-    <div class="flex items-end justify-between gap-4">
-      <div>
-        <h2 class="text-2xl font-bold">Наши преимущества</h2>
-        <p class="mt-2 muted">Пока заглушки — потом поменяем.</p>
-      </div>
-      <a href="app.html" class="hidden md:inline-flex rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-50">
-        Stake now →
-      </a>
-    </div>
-
-    <div class="mt-7 grid md:grid-cols-4 gap-4">
-      <div class="rounded-3xl card p-6 shadowSoft"><div class="font-semibold">—</div><p class="mt-2 text-sm muted">—</p></div>
-      <div class="rounded-3xl card p-6 shadowSoft"><div class="font-semibold">—</div><p class="mt-2 text-sm muted">—</p></div>
-      <div class="rounded-3xl card p-6 shadowSoft"><div class="font-semibold">—</div><p class="mt-2 text-sm muted">—</p></div>
-      <div class="rounded-3xl card p-6 shadowSoft"><div class="font-semibold">—</div><p class="mt-2 text-sm muted">—</p></div>
-    </div>
-  </section>
-
-  <!-- HOW -->
-  <section id="how" class="bg-slate-50 border-y border-slate-200">
-    <div class="mx-auto max-w-6xl px-4 py-14">
-      <h2 class="text-2xl font-bold">Как начать</h2>
-      <p class="mt-2 muted">3 шага (заглушки).</p>
-
-      <div class="mt-7 grid md:grid-cols-3 gap-4">
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-          <div class="text-sky-700 font-semibold">01</div>
-          <div class="mt-2 font-semibold text-lg">Подключи кошелёк</div>
-          <div class="mt-1 text-sm muted">Подключение через Tonkeeper/TonConnect.</div>
+    <!-- КАК НАЧАТЬ -->
+    <section id="how-to-start" class="section-howto">
+        <div class="container">
+            <h2 class="section-title">Как начать <span class="gradient-text">инвестировать</span></h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <h3>Подключи кошелёк</h3>
+                    <p>Tonkeeper, Tonhub или любой другой через TonConnect.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <h3>Выбери сумму и срок</h3>
+                    <p>Воспользуйся калькулятором ниже для расчета прибыли.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <h3>Подтверди операцию</h3>
+                    <p>Транзакция выполняется только после твоего подтверждения.</p>
+                </div>
+            </div>
         </div>
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-          <div class="text-sky-700 font-semibold">02</div>
-          <div class="mt-2 font-semibold text-lg">Выбери сумму</div>
-          <div class="mt-1 text-sm muted">Сумма и срок — в калькуляторе.</div>
+    </section>
+
+    <!-- ТАРИФЫ -->
+    <section id="plans" class="section-plans">
+        <div class="container">
+            <h2 class="section-title">Тарифы</h2>
+            <div class="plans-grid">
+                <!-- Базовый тариф -->
+                <div class="plan-card">
+                    <div class="plan-icon">⚡</div>
+                    <div class="plan-content">
+                        <div class="plan-rate"><span class="plan-percent">4%</span> в сутки</div>
+                        <div class="plan-range">10 – 899 TON</div>
+                    </div>
+                    <a href="#calculator" class="plan-btn">Инвестировать</a>
+                </div>
+                <!-- Pro тариф (выделенный) -->
+                <div class="plan-card plan-pro">
+                    <div class="plan-icon">🔥</div>
+                    <div class="plan-content">
+                        <div class="plan-rate"><span class="plan-percent">7%</span> в сутки</div>
+                        <div class="plan-range">900 – 2199 TON</div>
+                    </div>
+                    <a href="#calculator" class="plan-btn plan-btn-pro">Инвестировать</a>
+                </div>
+                <!-- Premium тариф -->
+                <div class="plan-card">
+                    <div class="plan-icon">💎</div>
+                    <div class="plan-content">
+                        <div class="plan-rate"><span class="plan-percent">10%</span> в сутки</div>
+                        <div class="plan-range">2200+ TON</div>
+                    </div>
+                    <a href="#calculator" class="plan-btn">Инвестировать</a>
+                </div>
+            </div>
         </div>
-        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-          <div class="text-sky-700 font-semibold">03</div>
-          <div class="mt-2 font-semibold text-lg">Подтверди операцию</div>
-          <div class="mt-1 text-sm muted">Только после подтверждения в кошельке.</div>
+    </section>
+
+    <!-- КАЛЬКУЛЯТОР -->
+    <section id="calculator" class="section-calculator">
+        <div class="container">
+            <h2 class="section-title"><span class="gradient-text">Рассчитай</span> свою прибыль</h2>
+            <div class="calculator-card">
+                <div class="calculator-inputs">
+                    <!-- Поле для суммы -->
+                    <div class="input-group">
+                        <label for="amount" class="input-label">Сумма (TON)</label>
+                        <input type="number" id="amount" class="input-field" min="10" max="10000" step="10" value="1000">
+                        <div class="range-container">
+                            <input type="range" id="amount-range" class="input-range" min="10" max="10000" step="10" value="1000">
+                        </div>
+                    </div>
+                    <!-- Поле для дней -->
+                    <div class="input-group">
+                        <label for="days" class="input-label">Дни</label>
+                        <input type="number" id="days" class="input-field" min="1" max="365" step="1" value="30">
+                        <div class="range-container">
+                            <input type="range" id="days-range" class="input-range" min="1" max="365" step="1" value="30">
+                        </div>
+                    </div>
+                    <!-- Кнопка в стейкинг -->
+                    <button id="stake-btn" class="btn-primary btn-stake-calc">В стейкинг →</button>
+                </div>
+                <div class="calculator-outputs">
+                    <div class="tariff-block">
+                        <span class="tariff-label">Тариф:</span>
+                        <span id="tariff-name" class="tariff-value">Pro</span>
+                    </div>
+                    <div class="tariff-block">
+                        <span class="tariff-label">Ставка:</span>
+                        <span id="rate-value" class="tariff-value">7% / день</span>
+                    </div>
+                    <div class="profit-block">
+                        <span class="profit-label">Твоя прибыль</span>
+                        <span id="profit-amount" class="profit-value">+210.00 TON</span>
+                    </div>
+                    <div class="total-block">
+                        <span class="total-label">Итого</span>
+                        <span id="total-amount" class="total-value">1210.00 TON</span>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PLANS -->
-  <section id="plans" class="mx-auto max-w-6xl px-4 py-14">
-    <h2 class="text-2xl font-bold">Тарифы</h2>
-    <p class="mt-2 muted">Твои ставки уже в калькуляторе ниже.</p>
-
-    <div class="mt-7 grid md:grid-cols-3 gap-4">
-      <div class="rounded-3xl card p-6 shadowSoft">
-        <div class="text-sm muted">Basic</div>
-        <div class="mt-2 text-3xl font-bold">0.3%/день</div>
-        <div class="mt-2 text-sm muted">10 — 1000 TON</div>
-        <a href="#calc" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-semibold hover:bg-sky-700">Рассчитать</a>
-      </div>
-      <div class="rounded-3xl border border-sky-200 bg-sky-50 p-6 shadowSoft">
-        <div class="text-sm muted">Pro</div>
-        <div class="mt-2 text-3xl font-bold">0.7%/день</div>
-        <div class="mt-2 text-sm muted">1000 — 5000 TON</div>
-        <a href="#calc" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-semibold hover:bg-sky-700">Рассчитать</a>
-      </div>
-      <div class="rounded-3xl card p-6 shadowSoft">
-        <div class="text-sm muted">Premium</div>
-        <div class="mt-2 text-3xl font-bold">1.1%/день</div>
-        <div class="mt-2 text-sm muted">5000 — 10000 TON</div>
-        <a href="#calc" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-semibold hover:bg-sky-700">Рассчитать</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CALC -->
-  <section id="calc" class="bg-slate-50 border-y border-slate-200">
-    <div class="mx-auto max-w-6xl px-4 py-14">
-      <div class="rounded-3xl card p-6 shadowSoft max-w-3xl">
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="text-sm muted">Калькулятор</div>
-            <div class="text-xl font-bold">Расчёт прибыли</div>
-          </div>
-          <a href="app.html" class="text-sm text-sky-700 font-semibold hover:underline">Перейти в кабинет →</a>
+    <!-- FAQ -->
+    <section id="faq" class="section-faq">
+        <div class="container">
+            <h2 class="section-title">FAQ</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>В какой валюте и сети работает платформа?</h3>
+                    <p>Только Toncoin (TON) в блокчейне TON.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Потеряю ли я прибыль при досрочном выводе?</h3>
+                    <p>Нет, начисленные дивиденды остаются твоими.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Какая минимальная сумма?</h3>
+                    <p>Минимальный депозит — 10 TON.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Как часто начисляются дивиденды?</h3>
+                    <p>Каждый час. Вывести можно в любой момент.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Что делать, если ошибка при отправке?</h3>
+                    <p>Проверь баланс для комиссии или напиши в поддержку.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Есть ли лимит на вывод?</h3>
+                    <p>Нет, но учитывай комиссию сети TON (≈0.1 TON).</p>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="mt-6">
-          <div class="flex justify-between text-sm">
-            <div class="font-medium">Сумма (TON)</div>
-            <div class="font-semibold"><span id="aOut">10</span> TON</div>
-          </div>
-          <input id="a" type="range" min="10" max="10000" step="10" value="10" class="mt-3"/>
+    <!-- ПОДВАЛ -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <span class="logo-icon">⧩</span> TON Stake
+                    <p class="footer-desc">Стейкинг smart-контракт на базе TON Blockchain</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#advantages">Преимущества</a>
+                    <a href="#how-to-start">Как начать</a>
+                    <a href="#plans">Тарифы</a>
+                    <a href="#calculator">Калькулятор</a>
+                </div>
+                <div class="footer-social">
+                    <a href="https://t.me/tonstake_app" target="_blank" class="social-link">📱 Telegram</a>
+                    <a href="https://t.me/TonStakeSupportBot" target="_blank" class="social-link">🛠️ Поддержка</a>
+                    <a href="https://stake.tonstake.app/audit/CertiK_TONStake_Liquid_Staking_Protocol.pdf" target="_blank" class="social-link">🔗 Аудит</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2024 TON Stake. Все права защищены.
+            </div>
         </div>
+    </footer>
 
-        <div class="mt-6">
-          <div class="flex justify-between text-sm">
-            <div class="font-medium">Дни</div>
-            <div class="font-semibold"><span id="dOut">1</span></div>
-          </div>
-          <input id="d" type="range" min="1" max="30" step="1" value="1" class="mt-3"/>
-        </div>
-
-        <div class="mt-6 grid md:grid-cols-4 gap-3 text-sm">
-          <div class="rounded-2xl border border-slate-200 bg-white p-4">
-            <div class="muted">Тариф</div><div id="pOut" class="font-bold">Basic</div>
-          </div>
-          <div class="rounded-2xl border border-slate-200 bg-white p-4">
-            <div class="muted">Ставка</div><div id="rOut" class="font-bold">0.3%/день</div>
-          </div>
-          <div class="rounded-2xl border border-slate-200 bg-white p-4">
-            <div class="muted">Прибыль</div><div id="prOut" class="font-bold">—</div>
-          </div>
-          <div class="rounded-2xl border border-slate-200 bg-white p-4">
-            <div class="muted">Итого</div><div id="tOut" class="font-bold">—</div>
-          </div>
-        </div>
-
-        <div class="mt-6">
-          <a href="app.html" class="inline-flex rounded-2xl bg-sky-600 px-6 py-3 text-white font-semibold hover:bg-sky-700 shadowSoft">
-            В стейкинг →
-          </a>
-          <div class="mt-2 text-xs muted">Формула: прибыль = сумма × ставка × дни (без капитализации)</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="mx-auto max-w-6xl px-4 py-14">
-    <h2 class="text-2xl font-bold">FAQ</h2>
-    <div class="mt-6 space-y-3">
-      <details class="rounded-3xl card p-5 shadowSoft">
-        <summary class="font-semibold cursor-pointer">Это списывается автоматически?</summary>
-        <div class="mt-2 text-sm muted">Нет. Только после подтверждения пользователем в кошельке.</div>
-      </details>
-      <details class="rounded-3xl card p-5 shadowSoft">
-        <summary class="font-semibold cursor-pointer">Можно менять тексты и картинки?</summary>
-        <div class="mt-2 text-sm muted">Да. Дальше мы всё заменим на твоё.</div>
-      </details>
-    </div>
-  </section>
-
-  <footer class="mx-auto max-w-6xl px-4 py-10 text-sm muted">
-    © <span id="y"></span> Stake Platform.
-  </footer>
-
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // если картинки нет — покажем плейсхолдер (не ломаем страницу)
-    fetch('assets/hero.png', { method: 'HEAD' })
-      .then(r => { if(!r.ok) document.body.classList.add('noimg'); })
-      .catch(()=> document.body.classList.add('noimg'));
-
-    // тарифы
-    function getPlan(amount){
-      if(amount >= 10 && amount < 1000) return {name:'Basic', rate:0.003};
-      if(amount >= 1000 && amount < 5000) return {name:'Pro', rate:0.007};
-      if(amount >= 5000 && amount <= 10000) return {name:'Premium', rate:0.011};
-      return null;
-    }
-    const a = document.getElementById('a');
-    const d = document.getElementById('d');
-    const aOut = document.getElementById('aOut');
-    const dOut = document.getElementById('dOut');
-    const pOut = document.getElementById('pOut');
-    const rOut = document.getElementById('rOut');
-    const prOut = document.getElementById('prOut');
-    const tOut = document.getElementById('tOut');
-
-    function render(){
-      const amount = Number(a.value);
-      const days = Number(d.value);
-      aOut.textContent = amount;
-      dOut.textContent = days;
-
-      const plan = getPlan(amount);
-      if(!plan){ pOut.textContent='—'; rOut.textContent='—'; prOut.textContent='—'; tOut.textContent='—'; return; }
-      pOut.textContent = plan.name;
-      rOut.textContent = (plan.rate*100).toFixed(1) + "%/день";
-      const profit = amount * plan.rate * days;
-      const total = amount + profit;
-      prOut.textContent = profit.toFixed(4) + " TON";
-      tOut.textContent = total.toFixed(4) + " TON";
-    }
-    a.addEventListener('input', render);
-    d.addEventListener('input', render);
-    render();
-  </script>
+    <!-- ПОДКЛЮЧАЕМ РАБОЧИЙ JS (Твой старый калькулятор) -->
+    <script src="script.js"></script>
 </body>
 </html>
