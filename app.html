@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>TON Stake — Кабинет</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
     :root{
       --border: rgba(15,23,42,.10);
@@ -14,9 +15,9 @@
     .shadowSoft{ box-shadow: var(--shadow); }
     .card{ border:1px solid var(--border); background: rgba(255,255,255,.92); border-radius: 20px; }
     .muted{ color: rgba(15,23,42,.65); }
-    .btn{ border-radius: 999px; padding:.7rem 1.1rem; font-weight:700; }
+    .btn{ border-radius: 999px; padding:.7rem 1.1rem; font-weight:700; cursor: pointer; transition: all 0.2s; }
     .btnP{ background: linear-gradient(180deg, rgba(14,165,233,1), rgba(2,132,199,1)); color:#fff; }
-    .btnP:hover{ filter: brightness(.98); }
+    .btnP:hover{ filter: brightness(.95); transform: scale(0.98); }
     .btnW{ background:#fff; border:1px solid var(--border); }
     .sidebarItem{ border-radius: 14px; padding:.78rem 1rem; display:flex; align-items:center; gap:.7rem; border:1px solid rgba(15,23,42,.08); background: rgba(248,250,252,.9); cursor:pointer; }
     .sidebarItem:hover{ background: rgba(241,250,255,.95); }
@@ -47,7 +48,6 @@
 
 <div class="min-h-screen flex">
 
-  <!-- SIDEBAR -->
   <aside class="w-[280px] hidden md:flex flex-col gap-4 p-5 bg-white border-r border-slate-200">
     <div class="flex items-center gap-3 px-2 py-2">
       <div class="h-10 w-10 rounded-2xl bg-sky-500"></div>
@@ -81,13 +81,11 @@
 
     <div class="mt-auto text-xs muted px-2">
       <div>Network: TON</div>
-      <div id="addrSide" class="mt-1 break-all">Wallet: —</div>
+      <div id="addrSide" class="mt-1 break-all text-sky-600">Wallet: —</div>
     </div>
   </aside>
 
-  <!-- MAIN -->
   <main class="flex-1">
-    <!-- TOP BAR -->
     <div class="h-[72px] bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8">
       <div class="flex items-center gap-3">
         <div class="md:hidden">
@@ -103,181 +101,215 @@
       </button>
     </div>
 
-    <!-- CONTENT -->
     <div class="px-4 md:px-8 py-6">
 
-      <!-- TAB: СТЕЙКИНГ (ПОЛНАЯ ВЕРСИЯ) -->
       <section id="tab-staking" class="tabBlock space-y-6">
-        <!-- 3 подсказки -->
         <div class="grid lg:grid-cols-3 gap-4 reveal">
           <div class="card p-4 shadowSoft flex items-center justify-between">
-            <div class="text-sm muted">Укажите сумму инвестиции в TON, количество дней можно не выбирать.</div>
-            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
+            <div class="text-sm muted">Укажите сумму инвестиции в TON.</div>
+            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">1</div>
           </div>
           <div class="card p-4 shadowSoft flex items-center justify-between">
-            <div class="text-sm muted">Нажмите “В стейкинг” и подтвердите перевод средств в кошельке.</div>
-            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
+            <div class="text-sm muted">Нажмите “В стейкинг” и подтвердите.</div>
+            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">2</div>
           </div>
           <div class="card p-4 shadowSoft flex items-center justify-between bg-gradient-to-r from-white to-sky-100">
-            <div class="text-sm muted">Ежедневно получайте начисления, вывод возможен в любой момент.</div>
-            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
+            <div class="text-sm muted">Вывод возможен в любой момент.</div>
+            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">3</div>
           </div>
         </div>
 
-        <!-- Баланс и активы -->
         <div class="grid lg:grid-cols-3 gap-4 reveal">
           <div class="card p-6 shadowSoft relative overflow-hidden lg:col-span-2">
             <div class="font-semibold">Баланс депозита</div>
             <div class="mt-4 grid grid-cols-2 gap-4">
               <div>
                 <div class="text-xs muted">Сумма вклада</div>
-                <div class="text-2xl font-bold"><span id="depTon">0.00</span> TON</div>
+                <div class="text-2xl font-bold">0.00 TON</div>
               </div>
               <div>
-                <div class="text-xs muted">По курсу</div>
-                <div class="text-2xl font-bold">$<span id="depUsd">0.00</span></div>
-              </div>
-              <div>
-                <div class="text-xs muted">После баланса</div>
-                <div class="text-2xl font-bold"><span id="afterTon">0.00</span> TON</div>
-              </div>
-              <div>
-                <div class="text-xs muted">По курсу</div>
-                <div class="text-2xl font-bold">$<span id="afterUsd">0.00</span></div>
+                <div class="text-xs muted">Доходность</div>
+                <div class="text-2xl font-bold">0.3% / день</div>
               </div>
             </div>
-            <button class="mt-5 w-full rounded-2xl border border-sky-600 text-sky-700 font-semibold py-3 hover:bg-sky-50">
-              Вывести
-            </button>
             <div class="ringBg"></div>
             <div class="ringBg2"></div>
           </div>
 
-          <!-- Ежедневный доход -->
           <div class="card p-6 shadowSoft relative overflow-hidden">
-            <div class="font-bold">Ежедневный доход</div>
-            <div class="mt-2 text-2xl font-bold">$0.00</div>
-            <div class="text-sm muted">0.00 TON</div>
-            <div class="mt-4 text-sm text-sky-700">Заработано за период инвестирования:</div>
-            <div class="mt-1 text-xl font-bold"><span id="earnedTon">0.00</span> TON</div>
-            <div class="text-sm muted">$0.00</div>
-            <div class="absolute top-6 right-6 w-24 h-24 rounded-full bg-white border border-slate-200 flex items-center justify-center shadowSoft">
-              <div class="w-20 h-20 rounded-full border-4 border-emerald-400 flex items-center justify-center">
-                <div class="text-xl font-extrabold" id="ringRate">0.3%</div>
-              </div>
-            </div>
-            <div class="ringBg"></div>
-            <div class="ringBg2"></div>
+            <div class="font-bold">Ставка</div>
+            <div class="mt-2 text-3xl font-bold text-sky-600">0.3%</div>
+            <div class="text-sm muted mt-1">Фиксированная ставка</div>
           </div>
         </div>
 
-        <!-- Добавить в стейкинг + поля ввода -->
         <div class="grid lg:grid-cols-3 gap-4 items-start reveal">
           <div class="lg:col-span-2">
             <div class="text-lg font-bold mb-3">Добавить в стейкинг</div>
             <div class="card p-6 shadowSoft">
-              <!-- Сумма -->
               <div class="rounded-2xl bg-sky-50 border border-sky-100 p-4">
                 <div class="flex items-center justify-between text-sm">
-                  <div class="font-semibold"><span id="amountOut">10</span> TON</div>
-                  <div class="muted">Сумма</div>
+                  <div class="font-semibold text-sky-700"><span id="amountOut">10</span> TON</div>
+                  <div class="muted">Выберите сумму</div>
                 </div>
-                <input id="amountRange" type="range" min="10" max="10000" step="10" value="10" class="mt-3" />
+                <input id="amountRange" type="range" min="1" max="5000" step="1" value="10" class="mt-3" />
               </div>
 
-              <!-- Дни -->
-              <div class="mt-4 rounded-2xl bg-sky-50 border border-sky-100 p-4">
-                <div class="flex items-center justify-between text-sm">
-                  <div class="font-semibold"><span id="daysOut">1</span> дней</div>
-                  <div class="muted">Срок</div>
-                </div>
-                <input id="daysRange" type="range" min="1" max="30" step="1" value="1" class="mt-3" />
-              </div>
-
-              <!-- Результаты расчета -->
               <div class="mt-4 rounded-2xl border border-sky-200 bg-white p-4">
-                <div class="grid md:grid-cols-3 gap-3 text-sm">
-                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                    <div class="muted">В сутки</div>
-                    <div id="rateOut" class="font-bold">0.3%</div>
+                <div class="grid grid-cols-2 gap-3 text-sm text-center">
+                  <div class="rounded-xl border border-slate-100 bg-slate-50 p-3">
+                    <div class="muted text-xs">Доход в день</div>
+                    <div id="dayProfitOut" class="font-bold text-emerald-600">+ 0.03 TON</div>
                   </div>
-                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                    <div class="muted">За 24 часа</div>
-                    <div id="dayProfitOut" class="font-bold">+ 0.03 TON</div>
-                  </div>
-                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
-                    <div class="muted">За 30 дней</div>
-                    <div id="monthProfitOut" class="font-bold">+ 0.90 TON</div>
+                  <div class="rounded-xl border border-slate-100 bg-slate-50 p-3">
+                    <div class="muted text-xs">Доход в месяц</div>
+                    <div id="monthProfitOut" class="font-bold text-emerald-600">+ 0.90 TON</div>
                   </div>
                 </div>
               </div>
 
-              <!-- КНОПКА СТЕЙКИНГА (ИСПРАВЛЕННАЯ) -->
-              <div class="mt-5 flex justify-end">
-                <button id="stakeBtn" class="btn px-7 py-3 rounded-2xl bg-blue-600 text-white font-bold hover:bg-blue-700">
+              <div class="mt-5">
+                <button id="stakeBtn" class="btn btnP w-full py-4 text-lg shadow-lg">
                   В стейкинг →
                 </button>
+                <div id="txStatus" class="mt-3 text-center text-sm font-medium"></div>
               </div>
-
-              <!-- СТАТУС ТРАНЗАКЦИИ -->
-              <div id="txStatus" class="mt-3 text-sm"></div>
             </div>
           </div>
 
-          <!-- Активные контракты -->
           <div class="card p-6 shadowSoft">
-            <div class="font-bold">Активные контракты</div>
-            <div class="mt-2 text-sm muted">У вас нет активных контрактов</div>
+            <div class="font-bold">Информация</div>
+            <div class="mt-4 text-sm space-y-3">
+              <div class="flex justify-between">
+                <span class="muted">Минимум:</span>
+                <span class="font-bold">1 TON</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="muted">Максимум:</span>
+                <span class="font-bold">5000 TON</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="muted">Сеть:</span>
+                <span class="font-bold text-sky-600">TON Mainnet</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- TAB: ИСТОРИЯ -->
-      <section id="tab-history" class="tabBlock hidden space-y-4">
-        <div class="card p-6 shadowSoft reveal">
-          <div class="text-xl font-bold">История</div>
-          <div class="mt-2 muted text-sm">История транзакций появится здесь</div>
-        </div>
+      <section id="tab-history" class="tabBlock hidden card p-6 shadowSoft">
+        <h2 class="text-xl font-bold">История</h2>
+        <p class="muted mt-2">Тут будет список ваших транзакций.</p>
       </section>
 
-      <!-- TAB: ПОДДЕРЖКА -->
-      <section id="tab-support" class="tabBlock hidden space-y-4">
-        <div class="card p-6 shadowSoft reveal">
-          <div class="text-xl font-bold">Поддержка</div>
-          <div class="mt-2 muted text-sm">Telegram: @TonStakeSupportBot</div>
-        </div>
+      <section id="tab-support" class="tabBlock hidden card p-6 shadowSoft">
+        <h2 class="text-xl font-bold">Поддержка</h2>
+        <p class="muted mt-2">Пишите нам в Telegram: <a href="#" class="text-sky-600 font-bold">@TonStakeSupport</a></p>
       </section>
 
-      <!-- TAB: РЕФЕРАЛЬНАЯ ПРОГРАММА -->
-      <section id="tab-ref" class="tabBlock hidden space-y-4">
-        <div class="card p-6 shadowSoft reveal">
-          <div class="text-xl font-bold">Реферальная программа</div>
-          <div class="mt-2 muted text-sm">Скоро появится</div>
-        </div>
+      <section id="tab-ref" class="tabBlock hidden card p-6 shadowSoft">
+        <h2 class="text-xl font-bold">Реферальная программа</h2>
+        <p class="muted mt-2">Приглашайте друзей и получайте 10% от их дохода.</p>
       </section>
 
-      <!-- TAB: ПРОМОКОД -->
-      <section id="tab-promo" class="tabBlock hidden space-y-4">
-        <div class="card p-6 shadowSoft reveal">
-          <div class="text-xl font-bold">Промокод</div>
-          <div class="mt-2 muted text-sm">Введите промокод</div>
-        </div>
+      <section id="tab-promo" class="tabBlock hidden card p-6 shadowSoft">
+        <h2 class="text-xl font-bold">Промокод</h2>
+        <input type="text" placeholder="Введите код" class="mt-4 w-full p-3 border rounded-xl" />
+        <button class="mt-2 btn btnP w-full">Активировать</button>
       </section>
 
     </div>
   </main>
 </div>
 
-<!-- СКРИПТ ПЕРЕКЛЮЧЕНИЯ ВКЛАДОК -->
 <script>
-  const tabMap = {
-    staking: {title:"Стейкинг", icon:"🪙"},
-    history: {title:"История", icon:"📜"},
-    support: {title:"Поддержка", icon:"💬"},
-    ref: {title:"Реф. программа", icon:"👥"},
-    promo: {title:"Промокод", icon:"🎁"},
+  // 1. НАСТРОЙКИ
+  const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW"; // Твой кошелек
+  const MANIFEST_URL = "https://kap352837598.github.io/tonstaking/tonconnect-manifest.json";
+
+  // 2. ИНИЦИАЛИЗАЦИЯ TON CONNECT
+  const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
+    manifestUrl: MANIFEST_URL
+  });
+
+  // 3. ЭЛЕМЕНТЫ
+  const btnSide = document.getElementById("connectBtnSide");
+  const btnTop = document.getElementById("connectBtnTop");
+  const txtSide = document.getElementById("connectBtnTextSide");
+  const txtTop = document.getElementById("connectBtnTextTop");
+  const addrSide = document.getElementById("addrSide");
+  const stakeBtn = document.getElementById("stakeBtn");
+  const amountRange = document.getElementById("amountRange");
+  const amountOut = document.getElementById("amountOut");
+  const dayProfitOut = document.getElementById("dayProfitOut");
+  const monthProfitOut = document.getElementById("monthProfitOut");
+  const txStatus = document.getElementById("txStatus");
+
+  // 4. ЛОГИКА ОБНОВЛЕНИЯ ИНТЕРФЕЙСА
+  tonConnectUI.onStatusChange(wallet => {
+    if (wallet) {
+      const rawAddr = wallet.account.address;
+      const shortAddr = rawAddr.slice(0, 4) + "..." + rawAddr.slice(-4);
+      txtSide.textContent = "Подключено";
+      txtTop.textContent = shortAddr;
+      addrSide.textContent = "Wallet: " + shortAddr;
+      stakeBtn.textContent = "В стейкинг →";
+    } else {
+      txtSide.textContent = "Подключить кошелёк";
+      txtTop.textContent = "Подключить кошелёк";
+      addrSide.textContent = "Wallet: —";
+      stakeBtn.textContent = "Подключите кошелек";
+    }
+  });
+
+  // 5. КЛИК ПО КНОПКАМ ПОДКЛЮЧЕНИЯ
+  const toggleConnect = () => tonConnectUI.connected ? tonConnectUI.disconnect() : tonConnectUI.openModal();
+  btnSide.onclick = toggleConnect;
+  btnTop.onclick = toggleConnect;
+
+  // 6. ОБНОВЛЕНИЕ СУММ ПРИ ДВИЖЕНИИ ПОЛЗУНКА
+  amountRange.oninput = () => {
+    const val = parseFloat(amountRange.value);
+    amountOut.textContent = val;
+    dayProfitOut.textContent = "+ " + (val * 0.003).toFixed(2) + " TON";
+    monthProfitOut.textContent = "+ " + (val * 0.09).toFixed(2) + " TON";
   };
 
+  // 7. ОТПРАВКА ТРАНЗАКЦИИ
+  stakeBtn.onclick = async () => {
+    if (!tonConnectUI.connected) {
+      tonConnectUI.openModal();
+      return;
+    }
+
+    const amountInTon = amountRange.value;
+    const nanoAmount = (BigInt(Math.floor(amountInTon * 1000000000))).toString();
+
+    txStatus.textContent = "⏳ Ожидание подтверждения в кошельке...";
+    txStatus.className = "mt-3 text-center text-sm font-medium text-blue-600";
+
+    const transaction = {
+      validUntil: Math.floor(Date.now() / 1000) + 300, // 5 минут
+      messages: [
+        {
+          address: RECEIVER_ADDRESS,
+          amount: nanoAmount,
+        }
+      ]
+    };
+
+    try {
+      await tonConnectUI.sendTransaction(transaction);
+      txStatus.textContent = "✅ Успешно! Средства отправлены в стейкинг.";
+      txStatus.className = "mt-3 text-center text-sm font-medium text-green-600";
+    } catch (e) {
+      console.error(e);
+      txStatus.textContent = "❌ Ошибка или транзакция отменена.";
+      txStatus.className = "mt-3 text-center text-sm font-medium text-red-600";
+    }
+  };
+
+  // 8. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
   function showTab(key){
     document.querySelectorAll('.tabBlock').forEach(s => s.classList.add('hidden'));
     const t = document.getElementById('tab-' + key);
@@ -287,83 +319,20 @@
     const b = document.querySelector(`.sidebarItem[data-tab="${key}"]`);
     if (b) b.classList.add('sidebarItemActive');
 
-    const title = document.getElementById('topTitle');
-    const icon = document.getElementById('topTitleIcon');
-    if (title) title.textContent = tabMap[key]?.title || "—";
-    if (icon) icon.textContent = tabMap[key]?.icon || "•";
+    const titles = { staking: "Стейкинг", history: "История", support: "Поддержка", ref: "Реф. программа", promo: "Промокод" };
+    document.getElementById('topTitle').textContent = titles[key] || "Меню";
   }
 
   document.querySelectorAll('.sidebarItem').forEach(item => {
-    item.addEventListener('click', () => showTab(item.dataset.tab));
+    item.onclick = () => showTab(item.dataset.tab);
   });
-
-  showTab('staking');
 
   // Анимация появления
   const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting) e.target.classList.add('show');
-    });
-  }, {threshold: 0.12});
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+  }, {threshold: 0.1});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 
-<script type="module">
-    // 🔴 ВСТАВЬ СВОЙ TON-АДРЕС (получатель)
-    const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
-
-    const tonConnectUI = new TonConnectUI({
-      manifestUrl: "https://kap352837598.github.io/tonstaking/tonconnect-manifest.json",
-      buttonRootId: "connect"
-    });
-
-    const payBtn = document.getElementById("pay");
-    const amountEl = document.getElementById("amount");
-    const statusEl = document.getElementById("status");
-
-    function setStatus(msg) { statusEl.textContent = msg; }
-
-    tonConnectUI.onStatusChange(wallet => {
-      payBtn.disabled = !wallet;
-      setStatus(wallet ? "Wallet connected ✅" : "Connect wallet to continue.");
-    });
-
-    document.querySelectorAll('.quick').forEach(btn => {
-      btn.addEventListener('click', () => amountEl.value = btn.dataset.v);
-    });
-
-    function toNanoFromInput(value) {
-      const parts = String(value).replace(",", ".").trim().split(".");
-      const whole = parts[0] || "0";
-      const frac = (parts[1] || "").padEnd(9, "0").slice(0, 9);
-      return (BigInt(whole) * 1000000000n + BigInt(frac)).toString();
-    }
-
-    payBtn.addEventListener("click", async () => {
-      setStatus("");
-
-      const v = String(amountEl.value).replace(",", ".").trim();
-      if (!v || Number(v) <= 0) {
-        setStatus("Enter a valid TON amount.");
-        return;
-      }
-
-      const nano = toNanoFromInput(v);
-
-      try {
-        await tonConnectUI.sendTransaction({
-          validUntil: Math.floor(Date.now() / 1000) + 300,
-          messages: [{
-            address: RECEIVER_ADDRESS,
-            amount: nano
-          }]
-        });
-
-        setStatus("Request sent ✅\nConfirm in wallet to complete.");
-      } catch (e) {
-        setStatus("Canceled or error.");
-      }
-    });
-  </script>
 </body>
 </html>
