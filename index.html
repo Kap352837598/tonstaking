@@ -3,35 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TON Stake — пассивный доход в TON</title>
-    <!-- Подключаем новый файл стилей -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Подключаем шрифт Gilroy (можешь поменять на другой) -->
+    <title>TON Stake | Пассивный доход в TON</title>
+    <!-- ПРАВИЛЬНЫЙ ПУТЬ К CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Шрифт -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/gilroy@5.0.18/index.min.css">
 </head>
-<body class="font-gilroy">
-    <!-- ШАПКА (ФИКСИРОВАННАЯ) -->
+<body>
+    <!-- ШАПКА -->
     <header class="navbar">
         <nav class="nav-container">
-            <div class="nav-left">
-                <a href="/" class="logo">
-                    <span class="logo-icon">⧩</span> TON Stake
-                </a>
-            </div>
+            <a href="/" class="logo">
+                <span class="logo-icon">⧩</span> TON Stake
+            </a>
             <div class="nav-center">
                 <a href="#advantages" class="nav-link">Преимущества</a>
                 <a href="#how-to-start" class="nav-link">Как начать</a>
                 <a href="#plans" class="nav-link">Тарифы</a>
                 <a href="#faq" class="nav-link">FAQ</a>
             </div>
-            <div class="nav-right">
-                <a href="#calculator" class="btn-stake">Stake Now</a>
-            </div>
+            <a href="app.html" class="btn-stake">Кабинет</a>
         </nav>
     </header>
 
-    <!-- ГЛАВНАЯ СЕКЦИЯ (HERO) -->
-    <section id="home" class="section-hero">
+    <!-- ГЛАВНАЯ -->
+    <section class="section-hero">
         <div class="hero-container">
             <div class="hero-text">
                 <div class="hero-badges">
@@ -46,24 +42,17 @@
                     TON Stake — автоматизированный стейкинг smart-контракт. Зарабатывай до 10% в сутки.
                 </p>
                 <div class="hero-actions">
-                    <a href="#calculator" class="btn-primary">Начать сейчас →</a>
-                    <a href="https://stake.tonstake.app/audit/CertiK_TONStake_Liquid_Staking_Protocol.pdf" target="_blank" class="btn-certik">
-                        <img src="https://raw.githubusercontent.com/kap352837598/kap352837598.github.io/refs/heads/main/images/certik.png" alt="Certik" class="certik-logo" onerror="this.style.display='none'">
-                    </a>
+                    <a href="app.html" class="btn-primary">Начать сейчас →</a>
                 </div>
             </div>
             <div class="hero-image">
-                <!-- Замени src на свою картинку, если хочешь -->
-                <img src="https://raw.githubusercontent.com/kap352837598/kap352837598.github.io/refs/heads/main/assets/hero.png" alt="TON Hero" onerror="this.style.display='none'">
+                <!-- ПРАВИЛЬНЫЙ ПУТЬ К КАРТИНКЕ -->
+                <img src="assets/hero-bg.png" alt="TON Hero">
                 <div class="circle circle-1"></div>
                 <div class="circle circle-2"></div>
                 <div class="circle circle-3"></div>
             </div>
         </div>
-        <!-- Фоновые круги -->
-        <div class="bg-circle bg-circle-large"></div>
-        <div class="bg-circle bg-circle-medium"></div>
-        <div class="bg-circle bg-circle-small"></div>
     </section>
 
     <!-- ПРЕИМУЩЕСТВА -->
@@ -75,7 +64,7 @@
                     <div class="card-icon">🛡️</div>
                     <h3>Пройден аудит</h3>
                     <p>Код смарт-контракта верифицирован. Результаты публичны.</p>
-                    <a href="https://stake.tonstake.app/audit/CertiK_TONStake_Liquid_Staking_Protocol.pdf" target="_blank" class="card-link">Посмотреть аудит →</a>
+                    <a href="#" class="card-link">Посмотреть аудит →</a>
                 </div>
                 <div class="advantage-card">
                     <div class="card-icon">📊</div>
@@ -106,18 +95,18 @@
             <div class="steps">
                 <div class="step">
                     <div class="step-number">01</div>
-                    <h3>Подключи кошелёк</h3>
-                    <p>Tonkeeper, Tonhub или любой другой через TonConnect.</p>
+                    <h3>Выберите тариф</h3>
+                    <p>Ознакомьтесь с тарифами и выберите подходящий.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">02</div>
-                    <h3>Выбери сумму и срок</h3>
-                    <p>Воспользуйся калькулятором ниже для расчета прибыли.</p>
+                    <h3>Сделайте депозит</h3>
+                    <p>От 10 TON через подключенный кошелек.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">03</div>
-                    <h3>Подтверди операцию</h3>
-                    <p>Транзакция выполняется только после твоего подтверждения.</p>
+                    <h3>Получайте прибыль</h3>
+                    <p>Дивиденды начисляются ежедневно.</p>
                 </div>
             </div>
         </div>
@@ -128,32 +117,23 @@
         <div class="container">
             <h2 class="section-title">Тарифы</h2>
             <div class="plans-grid">
-                <!-- Базовый тариф -->
                 <div class="plan-card">
                     <div class="plan-icon">⚡</div>
-                    <div class="plan-content">
-                        <div class="plan-rate"><span class="plan-percent">4%</span> в сутки</div>
-                        <div class="plan-range">10 – 899 TON</div>
-                    </div>
-                    <a href="#calculator" class="plan-btn">Инвестировать</a>
+                    <div class="plan-rate"><span class="plan-percent">4%</span> в сутки</div>
+                    <div class="plan-range">10 – 899 TON</div>
+                    <a href="app.html" class="plan-btn">Инвестировать</a>
                 </div>
-                <!-- Pro тариф (выделенный) -->
                 <div class="plan-card plan-pro">
                     <div class="plan-icon">🔥</div>
-                    <div class="plan-content">
-                        <div class="plan-rate"><span class="plan-percent">7%</span> в сутки</div>
-                        <div class="plan-range">900 – 2199 TON</div>
-                    </div>
-                    <a href="#calculator" class="plan-btn plan-btn-pro">Инвестировать</a>
+                    <div class="plan-rate"><span class="plan-percent">7%</span> в сутки</div>
+                    <div class="plan-range">900 – 2199 TON</div>
+                    <a href="app.html" class="plan-btn plan-btn-pro">Инвестировать</a>
                 </div>
-                <!-- Premium тариф -->
                 <div class="plan-card">
                     <div class="plan-icon">💎</div>
-                    <div class="plan-content">
-                        <div class="plan-rate"><span class="plan-percent">10%</span> в сутки</div>
-                        <div class="plan-range">2200+ TON</div>
-                    </div>
-                    <a href="#calculator" class="plan-btn">Инвестировать</a>
+                    <div class="plan-rate"><span class="plan-percent">10%</span> в сутки</div>
+                    <div class="plan-range">2200+ TON</div>
+                    <a href="app.html" class="plan-btn">Инвестировать</a>
                 </div>
             </div>
         </div>
@@ -165,41 +145,33 @@
             <h2 class="section-title"><span class="gradient-text">Рассчитай</span> свою прибыль</h2>
             <div class="calculator-card">
                 <div class="calculator-inputs">
-                    <!-- Поле для суммы -->
                     <div class="input-group">
-                        <label for="amount" class="input-label">Сумма (TON)</label>
-                        <input type="number" id="amount" class="input-field" min="10" max="10000" step="10" value="1000">
-                        <div class="range-container">
-                            <input type="range" id="amount-range" class="input-range" min="10" max="10000" step="10" value="1000">
-                        </div>
+                        <label class="input-label">Сумма (TON)</label>
+                        <input type="range" class="input-range" min="10" max="10000" value="1000" id="amount-range">
+                        <input type="number" class="input-field" value="1000" id="amount-input">
                     </div>
-                    <!-- Поле для дней -->
                     <div class="input-group">
-                        <label for="days" class="input-label">Дни</label>
-                        <input type="number" id="days" class="input-field" min="1" max="365" step="1" value="30">
-                        <div class="range-container">
-                            <input type="range" id="days-range" class="input-range" min="1" max="365" step="1" value="30">
-                        </div>
+                        <label class="input-label">Дни</label>
+                        <input type="range" class="input-range" min="1" max="365" value="30" id="days-range">
+                        <input type="number" class="input-field" value="30" id="days-input">
                     </div>
-                    <!-- Кнопка в стейкинг -->
-                    <button id="stake-btn" class="btn-primary btn-stake-calc">В стейкинг →</button>
                 </div>
                 <div class="calculator-outputs">
-                    <div class="tariff-block">
-                        <span class="tariff-label">Тариф:</span>
-                        <span id="tariff-name" class="tariff-value">Pro</span>
+                    <div class="output-row">
+                        <span>Тариф:</span>
+                        <span id="tariff-name" class="output-value">Basic</span>
                     </div>
-                    <div class="tariff-block">
-                        <span class="tariff-label">Ставка:</span>
-                        <span id="rate-value" class="tariff-value">7% / день</span>
+                    <div class="output-row">
+                        <span>Ставка:</span>
+                        <span id="rate-value" class="output-value">4% / день</span>
                     </div>
-                    <div class="profit-block">
-                        <span class="profit-label">Твоя прибыль</span>
-                        <span id="profit-amount" class="profit-value">+210.00 TON</span>
+                    <div class="output-row profit">
+                        <span>Твоя прибыль</span>
+                        <span id="profit-value" class="output-value profit-value">+0.00 TON</span>
                     </div>
-                    <div class="total-block">
-                        <span class="total-label">Итого</span>
-                        <span id="total-amount" class="total-value">1210.00 TON</span>
+                    <div class="output-row total">
+                        <span>Итого</span>
+                        <span id="total-value" class="output-value total-value">0.00 TON</span>
                     </div>
                 </div>
             </div>
@@ -233,7 +205,7 @@
                 </div>
                 <div class="faq-item">
                     <h3>Есть ли лимит на вывод?</h3>
-                    <p>Нет, но учитывай комиссию сети TON (≈0.1 TON).</p>
+                    <p>Нет, но учитывай комиссию сети TON.</p>
                 </div>
             </div>
         </div>
@@ -254,9 +226,8 @@
                     <a href="#calculator">Калькулятор</a>
                 </div>
                 <div class="footer-social">
-                    <a href="https://t.me/tonstake_app" target="_blank" class="social-link">📱 Telegram</a>
-                    <a href="https://t.me/TonStakeSupportBot" target="_blank" class="social-link">🛠️ Поддержка</a>
-                    <a href="https://stake.tonstake.app/audit/CertiK_TONStake_Liquid_Staking_Protocol.pdf" target="_blank" class="social-link">🔗 Аудит</a>
+                    <a href="https://t.me/tonstake_app" target="_blank">Telegram</a>
+                    <a href="https://t.me/TonStakeSupportBot" target="_blank">Поддержка</a>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -265,7 +236,7 @@
         </div>
     </footer>
 
-    <!-- ПОДКЛЮЧАЕМ РАБОЧИЙ JS (Твой старый калькулятор) -->
-    <script src="script.js"></script>
+    <!-- Подключаем скрипт калькулятора (создадим позже) -->
+    <script src="calculator.js"></script>
 </body>
 </html>
