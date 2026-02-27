@@ -742,3 +742,38 @@ body {
     .plans-grid {
         grid-template-columns: 1fr;
         max-width
+/* Дополнительные стили для калькулятора */
+.output-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.profit .output-value {
+    color: #2db9ff;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.total .output-value {
+    font-size: 24px;
+    font-weight: 800;
+    color: #04060B;
+}
+
+.input-field {
+    width: 100%;
+    height: 50px;
+    padding: 0 15px;
+    margin-top: 10px;
+    border: 1px solid #0098EA;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+/* Убираем фон с картинкой и делаем градиент */
+.navbar {
+    background: linear-gradient(90deg, #0098EA, #00A6FF) !important;
+}
