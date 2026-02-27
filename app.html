@@ -1,383 +1,384 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stake Platform — Demo</title>
+  <title>TON Stake — Кабинет</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,.78); }
-    .shadowSoft { box-shadow: 0 14px 50px rgba(2, 6, 23, 0.08); }
-    .gridBg {
-      background-image:
-        radial-gradient(circle at 20% 20%, rgba(56,189,248,.25), transparent 45%),
-        radial-gradient(circle at 80% 10%, rgba(99,102,241,.18), transparent 45%),
-        radial-gradient(circle at 50% 80%, rgba(34,197,94,.12), transparent 45%);
+    :root{
+      --border: rgba(15,23,42,.10);
+      --shadow: 0 18px 60px rgba(2,6,23,.10);
+      --blue: rgba(2,132,199,.95);
     }
+    .shadowSoft{ box-shadow: var(--shadow); }
+    .card{ border:1px solid var(--border); background: rgba(255,255,255,.92); border-radius: 20px; }
+    .muted{ color: rgba(15,23,42,.65); }
+    .btn{ border-radius: 999px; padding:.7rem 1.1rem; font-weight:700; }
+    .btnP{ background: linear-gradient(180deg, rgba(14,165,233,1), rgba(2,132,199,1)); color:#fff; }
+    .btnP:hover{ filter: brightness(.98); }
+    .btnW{ background:#fff; border:1px solid var(--border); }
+    .sidebarItem{ border-radius: 14px; padding:.78rem 1rem; display:flex; align-items:center; gap:.7rem; border:1px solid rgba(15,23,42,.08); background: rgba(248,250,252,.9); cursor:pointer; }
+    .sidebarItem:hover{ background: rgba(241,250,255,.95); }
+    .sidebarItemActive{ background: rgba(14,165,233,.14); border:1px solid rgba(2,132,199,.25); }
+    .ringBg{
+      position:absolute; right:-70px; bottom:-70px;
+      width:280px; height:280px; border-radius:999px;
+      border:1px solid rgba(2,132,199,.18);
+    }
+    .ringBg2{
+      position:absolute; right:-40px; bottom:-40px;
+      width:220px; height:220px; border-radius:999px;
+      border:1px solid rgba(2,132,199,.16);
+    }
+    input[type="range"]{
+      -webkit-appearance:none; width:100%; height:6px; border-radius:999px;
+      background: linear-gradient(90deg, var(--blue), rgba(56,189,248,.35)); outline:none;
+    }
+    input[type="range"]::-webkit-slider-thumb{
+      -webkit-appearance:none; width:18px;height:18px;border-radius:999px; background:white;
+      border:2px solid var(--blue); box-shadow:0 8px 18px rgba(2,6,23,.18); cursor:pointer;
+    }
+    .reveal{ opacity:0; transform: translateY(14px); transition: all .55s ease; }
+    .reveal.show{ opacity:1; transform: translateY(0); }
   </style>
 </head>
+<body class="bg-slate-50">
 
-<body class="bg-slate-50 text-slate-900 gridBg">
-  <!-- HEADER -->
-  <header class="sticky top-0 z-50 border-b border-slate-200 glass">
-    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+<div class="min-h-screen flex">
+
+  <!-- SIDEBAR -->
+  <aside class="w-[280px] hidden md:flex flex-col gap-4 p-5 bg-white border-r border-slate-200">
+    <div class="flex items-center gap-3 px-2 py-2">
+      <div class="h-10 w-10 rounded-2xl bg-sky-500"></div>
+      <div class="leading-tight">
+        <div class="font-semibold text-lg">TON Stake</div>
+        <div class="text-xs muted">Кабинет</div>
+      </div>
+    </div>
+
+    <button id="connectBtnSide" class="btn btnP w-full flex items-center justify-center gap-2">
+      <span>🔗</span> <span id="connectBtnTextSide">Подключить кошелёк</span>
+    </button>
+
+    <nav class="mt-1 space-y-2">
+      <div class="sidebarItem sidebarItemActive" data-tab="staking">
+        <span>🪙</span><span class="font-semibold">Стейкинг</span>
+      </div>
+      <div class="sidebarItem" data-tab="history">
+        <span>📜</span><span>История</span>
+      </div>
+      <div class="sidebarItem" data-tab="support">
+        <span>💬</span><span>Поддержка</span>
+      </div>
+      <div class="sidebarItem" data-tab="ref">
+        <span>👥</span><span>Реф. программа</span>
+      </div>
+      <div class="sidebarItem" data-tab="promo">
+        <span>🎁</span><span>Промокод</span>
+      </div>
+    </nav>
+
+    <div class="mt-auto text-xs muted px-2">
+      <div>Network: TON</div>
+      <div id="addrSide" class="mt-1 break-all">Wallet: —</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1">
+    <!-- TOP BAR -->
+    <div class="h-[72px] bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8">
       <div class="flex items-center gap-3">
-        <div class="h-9 w-9 rounded-2xl bg-sky-500"></div>
-        <div class="leading-tight">
-          <div class="font-semibold">Stake Platform</div>
-          <div class="text-xs text-slate-500">Demo landing + TON top up</div>
+        <div class="md:hidden">
+          <div class="h-10 w-10 rounded-2xl bg-sky-500"></div>
+        </div>
+        <div class="flex items-center gap-2 text-lg font-semibold">
+          <span id="topTitleIcon">🪙</span> <span id="topTitle">Стейкинг</span>
         </div>
       </div>
 
-      <nav class="hidden md:flex gap-6 text-sm text-slate-600">
-        <a href="#home" class="hover:text-slate-900">Home</a>
-        <a href="#advantages" class="hover:text-slate-900">Advantages</a>
-        <a href="#how" class="hover:text-slate-900">How to start</a>
-        <a href="#plans" class="hover:text-slate-900">Plans</a>
-        <a href="#calc" class="hover:text-slate-900">Calculator</a>
-        <a href="#faq" class="hover:text-slate-900">FAQ</a>
-      </nav>
-
-      <div class="flex items-center gap-2">
-        <a href="#topup" class="rounded-2xl bg-sky-600 px-4 py-2 text-white text-sm font-medium hover:bg-sky-700">
-          Stake Now
-        </a>
-      </div>
+      <button id="connectBtnTop" class="btn btnP flex items-center gap-2">
+        <span>🔗</span> <span id="connectBtnTextTop">Подключить кошелёк</span>
+      </button>
     </div>
-  </header>
 
-  <!-- HERO -->
-  <section id="home" class="mx-auto max-w-6xl px-4 pt-12 pb-10">
-    <div class="grid md:grid-cols-2 gap-10 items-center">
-      <div>
-        <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600 shadowSoft">
-          <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
-          Live demo • TON Connect
-        </div>
+    <!-- CONTENT -->
+    <div class="px-4 md:px-8 py-6">
 
-        <h1 class="mt-4 text-4xl md:text-5xl font-bold leading-tight">
-          Staking / Top up in <span class="text-sky-700">TON</span><br class="hidden md:block" />
-          with wallet confirmation
-        </h1>
-
-        <p class="mt-4 text-slate-600 text-lg">
-          Connect wallet → choose amount → confirm transaction in Tonkeeper. Nothing happens without user confirmation.
-        </p>
-
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="#topup" class="rounded-2xl bg-sky-600 px-5 py-3 text-white font-medium hover:bg-sky-700">
-            Stake Now
-          </a>
-          <a href="#plans" class="rounded-2xl border border-slate-300 px-5 py-3 font-medium hover:bg-white">
-            View Plans
-          </a>
-        </div>
-
-        <!-- Stats row (как у них) -->
-        <div class="mt-8 grid grid-cols-3 gap-3">
-          <div class="rounded-3xl border border-slate-200 bg-white p-4 shadowSoft">
-            <div class="text-xs text-slate-500">Total Staked</div>
-            <div class="mt-1 text-xl font-bold">12,345 TON</div>
-            <div class="mt-1 text-xs text-slate-500">demo numbers</div>
+      <!-- TAB: СТЕЙКИНГ (ПОЛНАЯ ВЕРСИЯ) -->
+      <section id="tab-staking" class="tabBlock space-y-6">
+        <!-- 3 подсказки -->
+        <div class="grid lg:grid-cols-3 gap-4 reveal">
+          <div class="card p-4 shadowSoft flex items-center justify-between">
+            <div class="text-sm muted">Укажите сумму инвестиции в TON, количество дней можно не выбирать.</div>
+            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
           </div>
-          <div class="rounded-3xl border border-slate-200 bg-white p-4 shadowSoft">
-            <div class="text-xs text-slate-500">Users</div>
-            <div class="mt-1 text-xl font-bold">1,024</div>
-            <div class="mt-1 text-xs text-slate-500">demo numbers</div>
+          <div class="card p-4 shadowSoft flex items-center justify-between">
+            <div class="text-sm muted">Нажмите “В стейкинг” и подтвердите перевод средств в кошельке.</div>
+            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
           </div>
-          <div class="rounded-3xl border border-slate-200 bg-white p-4 shadowSoft">
-            <div class="text-xs text-slate-500">APY</div>
-            <div class="mt-1 text-xl font-bold">—%</div>
-            <div class="mt-1 text-xs text-slate-500">set later</div>
+          <div class="card p-4 shadowSoft flex items-center justify-between bg-gradient-to-r from-white to-sky-100">
+            <div class="text-sm muted">Ежедневно получайте начисления, вывод возможен в любой момент.</div>
+            <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">›</div>
           </div>
         </div>
-      </div>
 
-      <!-- Right card (как у них: “trusted / audited / start”) -->
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="text-sm text-slate-500">Trusted by</div>
-            <div class="mt-1 font-semibold">Partners & community</div>
-          </div>
-          <div class="text-xs text-slate-500">demo</div>
-        </div>
-
-        <div class="mt-4 grid grid-cols-3 gap-3 text-sm">
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center">Audit</div>
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center">KYC</div>
-          <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-center">Support</div>
-        </div>
-
-        <div class="mt-5 rounded-2xl bg-slate-50 p-4">
-          <div class="text-sm font-semibold">Quick start</div>
-          <ol class="mt-2 list-decimal ml-5 text-sm text-slate-700 space-y-1">
-            <li>Connect wallet</li>
-            <li>Enter amount</li>
-            <li>Confirm in Tonkeeper</li>
-          </ol>
-        </div>
-
-        <a href="#topup" class="mt-5 block w-full text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700">
-          Go to staking
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ADVANTAGES -->
-  <section id="advantages" class="mx-auto max-w-6xl px-4 py-12">
-    <div class="flex items-end justify-between gap-4">
-      <div>
-        <h2 class="text-2xl font-bold">Our advantages</h2>
-        <p class="mt-2 text-slate-600">Same section style as the example site (cards + short text).</p>
-      </div>
-      <a href="#topup" class="hidden md:inline-flex rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium hover:bg-slate-50">
-        Stake now →
-      </a>
-    </div>
-
-    <div class="mt-6 grid md:grid-cols-4 gap-4">
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-        <div class="font-semibold">Audited</div>
-        <p class="mt-2 text-sm text-slate-600">Demo text. Replace later.</p>
-      </div>
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-        <div class="font-semibold">Transparency</div>
-        <p class="mt-2 text-sm text-slate-600">Transactions are confirmed in wallet.</p>
-      </div>
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-        <div class="font-semibold">Fast</div>
-        <p class="mt-2 text-sm text-slate-600">Simple UX for top up.</p>
-      </div>
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-        <div class="font-semibold">Support</div>
-        <p class="mt-2 text-sm text-slate-600">Add your support channel later.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW TO START -->
-  <section id="how" class="bg-white border-y border-slate-200">
-    <div class="mx-auto max-w-6xl px-4 py-12">
-      <h2 class="text-2xl font-bold">How to start</h2>
-      <p class="mt-2 text-slate-600">3-step blocks like in the example.</p>
-
-      <div class="mt-6 grid md:grid-cols-3 gap-4">
-        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-          <div class="text-sky-700 font-semibold">01</div>
-          <div class="mt-2 font-semibold text-lg">Connect wallet</div>
-          <div class="mt-1 text-sm text-slate-600">Tonkeeper / other wallets</div>
-        </div>
-        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-          <div class="text-sky-700 font-semibold">02</div>
-          <div class="mt-2 font-semibold text-lg">Choose amount</div>
-          <div class="mt-1 text-sm text-slate-600">0.1 / 1 / 2 TON</div>
-        </div>
-        <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6">
-          <div class="text-sky-700 font-semibold">03</div>
-          <div class="mt-2 font-semibold text-lg">Confirm</div>
-          <div class="mt-1 text-sm text-slate-600">Transaction in wallet</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PLANS -->
-  <section id="plans" class="mx-auto max-w-6xl px-4 py-12">
-    <h2 class="text-2xl font-bold">Plans</h2>
-    <p class="mt-2 text-slate-600">Card layout same vibe as the example (demo numbers).</p>
-
-    <div class="mt-6 grid md:grid-cols-3 gap-4">
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-        <div class="text-sm text-slate-500">Basic</div>
-        <div class="mt-2 text-3xl font-bold">—%</div>
-        <div class="mt-2 text-sm text-slate-600">10–899 TON</div>
-        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700">Stake</a>
-      </div>
-
-      <div class="rounded-3xl border border-sky-200 bg-sky-50 p-6 shadowSoft">
-        <div class="text-sm text-slate-500">Pro</div>
-        <div class="mt-2 text-3xl font-bold">—%</div>
-        <div class="mt-2 text-sm text-slate-600">900–2199 TON</div>
-        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700">Stake</a>
-      </div>
-
-      <div class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-        <div class="text-sm text-slate-500">Premium</div>
-        <div class="mt-2 text-3xl font-bold">—%</div>
-        <div class="mt-2 text-sm text-slate-600">2200+ TON</div>
-        <a href="#topup" class="mt-5 block text-center rounded-2xl bg-sky-600 px-4 py-3 text-white font-medium hover:bg-sky-700">Stake</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CALCULATOR (как блок на примере) -->
-  <section id="calc" class="bg-white border-y border-slate-200">
-    <div class="mx-auto max-w-6xl px-4 py-12">
-      <div class="grid md:grid-cols-2 gap-6 items-start">
-        <div>
-          <h2 class="text-2xl font-bold">Calculator</h2>
-          <p class="mt-2 text-slate-600">Demo calculator (visual). We'll replace formulas later.</p>
-
-          <div class="mt-6 rounded-3xl border border-slate-200 bg-slate-50 p-6">
-            <label class="text-sm font-medium">Amount (TON)</label>
-            <input id="calcAmount" value="10" inputmode="decimal"
-                   class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-400" />
-            <label class="text-sm font-medium mt-4 block">Days</label>
-            <input id="calcDays" value="30" inputmode="numeric"
-                   class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-400" />
-
-            <div class="mt-4 rounded-2xl bg-white border border-slate-200 p-4">
-              <div class="text-sm text-slate-500">Estimated result (demo)</div>
-              <div id="calcOut" class="mt-1 text-2xl font-bold">— TON</div>
-              <div class="mt-1 text-xs text-slate-500">We’ll set the real logic later</div>
+        <!-- Баланс и активы -->
+        <div class="grid lg:grid-cols-3 gap-4 reveal">
+          <div class="card p-6 shadowSoft relative overflow-hidden lg:col-span-2">
+            <div class="font-semibold">Баланс депозита</div>
+            <div class="mt-4 grid grid-cols-2 gap-4">
+              <div>
+                <div class="text-xs muted">Сумма вклада</div>
+                <div class="text-2xl font-bold"><span id="depTon">0.00</span> TON</div>
+              </div>
+              <div>
+                <div class="text-xs muted">По курсу</div>
+                <div class="text-2xl font-bold">$<span id="depUsd">0.00</span></div>
+              </div>
+              <div>
+                <div class="text-xs muted">После баланса</div>
+                <div class="text-2xl font-bold"><span id="afterTon">0.00</span> TON</div>
+              </div>
+              <div>
+                <div class="text-xs muted">По курсу</div>
+                <div class="text-2xl font-bold">$<span id="afterUsd">0.00</span></div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <!-- TOPUP (popолнение) -->
-        <div id="topup" class="rounded-3xl border border-slate-200 bg-white p-6 shadowSoft">
-          <div class="flex items-end justify-between">
-            <div>
-              <div class="text-sm text-slate-500">Stake Now</div>
-              <div class="mt-1 text-xl font-bold">Top up TON</div>
-            </div>
-            <div class="text-xs text-slate-500">Confirm in wallet</div>
-          </div>
-
-          <div class="mt-4 rounded-2xl bg-slate-50 p-4">
-            <div id="connect" class="mb-3"></div>
-
-            <label class="text-sm font-medium">Amount (TON)</label>
-            <input id="amount" value="1" inputmode="decimal"
-                   class="mt-2 w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none focus:border-sky-400" />
-
-            <div class="mt-3 flex gap-2 flex-wrap">
-              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-100" data-v="0.1">0.1</button>
-              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-100" data-v="0.5">0.5</button>
-              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-100" data-v="1">1</button>
-              <button class="quick rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm hover:bg-slate-100" data-v="2">2</button>
-            </div>
-
-            <button id="pay" disabled
-                    class="mt-4 w-full rounded-2xl bg-sky-600 px-4 py-3 font-medium text-white disabled:opacity-50 hover:bg-sky-700">
-              Deposit
+            <button class="mt-5 w-full rounded-2xl border border-sky-600 text-sky-700 font-semibold py-3 hover:bg-sky-50">
+              Вывести
             </button>
-
-            <div id="status" class="mt-4 text-sm text-slate-700 whitespace-pre-line"></div>
-            <div class="mt-2 text-xs text-slate-500">Network fee is paid by the user.</div>
+            <div class="ringBg"></div>
+            <div class="ringBg2"></div>
           </div>
 
-          <div class="mt-4 text-sm text-slate-600">
-            <ul class="list-disc ml-5 space-y-1">
-              <li>Check address & amount in wallet</li>
-              <li>No transaction without confirmation</li>
-            </ul>
+          <!-- Ежедневный доход -->
+          <div class="card p-6 shadowSoft relative overflow-hidden">
+            <div class="font-bold">Ежедневный доход</div>
+            <div class="mt-2 text-2xl font-bold">$0.00</div>
+            <div class="text-sm muted">0.00 TON</div>
+            <div class="mt-4 text-sm text-sky-700">Заработано за период инвестирования:</div>
+            <div class="mt-1 text-xl font-bold"><span id="earnedTon">0.00</span> TON</div>
+            <div class="text-sm muted">$0.00</div>
+            <div class="absolute top-6 right-6 w-24 h-24 rounded-full bg-white border border-slate-200 flex items-center justify-center shadowSoft">
+              <div class="w-20 h-20 rounded-full border-4 border-emerald-400 flex items-center justify-center">
+                <div class="text-xl font-extrabold" id="ringRate">0.3%</div>
+              </div>
+            </div>
+            <div class="ringBg"></div>
+            <div class="ringBg2"></div>
           </div>
         </div>
-      </div>
+
+        <!-- Добавить в стейкинг + поля ввода -->
+        <div class="grid lg:grid-cols-3 gap-4 items-start reveal">
+          <div class="lg:col-span-2">
+            <div class="text-lg font-bold mb-3">Добавить в стейкинг</div>
+            <div class="card p-6 shadowSoft">
+              <!-- Сумма -->
+              <div class="rounded-2xl bg-sky-50 border border-sky-100 p-4">
+                <div class="flex items-center justify-between text-sm">
+                  <div class="font-semibold"><span id="amountOut">10</span> TON</div>
+                  <div class="muted">Сумма</div>
+                </div>
+                <input id="amountRange" type="range" min="10" max="10000" step="10" value="10" class="mt-3" />
+              </div>
+
+              <!-- Дни -->
+              <div class="mt-4 rounded-2xl bg-sky-50 border border-sky-100 p-4">
+                <div class="flex items-center justify-between text-sm">
+                  <div class="font-semibold"><span id="daysOut">1</span> дней</div>
+                  <div class="muted">Срок</div>
+                </div>
+                <input id="daysRange" type="range" min="1" max="30" step="1" value="1" class="mt-3" />
+              </div>
+
+              <!-- Результаты расчета -->
+              <div class="mt-4 rounded-2xl border border-sky-200 bg-white p-4">
+                <div class="grid md:grid-cols-3 gap-3 text-sm">
+                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                    <div class="muted">В сутки</div>
+                    <div id="rateOut" class="font-bold">0.3%</div>
+                  </div>
+                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                    <div class="muted">За 24 часа</div>
+                    <div id="dayProfitOut" class="font-bold">+ 0.03 TON</div>
+                  </div>
+                  <div class="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                    <div class="muted">За 30 дней</div>
+                    <div id="monthProfitOut" class="font-bold">+ 0.90 TON</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- КНОПКА СТЕЙКИНГА (ИСПРАВЛЕННАЯ) -->
+              <div class="mt-5 flex justify-end">
+                <button id="stakeBtn" class="btn px-7 py-3 rounded-2xl bg-blue-600 text-white font-bold hover:bg-blue-700">
+                  В стейкинг →
+                </button>
+              </div>
+
+              <!-- СТАТУС ТРАНЗАКЦИИ -->
+              <div id="txStatus" class="mt-3 text-sm"></div>
+            </div>
+          </div>
+
+          <!-- Активные контракты -->
+          <div class="card p-6 shadowSoft">
+            <div class="font-bold">Активные контракты</div>
+            <div class="mt-2 text-sm muted">У вас нет активных контрактов</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: ИСТОРИЯ -->
+      <section id="tab-history" class="tabBlock hidden space-y-4">
+        <div class="card p-6 shadowSoft reveal">
+          <div class="text-xl font-bold">История</div>
+          <div class="mt-2 muted text-sm">История транзакций появится здесь</div>
+        </div>
+      </section>
+
+      <!-- TAB: ПОДДЕРЖКА -->
+      <section id="tab-support" class="tabBlock hidden space-y-4">
+        <div class="card p-6 shadowSoft reveal">
+          <div class="text-xl font-bold">Поддержка</div>
+          <div class="mt-2 muted text-sm">Telegram: @TonStakeSupportBot</div>
+        </div>
+      </section>
+
+      <!-- TAB: РЕФЕРАЛЬНАЯ ПРОГРАММА -->
+      <section id="tab-ref" class="tabBlock hidden space-y-4">
+        <div class="card p-6 shadowSoft reveal">
+          <div class="text-xl font-bold">Реферальная программа</div>
+          <div class="mt-2 muted text-sm">Скоро появится</div>
+        </div>
+      </section>
+
+      <!-- TAB: ПРОМОКОД -->
+      <section id="tab-promo" class="tabBlock hidden space-y-4">
+        <div class="card p-6 shadowSoft reveal">
+          <div class="text-xl font-bold">Промокод</div>
+          <div class="mt-2 muted text-sm">Введите промокод</div>
+        </div>
+      </section>
+
     </div>
-  </section>
+  </main>
+</div>
 
-  <!-- FAQ -->
-  <section id="faq" class="mx-auto max-w-6xl px-4 py-12">
-    <h2 class="text-2xl font-bold">FAQ</h2>
-    <div class="mt-6 space-y-3">
-      <details class="rounded-3xl border border-slate-200 p-5 bg-white shadowSoft">
-        <summary class="font-semibold cursor-pointer">Is it automatic withdrawal?</summary>
-        <div class="mt-2 text-sm text-slate-600">No. Only after user confirms in wallet.</div>
-      </details>
-      <details class="rounded-3xl border border-slate-200 p-5 bg-white shadowSoft">
-        <summary class="font-semibold cursor-pointer">Why without comment?</summary>
-        <div class="mt-2 text-sm text-slate-600">For stability with Tonkeeper Extension. We can add proper BOC payload later.</div>
-      </details>
-    </div>
-  </section>
+<!-- СКРИПТ ПЕРЕКЛЮЧЕНИЯ ВКЛАДОК -->
+<script>
+  const tabMap = {
+    staking: {title:"Стейкинг", icon:"🪙"},
+    history: {title:"История", icon:"📜"},
+    support: {title:"Поддержка", icon:"💬"},
+    ref: {title:"Реф. программа", icon:"👥"},
+    promo: {title:"Промокод", icon:"🎁"},
+  };
 
-  <footer class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-500">
-    © <span id="y"></span> Stake Platform demo.
-  </footer>
+  function showTab(key){
+    document.querySelectorAll('.tabBlock').forEach(s => s.classList.add('hidden'));
+    const t = document.getElementById('tab-' + key);
+    if (t) t.classList.remove('hidden');
 
-  <!-- TON Connect UI -->
-  <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+    document.querySelectorAll('.sidebarItem').forEach(i => i.classList.remove('sidebarItemActive'));
+    const b = document.querySelector(`.sidebarItem[data-tab="${key}"]`);
+    if (b) b.classList.add('sidebarItemActive');
 
-    // Demo calc
-    const calcAmount = document.getElementById('calcAmount');
-    const calcDays = document.getElementById('calcDays');
-    const calcOut = document.getElementById('calcOut');
-    function updateCalc(){
-      const a = Number(String(calcAmount.value).replace(',', '.'));
-      const d = Number(String(calcDays.value).replace(',', '.'));
-      if(!Number.isFinite(a) || !Number.isFinite(d) || a<=0 || d<=0) { calcOut.textContent = "— TON"; return; }
-      const demoRate = 0.001; // demo placeholder
-      const res = a + (a * demoRate * d);
-      calcOut.textContent = res.toFixed(4) + " TON";
+    const title = document.getElementById('topTitle');
+    const icon = document.getElementById('topTitleIcon');
+    if (title) title.textContent = tabMap[key]?.title || "—";
+    if (icon) icon.textContent = tabMap[key]?.icon || "•";
+  }
+
+  document.querySelectorAll('.sidebarItem').forEach(item => {
+    item.addEventListener('click', () => showTab(item.dataset.tab));
+  });
+
+  showTab('staking');
+
+  // Анимация появления
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) e.target.classList.add('show');
+    });
+  }, {threshold: 0.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+<script type="module">
+    // ⚠️ СЮДА ВСТАВЬ СВОЙ АДРЕС КОШЕЛЬКА ⚠️
+    const MY_WALLET = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
+    
+    // ПРАВИЛЬНЫЙ импорт (через CDN)
+    import TonConnect from 'https://cdn.jsdelivr.net/npm/@tonconnect/sdk@3.0.0/dist/tonconnect-sdk.min.js';
+    
+    // Элементы
+    const connectBtnTop = document.getElementById('connectBtnTop');
+    const connectBtnSide = document.getElementById('connectBtnSide');
+    const connectTextTop = document.getElementById('connectBtnTextTop');
+    const connectTextSide = document.getElementById('connectBtnTextSide');
+    const addrSide = document.getElementById('addrSide');
+    const amountRange = document.getElementById('amountRange');
+    const stakeBtn = document.getElementById('stakeBtn');
+    const txStatus = document.getElementById('txStatus');
+
+    // Создаем connector
+    const connector = new TonConnect.TonConnect({
+        manifestUrl: 'https://kap352837598.github.io/tonconnect-manifest.json'
+    });
+
+    // Подключаемся к UI
+    const tonConnectUI = new TonConnect.TonConnectUI({
+        connector: connector
+    });
+
+    // Отслеживаем подключение
+    tonConnectUI.onStatusChange((walletInfo) => {
+        const connected = !!walletInfo;
+        const text = connected ? '✅ Кошелёк подключён' : '🔗 Подключить кошелёк';
+        
+        if (connectTextTop) connectTextTop.textContent = text;
+        if (connectTextSide) connectTextSide.textContent = text;
+        
+        if (addrSide) {
+            addrSide.textContent = 'Wallet: ' + (walletInfo?.account?.address?.slice(0,6) + '...' || '—');
+        }
+    });
+
+    // Клик по кнопкам
+    if (connectBtnTop) connectBtnTop.onclick = () => tonConnectUI.openModal();
+    if (connectBtnSide) connectBtnSide.onclick = () => tonConnectUI.openModal();
+
+    // Отправка транзакции
+    if (stakeBtn) {
+        stakeBtn.onclick = async () => {
+            if (!tonConnectUI.connected) {
+                alert('Сначала подключи кошелёк');
+                return;
+            }
+
+            const amount = Number(amountRange?.value || 10);
+            if (txStatus) txStatus.textContent = '⏳ Отправка...';
+            
+            try {
+                const result = await tonConnectUI.sendTransaction({
+                    validUntil: Math.floor(Date.now() / 1000) + 600,
+                    messages: [{
+                        address: MY_WALLET,
+                        amount: (amount * 1e9).toString()
+                    }]
+                });
+                
+                if (txStatus) txStatus.textContent = '✅ Отправлено! Токены скоро поступят.';
+            } catch (e) {
+                if (txStatus) txStatus.textContent = '❌ Ошибка: ' + e.message;
+            }
+        };
     }
-    calcAmount.addEventListener('input', updateCalc);
-    calcDays.addEventListener('input', updateCalc);
-    updateCalc();
+</script>
 
-    // TON Connect
-    const TonConnectUI = window.TON_CONNECT_UI.TonConnectUI;
-
-    // 🔴 ВСТАВЬ СВОЙ TON-АДРЕС (получатель)
-    const RECEIVER_ADDRESS = "UQ...ВСТАВЬ_ТВОЙ_АДРЕС...";
-
-    const tonConnectUI = new TonConnectUI({
-      manifestUrl: "https://kap352837598.github.io/tonstaking/tonconnect-manifest.json",
-      buttonRootId: "connect"
-    });
-
-    const payBtn = document.getElementById("pay");
-    const amountEl = document.getElementById("amount");
-    const statusEl = document.getElementById("status");
-
-    function setStatus(msg) { statusEl.textContent = msg; }
-
-    tonConnectUI.onStatusChange(wallet => {
-      payBtn.disabled = !wallet;
-      setStatus(wallet ? "Wallet connected ✅" : "Connect wallet to continue.");
-    });
-
-    document.querySelectorAll('.quick').forEach(btn => {
-      btn.addEventListener('click', () => amountEl.value = btn.dataset.v);
-    });
-
-    function toNanoFromInput(value) {
-      const parts = String(value).replace(",", ".").trim().split(".");
-      const whole = parts[0] || "0";
-      const frac = (parts[1] || "").padEnd(9, "0").slice(0, 9);
-      return (BigInt(whole) * 1000000000n + BigInt(frac)).toString();
-    }
-
-    payBtn.addEventListener("click", async () => {
-      setStatus("");
-
-      const v = String(amountEl.value).replace(",", ".").trim();
-      if (!v || Number(v) <= 0) {
-        setStatus("Enter a valid TON amount.");
-        return;
-      }
-
-      const nano = toNanoFromInput(v);
-
-      try {
-        await tonConnectUI.sendTransaction({
-          validUntil: Math.floor(Date.now() / 1000) + 300,
-          messages: [{
-            address: RECEIVER_ADDRESS,
-            amount: nano
-          }]
-        });
-
-        setStatus("Request sent ✅\nConfirm in wallet to complete.");
-      } catch (e) {
-        setStatus("Canceled or error.");
-      }
-    });
-  </script>
 </body>
 </html>
