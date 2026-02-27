@@ -6,210 +6,191 @@
   <title>TON Stake — Кабинет</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root{
-      --border: rgba(15,23,42,.10);
-      --shadow: 0 18px 60px rgba(2,6,23,.10);
-      --blue: rgba(2,132,199,.95);
-    }
-    .shadowSoft{ box-shadow: var(--shadow); }
-    .card{ border:1px solid var(--border); background: rgba(255,255,255,.92); border-radius: 20px; }
-    .muted{ color: rgba(15,23,42,.65); }
-    .btn{ border-radius: 999px; padding:.7rem 1.1rem; font-weight:700; }
-    .btnP{ background: linear-gradient(180deg, rgba(14,165,233,1), rgba(2,132,199,1)); color:#fff; }
-    .btnP:hover{ filter: brightness(.98); }
-    .btnW{ background:#fff; border:1px solid var(--border); }
-    .sidebarItem{ border-radius: 14px; padding:.78rem 1rem; display:flex; align-items:center; gap:.7rem; border:1px solid rgba(15,23,42,.08); background: rgba(248,250,252,.9); cursor:pointer; }
-    .sidebarItem:hover{ background: rgba(241,250,255,.95); }
-    .sidebarItemActive{ background: rgba(14,165,233,.14); border:1px solid rgba(2,132,199,.25); }
-    .ringBg{
-      position:absolute; right:-70px; bottom:-70px;
-      width:280px; height:280px; border-radius:999px;
-      border:1px solid rgba(2,132,199,.18);
-    }
-    .ringBg2{
-      position:absolute; right:-40px; bottom:-40px;
-      width:220px; height:220px; border-radius:999px;
-      border:1px solid rgba(2,132,199,.16);
-    }
-    input[type="range"]{
-      -webkit-appearance:none; width:100%; height:6px; border-radius:999px;
-      background: linear-gradient(90deg, var(--blue), rgba(56,189,248,.35)); outline:none;
-    }
-    input[type="range"]::-webkit-slider-thumb{
-      -webkit-appearance:none; width:18px;height:18px;border-radius:999px; background:white;
-      border:2px solid var(--blue); box-shadow:0 8px 18px rgba(2,6,23,.18); cursor:pointer;
-    }
-    .reveal{ opacity:0; transform: translateY(14px); transition: all .55s ease; }
-    .reveal.show{ opacity:1; transform: translateY(0); }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; background: #f8fafc; }
+    .card { background: white; border-radius: 24px; padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+    .btn { padding: 12px 24px; border-radius: 40px; font-weight: 600; cursor: pointer; border: none; }
+    .btn-primary { background: #0098EA; color: white; }
+    .btn-primary:hover { background: #0077be; }
+    .btn-disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+    .input-field { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 12px; margin: 8px 0 16px; }
+    .sidebar { width: 280px; background: white; border-right: 1px solid #e2e8f0; padding: 24px; }
+    .sidebar-item { padding: 12px; border-radius: 12px; margin-bottom: 8px; cursor: pointer; }
+    .sidebar-item:hover { background: #f1f5f9; }
+    .sidebar-item.active { background: #dbeafe; color: #0098EA; font-weight: 600; }
+    .status-badge { background: #e2e8f0; padding: 4px 8px; border-radius: 20px; font-size: 12px; }
   </style>
 </head>
-<body class="bg-slate-50">
-
+<body>
 <div class="min-h-screen flex">
-
-  <!-- SIDEBAR -->
-  <aside class="w-[280px] hidden md:flex flex-col gap-4 p-5 bg-white border-r border-slate-200">
-    <div class="flex items-center gap-3 px-2 py-2">
-      <div class="h-10 w-10 rounded-2xl bg-sky-500"></div>
-      <div class="leading-tight">
-        <div class="font-semibold text-lg">TON Stake</div>
-        <div class="text-xs muted">Кабинет</div>
+  <!-- САЙДБАР -->
+  <div class="sidebar hidden md:block">
+    <div class="flex items-center gap-3 mb-8">
+      <div class="w-10 h-10 bg-blue-600 rounded-xl"></div>
+      <div>
+        <div class="font-bold text-lg">TON Stake</div>
+        <div class="text-xs text-gray-500">Кабинет</div>
       </div>
     </div>
-
-    <button id="connectBtnSide" class="btn btnP w-full flex items-center justify-center gap-2">
+    
+    <!-- КНОПКА ПОДКЛЮЧЕНИЯ В САЙДБАРЕ -->
+    <button id="connectBtnSide" class="btn btn-primary w-full mb-6 flex items-center justify-center gap-2">
       <span>🔗</span> <span id="connectBtnTextSide">Подключить кошелёк</span>
     </button>
-
-    <nav class="mt-1 space-y-2">
-      <div class="sidebarItem sidebarItemActive" data-tab="staking">
-        <span>🪙</span><span class="font-semibold">Стейкинг</span>
-      </div>
-      <div class="sidebarItem" data-tab="history">
-        <span>📜</span><span>История</span>
-      </div>
-      <div class="sidebarItem" data-tab="support">
-        <span>💬</span><span>Поддержка</span>
-      </div>
-      <div class="sidebarItem" data-tab="ref">
-        <span>👥</span><span>Реф. программа</span>
-      </div>
-      <div class="sidebarItem" data-tab="promo">
-        <span>🎁</span><span>Промокод</span>
-      </div>
-    </nav>
-
-    <div class="mt-auto text-xs muted px-2">
+    
+    <!-- МЕНЮ -->
+    <div class="sidebar-item active" data-tab="staking">🪙 Стейкинг</div>
+    <div class="sidebar-item" data-tab="history">📜 История</div>
+    <div class="sidebar-item" data-tab="support">💬 Поддержка</div>
+    
+    <!-- СТАТУС -->
+    <div class="mt-auto pt-8 text-xs text-gray-500">
       <div>Network: TON</div>
-      <div id="addrSide" class="mt-1 break-all">Wallet: —</div>
+      <div id="addrSide">Wallet: —</div>
     </div>
-  </aside>
+  </div>
 
-  <!-- MAIN -->
-  <main class="flex-1">
-    <!-- TOP BAR -->
-    <div class="h-[72px] bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8">
-      <div class="flex items-center gap-3">
-        <div class="md:hidden">
-          <div class="h-10 w-10 rounded-2xl bg-sky-500"></div>
-        </div>
-        <div class="flex items-center gap-2 text-lg font-semibold">
-          <span id="topTitleIcon">🪙</span> <span id="topTitle">Стейкинг</span>
-        </div>
+  <!-- ОСНОВНАЯ ЧАСТЬ -->
+  <div class="flex-1">
+    <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
+    <div class="h-16 bg-white border-b flex items-center justify-between px-6">
+      <div class="font-bold text-lg flex items-center gap-2">
+        <span id="topTitleIcon">🪙</span>
+        <span id="topTitle">Стейкинг</span>
       </div>
-
-      <button id="connectBtnTop" class="btn btnP flex items-center gap-2">
+      
+      <!-- КНОПКА ПОДКЛЮЧЕНИЯ ВВЕРХУ -->
+      <button id="connectBtnTop" class="btn btn-primary flex items-center gap-2">
         <span>🔗</span> <span id="connectBtnTextTop">Подключить кошелёк</span>
       </button>
     </div>
 
-    <!-- CONTENT -->
-    <div class="px-4 md:px-8 py-6">
+    <!-- КОНТЕНТ -->
+    <div class="p-6">
       <!-- ВКЛАДКА СТЕЙКИНГ -->
-      <section id="tab-staking" class="tabBlock space-y-6">
-        <div class="card p-6 shadowSoft">
-          <div class="text-xl font-bold">Подключи кошелёк для начала работы</div>
-          <div class="mt-4 muted">Нажми кнопку "Подключить кошелёк" вверху</div>
+      <div id="tab-staking" class="tab-block">
+        <div class="card">
+          <h2 class="text-2xl font-bold mb-6">Внести в стейкинг</h2>
+          
+          <!-- ПОЛЕ ДЛЯ СУММЫ -->
+          <label class="block text-sm font-medium mb-2">Сумма (TON)</label>
+          <input 
+            type="number" 
+            id="amountInput" 
+            min="10" 
+            step="10" 
+            value="100"
+            class="input-field"
+          >
+          <p class="text-xs text-gray-500 mb-4">Минимум 10 TON</p>
+          
+          <!-- КНОПКА СТЕЙКИНГА -->
+          <button 
+            id="stakeBtn" 
+            class="btn btn-primary w-full text-lg py-4"
+          >
+            В стейкинг →
+          </button>
+          
+          <!-- СТАТУС ТРАНЗАКЦИИ -->
+          <div id="txStatus" class="mt-4 text-sm text-gray-600"></div>
         </div>
-      </section>
+      </div>
 
-      <!-- ДРУГИЕ ВКЛАДКИ (скрыты) -->
-      <section id="tab-history" class="tabBlock hidden space-y-4">
-        <div class="card p-6 shadowSoft">История транзакций появится здесь</div>
-      </section>
-      <section id="tab-support" class="tabBlock hidden space-y-4">
-        <div class="card p-6 shadowSoft">Поддержка: напишите в Telegram</div>
-      </section>
-      <section id="tab-ref" class="tabBlock hidden space-y-4">
-        <div class="card p-6 shadowSoft">Реферальная программа</div>
-      </section>
-      <section id="tab-promo" class="tabBlock hidden space-y-4">
-        <div class="card p-6 shadowSoft">Промокод</div>
-      </section>
+      <!-- ОСТАЛЬНЫЕ ВКЛАДКИ (ПУСТЫЕ) -->
+      <div id="tab-history" class="tab-block hidden">История</div>
+      <div id="tab-support" class="tab-block hidden">Поддержка</div>
     </div>
-  </main>
+  </div>
 </div>
 
-<!-- СКРИПТ ВКЛАДОК -->
-<script>
-  const tabMap = {
-    staking: {title:"Стейкинг", icon:"🪙"},
-    history: {title:"История", icon:"📜"},
-    support: {title:"Поддержка", icon:"💬"},
-    ref: {title:"Реф. программа", icon:"👥"},
-    promo: {title:"Промокод", icon:"🎁"},
+<!-- ========== СКРИПТ (ВСЁ В ОДНОМ) ========== -->
+<script type="module">
+  // ⚠️⚠️⚠️ СЮДА ВСТАВЬ СВОЙ АДРЕС КОШЕЛЬКА ⚠️⚠️⚠️
+  const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
+  
+  // Импорты
+  import { TonConnectUI } from 'https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js';
+
+  // Элементы страницы
+  const elements = {
+    connectBtnSide: document.getElementById('connectBtnSide'),
+    connectBtnTop: document.getElementById('connectBtnTop'),
+    connectTextSide: document.getElementById('connectBtnTextSide'),
+    connectTextTop: document.getElementById('connectBtnTextTop'),
+    addrSide: document.getElementById('addrSide'),
+    amountInput: document.getElementById('amountInput'),
+    stakeBtn: document.getElementById('stakeBtn'),
+    txStatus: document.getElementById('txStatus')
   };
 
-  function showTab(key){
-    document.querySelectorAll('.tabBlock').forEach(s => s.classList.add('hidden'));
-    const t = document.getElementById('tab-' + key);
-    if (t) t.classList.remove('hidden');
-
-    document.querySelectorAll('.sidebarItem').forEach(i => i.classList.remove('sidebarItemActive'));
-    const b = document.querySelector(`.sidebarItem[data-tab="${key}"]`);
-    if (b) b.classList.add('sidebarItemActive');
-
-    const title = document.getElementById('topTitle');
-    const icon = document.getElementById('topTitleIcon');
-    if (title) title.textContent = tabMap[key]?.title || "—";
-    if (icon) icon.textContent = tabMap[key]?.icon || "•";
-  }
-
-  document.querySelectorAll('.sidebarItem').forEach(item => {
-    item.addEventListener('click', () => showTab(item.dataset.tab));
+  // Инициализация TonConnect
+  const tonConnectUI = new TonConnectUI({
+    manifestUrl: 'https://kap352837598.github.io/tonconnect-manifest.json',
+    buttonRootId: 'connectBtnTop' // Автоматическая кнопка
   });
 
-  showTab('staking');
-</script>
+  // Отслеживаем статус подключения
+  tonConnectUI.onStatusChange(wallet => {
+    const connected = !!wallet;
+    const btnText = connected ? '✅ Кошелёк подключён' : '🔗 Подключить кошелёк';
+    
+    if (elements.connectTextSide) elements.connectTextSide.textContent = btnText;
+    if (elements.connectTextTop) elements.connectTextTop.textContent = btnText;
+    
+    if (elements.addrSide) {
+      elements.addrSide.textContent = 'Wallet: ' + (wallet?.account?.address?.slice(0,8) + '...' || '—');
+    }
+  });
 
-<!-- TON CONNECT (правильная версия) -->
-<script type="module">
-  import { TonConnectUI } from "https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js";
-
-  // АДРЕС ПОЛУЧАТЕЛЯ (ЗАМЕНИ НА СВОЙ!)
-  const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
-
-  const addrSide = document.getElementById('addrSide');
-  const btnTextTop = document.getElementById('connectBtnTextTop');
-  const btnTextSide = document.getElementById('connectBtnTextSide');
-  const statusEl = document.getElementById('status');
-
-  function setStatus(t){ if(statusEl) statusEl.textContent = t || ""; }
-
-  // ИНИЦИАЛИЗАЦИЯ TON CONNECT (ПРАВИЛЬНО!)
-  let tonConnectUI;
-  try {
-    tonConnectUI = new TonConnectUI({
-      manifestUrl: 'https://kap352837598.github.io/tonconnect-manifest.json'
-    });
-    console.log("TonConnect инициализирован");
-  } catch(e) {
-    console.error("Ошибка TonConnect:", e);
-    setStatus("Ошибка загрузки TonConnect");
-  }
-
-  // ФУНКЦИЯ ПОДКЛЮЧЕНИЯ
-  async function connect() {
-    if(!tonConnectUI) {
-      alert("TonConnect не загрузился, обнови страницу");
+  // Обработчик кнопки стейкинга
+  elements.stakeBtn.addEventListener('click', async () => {
+    if (!tonConnectUI.connected) {
+      alert('Сначала подключи кошелёк');
       return;
     }
-    await tonConnectUI.openModal();
-  }
 
-  // ПРИВЯЗКА КНОПОК
-  document.getElementById('connectBtnTop')?.addEventListener('click', connect);
-  document.getElementById('connectBtnSide')?.addEventListener('click', connect);
+    const amount = parseFloat(elements.amountInput.value);
+    if (amount < 10) {
+      alert('Минимальная сумма 10 TON');
+      return;
+    }
 
-  // ОТСЛЕЖИВАНИЕ СТАТУСА
-  if(tonConnectUI) {
-    tonConnectUI.onStatusChange(wallet => {
-      const connected = !!wallet;
-      btnTextTop.textContent = connected ? "Кошелёк подключён" : "Подключить кошелёк";
-      btnTextSide.textContent = connected ? "Кошелёк подключён" : "Подключить кошелёк";
-      addrSide.textContent = "Wallet: " + (wallet?.account?.address || "—");
+    elements.txStatus.textContent = '⏳ Отправка транзакции...';
+    
+    try {
+      const transaction = {
+        validUntil: Math.floor(Date.now() / 1000) + 600,
+        messages: [{
+          address: RECEIVER_ADDRESS,
+          amount: (amount * 1e9).toString(),
+          payload: 'stake'
+        }]
+      };
+
+      const result = await tonConnectUI.sendTransaction(transaction);
+      elements.txStatus.textContent = '✅ Транзакция отправлена! Токены поступят в течение нескольких минут.';
+      console.log('Результат:', result);
+      
+    } catch (error) {
+      elements.txStatus.textContent = '❌ Ошибка: ' + (error.message || 'Транзакция отклонена');
+      console.error(error);
+    }
+  });
+
+  // Переключение вкладок (просто для красоты)
+  document.querySelectorAll('.sidebar-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+      
+      document.querySelectorAll('.tab-block').forEach(tab => tab.classList.add('hidden'));
+      document.getElementById(`tab-${item.dataset.tab}`)?.classList.remove('hidden');
+      
+      document.getElementById('topTitle').textContent = item.textContent.trim();
+      document.getElementById('topTitleIcon').textContent = item.textContent.trim()[0];
     });
-  }
+  });
 </script>
 
 </body>
