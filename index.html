@@ -21,7 +21,6 @@
     body::after { content:''; position:fixed; bottom:-200px; left:-200px; width:600px; height:600px; background:radial-gradient(circle,rgba(26,201,255,0.08) 0%,transparent 70%); border-radius:50%; pointer-events:none; z-index:0; animation:bgpulse 10s ease-in-out infinite reverse; }
     @keyframes bgpulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.15);opacity:0.6} }
 
-    /* NAVBAR */
     .navbar { position:fixed; top:0; left:0; right:0; z-index:1000; height:68px; background:rgba(5,10,20,0.88); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); display:flex; align-items:center; }
     .nav-container { max-width:1170px; margin:0 auto; width:100%; display:flex; align-items:center; justify-content:space-between; padding:0 24px; }
     .logo { display:flex; align-items:center; gap:10px; font-size:1.25rem; font-weight:800; color:#fff; text-decoration:none; }
@@ -34,7 +33,6 @@
     .btn-cabinet { background:rgba(255,255,255,0.07); color:#fff; text-decoration:none; padding:10px 20px; border-radius:10px; font-weight:600; font-size:0.88rem; border:1px solid var(--border); transition:background .2s; }
     .btn-cabinet:hover { background:rgba(255,255,255,0.12); }
 
-    /* HERO */
     .section-hero { position:relative; z-index:1; padding:140px 0 80px; min-height:100vh; display:flex; align-items:center; }
     .hero-container { display:flex; align-items:center; gap:60px; max-width:1170px; margin:0 auto; padding:0 24px; }
     .hero-text { flex:1; max-width:580px; }
@@ -49,31 +47,18 @@
     .btn-secondary { display:inline-flex; align-items:center; justify-content:center; background:transparent; color:var(--text); padding:16px 28px; border-radius:14px; font-weight:700; font-size:1rem; border:1px solid var(--border); transition:border-color .2s,background .2s; cursor:pointer; }
     .btn-secondary:hover { border-color:var(--blue); background:rgba(0,152,234,0.08); }
 
-    /* HERO VISUAL */
     .hero-image { flex:1; position:relative; display:flex; justify-content:center; align-items:center; min-width:360px; min-height:420px; }
     .hero-visual { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:20px; }
     .ton-glow { position:absolute; width:440px; height:440px; background:radial-gradient(circle,rgba(0,152,234,0.2) 0%,transparent 70%); border-radius:50%; top:50%; left:50%; transform:translate(-50%,-55%); pointer-events:none; animation:bgpulse 4s ease-in-out infinite; }
 
-    /* 3D TON монета */
-    .ton-coin-3d {
-      width: 220px; height: 220px;
-      position: relative; z-index: 2;
-      animation: coinFloat 4s ease-in-out infinite;
-      filter: drop-shadow(0 0 30px rgba(0,152,234,0.8)) drop-shadow(0 0 60px rgba(0,152,234,0.4));
-    }
+    .ton-coin-3d { width:220px; height:220px; position:relative; z-index:2; animation:coinFloat 4s ease-in-out infinite; filter:drop-shadow(0 0 30px rgba(0,152,234,0.9)) drop-shadow(0 0 60px rgba(0,152,234,0.5)); }
     @keyframes coinFloat {
-      0%,100% { transform: translateY(0px) rotateY(0deg); }
-      25%      { transform: translateY(-16px) rotateY(5deg); }
-      75%      { transform: translateY(-8px) rotateY(-5deg); }
+      0%,100% { transform:translateY(0px); }
+      25%      { transform:translateY(-18px); }
+      75%      { transform:translateY(-9px); }
     }
-    .ton-coin-shadow {
-      width: 160px; height: 24px;
-      background: radial-gradient(ellipse, rgba(0,152,234,0.5) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: shadowAnim 4s ease-in-out infinite;
-    }
+    .ton-coin-shadow { width:160px; height:24px; background:radial-gradient(ellipse,rgba(0,152,234,0.5) 0%,transparent 70%); border-radius:50%; animation:shadowAnim 4s ease-in-out infinite; }
     @keyframes shadowAnim { 0%,100%{transform:scaleX(1);opacity:0.6} 50%{transform:scaleX(0.6);opacity:0.2} }
-
     .staking-label { font-size:1.9rem; font-weight:900; letter-spacing:0.1em; color:#fff; text-shadow:0 0 30px rgba(0,152,234,0.7); }
     .staking-sub { font-size:0.88rem; color:var(--muted); letter-spacing:0.06em; }
 
@@ -83,7 +68,6 @@
     .circle-3 { width:560px;height:560px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:50s; }
     @keyframes rotatecircle { from{transform:translate(-50%,-50%)rotate(0deg)} to{transform:translate(-50%,-50%)rotate(360deg)} }
 
-    /* STATS */
     .stats-bar { position:relative; z-index:1; background:var(--card); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:28px 0; }
     .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
     .stat-item { text-align:center; }
@@ -208,12 +192,10 @@
 <header class="navbar">
   <div class="nav-container">
     <a href="/" class="logo">
-      <!-- Точный знак TON: синий круг + перевёрнутый треугольник с вырезом -->
-      <svg width="36" height="36" viewBox="0 0 100 100" fill="none">
-        <circle cx="50" cy="50" r="50" fill="#0098EA"/>
-        <path d="M50 22 L22 42 H36 V74 H64 V42 H78 Z" fill="white"/>
-        <path d="M36 42 L50 22 L64 42 Z" fill="white"/>
-        <path d="M40 42 L50 28 L60 42 Z" fill="#0098EA"/>
+      <svg width="36" height="36" viewBox="0 0 56 56" fill="none">
+        <circle cx="28" cy="28" r="28" fill="#0098EA"/>
+        <path d="M28 9.33337L10.5 19.8334V20.5667L26.4167 46.6667H29.5834L45.5 20.5667V19.8334L28 9.33337Z" fill="white"/>
+        <path d="M28 9.33337L10.5 19.8334L28 30.3334L45.5 19.8334L28 9.33337Z" fill="white" opacity="0.4"/>
       </svg>
       TON Stake
     </a>
@@ -252,10 +234,8 @@
     <div class="hero-image">
       <div class="hero-visual">
         <div class="ton-glow"></div>
-
-        <!-- 3D монета TON -->
         <div class="ton-coin-3d">
-          <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <radialGradient id="coinBg" cx="38%" cy="30%" r="68%">
                 <stop offset="0%" stop-color="#56d4ff"/>
@@ -267,41 +247,22 @@
                 <stop offset="100%" stop-color="white" stop-opacity="0"/>
               </radialGradient>
               <radialGradient id="coinRim" cx="68%" cy="72%" r="45%">
-                <stop offset="0%" stop-color="#1AC9FF" stop-opacity="0.5"/>
+                <stop offset="0%" stop-color="#1AC9FF" stop-opacity="0.45"/>
                 <stop offset="100%" stop-color="#1AC9FF" stop-opacity="0"/>
               </radialGradient>
               <filter id="coinShadow">
-                <feDropShadow dx="0" dy="12" stdDeviation="22" flood-color="#0098EA" flood-opacity="0.8"/>
-                <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#1AC9FF" flood-opacity="0.5"/>
+                <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#0098EA" flood-opacity="0.9"/>
+                <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#1AC9FF" flood-opacity="0.6"/>
               </filter>
-              <!-- Обводка монеты -->
-              <radialGradient id="ringGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="85%" stop-color="rgba(255,255,255,0)" stop-opacity="0"/>
-                <stop offset="92%" stop-color="rgba(255,255,255,0.35)"/>
-                <stop offset="100%" stop-color="rgba(255,255,255,0)" stop-opacity="0"/>
-              </radialGradient>
             </defs>
-
-            <!-- Основной круг (сфера) -->
-            <circle cx="110" cy="110" r="104" fill="url(#coinBg)" filter="url(#coinShadow)"/>
-            <!-- Обводка-блик -->
-            <circle cx="110" cy="110" r="104" fill="url(#coinRim)"/>
-            <circle cx="110" cy="110" r="104" fill="url(#coinGlare)"/>
-            <!-- Кольцо как на 2-й фото -->
-            <circle cx="110" cy="110" r="86" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="3"/>
-
-            <!-- Знак TON: точная копия официального -->
-            <!-- Верхняя горизонтальная полоса -->
-            <rect x="62" y="68" width="96" height="16" rx="8" fill="white"/>
-            <!-- Вертикальная линия по центру -->
-            <rect x="102" y="68" width="16" height="80" rx="6" fill="white"/>
-            <!-- Левый диагональ -->
-            <path d="M70 68 L110 112 L150 68" fill="none" stroke="white" stroke-width="14" stroke-linejoin="round" stroke-linecap="round"/>
-            <!-- Перекрываем лишнее белым прямоугольником сверху -->
-            <rect x="62" y="68" width="96" height="16" rx="8" fill="white"/>
+            <circle cx="28" cy="28" r="28" fill="url(#coinBg)" filter="url(#coinShadow)"/>
+            <circle cx="28" cy="28" r="28" fill="url(#coinRim)"/>
+            <circle cx="28" cy="28" r="28" fill="url(#coinGlare)"/>
+            <circle cx="28" cy="28" r="23" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="0.8"/>
+            <path d="M28 9.33337L10.5 19.8334V20.5667L26.4167 46.6667H29.5834L45.5 20.5667V19.8334L28 9.33337Z" fill="white"/>
+            <path d="M28 9.33337L10.5 19.8334L28 30.3334L45.5 19.8334L28 9.33337Z" fill="white" opacity="0.4"/>
           </svg>
         </div>
-
         <div class="ton-coin-shadow"></div>
         <div class="staking-label">STAKING TON</div>
         <div class="staking-sub">Earn up to 2.3% daily</div>
@@ -459,11 +420,10 @@
     <div class="footer-content">
       <div>
         <div class="footer-logo">
-          <svg width="32" height="32" viewBox="0 0 100 100" fill="none">
-            <circle cx="50" cy="50" r="50" fill="#0098EA"/>
-            <path d="M50 22 L22 42 H36 V74 H64 V42 H78 Z" fill="white"/>
-            <path d="M36 42 L50 22 L64 42 Z" fill="white"/>
-            <path d="M40 42 L50 28 L60 42 Z" fill="#0098EA"/>
+          <svg width="32" height="32" viewBox="0 0 56 56" fill="none">
+            <circle cx="28" cy="28" r="28" fill="#0098EA"/>
+            <path d="M28 9.33337L10.5 19.8334V20.5667L26.4167 46.6667H29.5834L45.5 20.5667V19.8334L28 9.33337Z" fill="white"/>
+            <path d="M28 9.33337L10.5 19.8334L28 30.3334L45.5 19.8334L28 9.33337Z" fill="white" opacity="0.4"/>
           </svg>
           TON Stake
         </div>
