@@ -47,12 +47,26 @@
     .btn-primary:hover { transform:translateY(-2px); box-shadow:0 12px 40px var(--glow); }
     .btn-secondary { display:inline-flex; align-items:center; justify-content:center; background:transparent; color:var(--text); padding:16px 28px; border-radius:14px; font-weight:700; font-size:1rem; border:1px solid var(--border); transition:border-color .2s,background .2s; cursor:pointer; }
     .btn-secondary:hover { border-color:var(--blue); background:rgba(0,152,234,0.08); }
-    .hero-image { flex:1; position:relative; display:flex; justify-content:center; align-items:center; min-width:360px; }
-    .hero-image img { max-width:100%; position:relative; z-index:2; filter:drop-shadow(0 0 40px rgba(0,152,234,0.35)); }
-    .circle { position:absolute; border-radius:50%; border:1px solid rgba(0,152,234,0.2); animation:rotatecircle linear infinite; }
-    .circle-1 { width:220px;height:220px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:20s; }
-    .circle-2 { width:360px;height:360px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:30s;border-style:dashed; }
-    .circle-3 { width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:45s; }
+
+    /* HERO VISUAL */
+    .hero-image { flex:1; position:relative; display:flex; justify-content:center; align-items:center; min-width:360px; min-height:400px; }
+    .hero-visual { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:24px; }
+    .ton-glow { position:absolute; width:380px; height:380px; background:radial-gradient(circle,rgba(0,152,234,0.22) 0%,transparent 70%); border-radius:50%; top:50%; left:50%; transform:translate(-50%,-50%); pointer-events:none; }
+    .ton-coins { position:relative; width:240px; height:240px; }
+    .ton-coin { position:absolute; filter:drop-shadow(0 0 18px rgba(0,152,234,0.55)); }
+    .coin-main { width:140px; height:140px; top:50%; left:50%; animation:floatCenter 4s ease-in-out infinite; }
+    @keyframes floatCenter { 0%,100%{transform:translate(-50%,-50%) translateY(0)} 50%{transform:translate(-50%,-50%) translateY(-14px)} }
+    .coin-sm { width:72px; height:72px; }
+    .coin-left { top:8px; left:0; animation:floatA 4s ease-in-out infinite 0.9s; opacity:0.8; }
+    .coin-right { bottom:8px; right:0; animation:floatA 4s ease-in-out infinite 1.7s; opacity:0.65; }
+    @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    .staking-label { font-size:1.9rem; font-weight:900; letter-spacing:0.1em; color:#fff; text-shadow:0 0 32px rgba(0,152,234,0.7),0 0 60px rgba(0,152,234,0.3); }
+    .staking-sub { font-size:0.88rem; font-weight:500; color:var(--muted); letter-spacing:0.06em; }
+
+    .circle { position:absolute; border-radius:50%; border:1px solid rgba(0,152,234,0.15); animation:rotatecircle linear infinite; }
+    .circle-1 { width:260px;height:260px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:20s; }
+    .circle-2 { width:400px;height:400px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:32s;border-style:dashed; }
+    .circle-3 { width:540px;height:540px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:48s; }
     @keyframes rotatecircle { from{transform:translate(-50%,-50%)rotate(0deg)} to{transform:translate(-50%,-50%)rotate(360deg)} }
 
     .stats-bar { position:relative; z-index:1; background:var(--card); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:28px 0; }
@@ -113,13 +127,12 @@
     .plan-pro .plan-rate { color:rgba(255,255,255,0.8); }
     .plan-range-label { font-size:0.86rem; color:var(--muted); font-weight:600; padding:8px 12px; background:rgba(255,255,255,0.05); border-radius:8px; }
     .plan-pro .plan-range-label { color:rgba(255,255,255,0.85); background:rgba(255,255,255,0.12); }
-    .plan-btn { display:flex;align-items:center;justify-content:center; height:48px; border-radius:12px; background:linear-gradient(135deg,var(--blue),var(--blue-light)); color:#fff; text-decoration:none; font-weight:700; font-size:0.95rem; box-shadow:0 4px 20px var(--glow); transition:opacity .2s,transform .2s; border:none; cursor:pointer; }
+    .plan-btn { display:flex;align-items:center;justify-content:center; height:48px; border-radius:12px; background:linear-gradient(135deg,var(--blue),var(--blue-light)); color:#fff; font-weight:700; font-size:0.95rem; box-shadow:0 4px 20px var(--glow); transition:opacity .2s,transform .2s; border:none; cursor:pointer; }
     .plan-btn:hover { opacity:.85; transform:translateY(-1px); }
     .plan-btn-pro { background:rgba(255,255,255,0.18); backdrop-filter:blur(8px); box-shadow:none; border:1px solid rgba(255,255,255,0.3); }
     .plan-btn-pro:hover { background:rgba(255,255,255,0.28); }
 
-    /* СТАТУС ТРАНЗАКЦИИ */
-    .tx-toast { display:none; position:fixed; bottom:32px; left:50%; transform:translateX(-50%); background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 28px; font-size:0.95rem; font-weight:600; z-index:9999; box-shadow:0 8px 40px rgba(0,0,0,0.4); }
+    .tx-toast { display:none; position:fixed; bottom:32px; left:50%; transform:translateX(-50%); background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 28px; font-size:0.95rem; font-weight:600; z-index:9999; box-shadow:0 8px 40px rgba(0,0,0,0.4); white-space:nowrap; }
     .tx-toast.show { display:block; animation:fadeInUp .3s ease; }
     .tx-toast.success { border-color:#22c55e; color:#22c55e; }
     .tx-toast.error { border-color:#ef4444; color:#ef4444; }
@@ -174,10 +187,8 @@
 </head>
 <body>
 
-<!-- TOAST уведомление -->
 <div class="tx-toast" id="txToast"></div>
 
-<!-- NAVBAR -->
 <header class="navbar">
   <div class="nav-container">
     <a href="/" class="logo"><span class="logo-icon">⧩</span> TON Stake</a>
@@ -196,7 +207,6 @@
   </div>
 </header>
 
-<!-- HERO -->
 <section class="section-hero">
   <div class="hero-container">
     <div class="hero-text">
@@ -212,8 +222,36 @@
         <button class="btn-secondary" id="connectBtnHero">🔗 Подключить кошелёк</button>
       </div>
     </div>
+
     <div class="hero-image">
-      <img src="assets/hero-bg.png" alt="TON Hero" onerror="this.style.display='none'">
+      <div class="hero-visual">
+        <div class="ton-glow"></div>
+        <div class="ton-coins">
+          <div class="ton-coin coin-left">
+            <svg width="72" height="72" viewBox="0 0 56 56" fill="none">
+              <circle cx="28" cy="28" r="28" fill="url(#g2)"/>
+              <path d="M28 12L18 22H24V38H32V22H38L28 12Z" fill="white"/>
+              <defs><linearGradient id="g2" x1="0" y1="0" x2="56" y2="56"><stop offset="0%" stop-color="#1AC9FF"/><stop offset="100%" stop-color="#0098EA"/></linearGradient></defs>
+            </svg>
+          </div>
+          <div class="ton-coin coin-main">
+            <svg width="140" height="140" viewBox="0 0 56 56" fill="none">
+              <circle cx="28" cy="28" r="28" fill="url(#g1)"/>
+              <path d="M28 12L18 22H24V38H32V22H38L28 12Z" fill="white"/>
+              <defs><linearGradient id="g1" x1="0" y1="0" x2="56" y2="56"><stop offset="0%" stop-color="#0098EA"/><stop offset="100%" stop-color="#0055BB"/></linearGradient></defs>
+            </svg>
+          </div>
+          <div class="ton-coin coin-right">
+            <svg width="72" height="72" viewBox="0 0 56 56" fill="none">
+              <circle cx="28" cy="28" r="28" fill="url(#g3)"/>
+              <path d="M28 12L18 22H24V38H32V22H38L28 12Z" fill="white"/>
+              <defs><linearGradient id="g3" x1="0" y1="0" x2="56" y2="56"><stop offset="0%" stop-color="#0066CC"/><stop offset="100%" stop-color="#003388"/></linearGradient></defs>
+            </svg>
+          </div>
+        </div>
+        <div class="staking-label">STAKING TON</div>
+        <div class="staking-sub">Earn up to 2.3% daily</div>
+      </div>
       <div class="circle circle-1"></div>
       <div class="circle circle-2"></div>
       <div class="circle circle-3"></div>
@@ -221,7 +259,6 @@
   </div>
 </section>
 
-<!-- STATS -->
 <div class="stats-bar">
   <div class="container">
     <div class="stats-grid">
@@ -233,7 +270,6 @@
   </div>
 </div>
 
-<!-- ПРЕИМУЩЕСТВА -->
 <section id="advantages" class="section-advantages">
   <div class="container">
     <h2 class="section-title">Преимущества <span class="gradient-text">TON Stake</span></h2>
@@ -246,7 +282,6 @@
   </div>
 </section>
 
-<!-- КАК НАЧАТЬ -->
 <section id="how-to-start" class="section-howto">
   <div class="container">
     <h2 class="section-title">Как начать <span class="gradient-text">инвестировать</span></h2>
@@ -258,7 +293,6 @@
   </div>
 </section>
 
-<!-- ОБУЧЕНИЕ -->
 <section id="education" class="section-education">
   <div class="container">
     <h2 class="section-title">Стейкинг TON 101 — <span class="gradient-text">Изучите основы</span></h2>
@@ -283,7 +317,6 @@
   </div>
 </section>
 
-<!-- ТАРИФЫ -->
 <section id="plans" class="section-plans">
   <div class="container">
     <h2 class="section-title">Тарифы</h2>
@@ -311,7 +344,6 @@
   </div>
 </section>
 
-<!-- КАЛЬКУЛЯТОР -->
 <section id="calculator" class="section-calculator">
   <div class="container">
     <h2 class="section-title"><span class="gradient-text">Рассчитай</span> свою прибыль</h2>
@@ -338,7 +370,6 @@
   </div>
 </section>
 
-<!-- FAQ -->
 <section id="faq" class="section-faq">
   <div class="container">
     <h2 class="section-title">Часто задаваемые <span class="gradient-text">вопросы</span></h2>
@@ -361,7 +392,6 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
     <div class="footer-content">
@@ -389,13 +419,10 @@
 </footer>
 
 <script>
-  // ── НАСТРОЙКИ ──
   const MANIFEST_URL     = "https://kap352837598.github.io/tonstaking/tonconnect-manifest.json";
   const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
 
-  // ── TONCONNECT ──
   const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({ manifestUrl: MANIFEST_URL });
-
   const btnNav  = document.getElementById('connectBtnNav');
   const btnHero = document.getElementById('connectBtnHero');
 
@@ -412,40 +439,29 @@
 
   const toggleConnect = () =>
     tonConnectUI.connected ? tonConnectUI.disconnect() : tonConnectUI.openModal();
-
   btnNav.onclick  = toggleConnect;
   btnHero.onclick = toggleConnect;
 
-  // ── TOAST ──
   function showToast(msg, type = 'pending') {
     const t = document.getElementById('txToast');
     t.textContent = msg;
-    t.className   = 'tx-toast show ' + type;
+    t.className = 'tx-toast show ' + type;
     if (type !== 'pending') setTimeout(() => t.classList.remove('show'), 4000);
   }
 
-  // ── ТРАНЗАКЦИЯ ПО КЛИКУ НА ТАРИФ ──
   document.querySelectorAll('.plan-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
-      if (!tonConnectUI.connected) {
-        tonConnectUI.openModal();
-        return;
-      }
-      // Берём сумму из калькулятора, если не указана — минимум из тарифа
+      if (!tonConnectUI.connected) { tonConnectUI.openModal(); return; }
       const calcAmount = parseFloat(document.getElementById('amount-input').value);
       const minAmount  = parseFloat(btn.dataset.amount) || 10;
       const amount     = (calcAmount && calcAmount >= minAmount) ? calcAmount : minAmount;
       const nanoAmount = (BigInt(Math.round(amount * 1_000_000_000))).toString();
-
       showToast('⏳ Ожидание подтверждения в кошельке...', 'pending');
-
-      const transaction = {
-        validUntil: Math.floor(Date.now() / 1000) + 300,
-        messages: [{ address: RECEIVER_ADDRESS, amount: nanoAmount }]
-      };
-
       try {
-        await tonConnectUI.sendTransaction(transaction);
+        await tonConnectUI.sendTransaction({
+          validUntil: Math.floor(Date.now() / 1000) + 300,
+          messages: [{ address: RECEIVER_ADDRESS, amount: nanoAmount }]
+        });
         showToast('✅ Успешно! Средства отправлены в стейкинг.', 'success');
       } catch (e) {
         showToast('❌ Ошибка или транзакция отменена.', 'error');
@@ -453,7 +469,6 @@
     });
   });
 
-  // ── КАЛЬКУЛЯТОР ──
   function getTariff(amount) {
     if (amount < 2500) return { name: 'Basic ⚡', rate: 0.007 };
     if (amount < 7000) return { name: 'Pro 🔥',   rate: 0.011 };
@@ -477,17 +492,15 @@
   });
   updateCalc();
 
-  // ── FAQ АККОРДЕОН ──
   document.querySelectorAll('.faq-question').forEach(q => {
     q.addEventListener('click', () => {
-      const item   = q.parentElement;
+      const item = q.parentElement;
       const isOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
       if (!isOpen) item.classList.add('open');
     });
   });
 
-  // ── SCROLL REVEAL ──
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
@@ -496,7 +509,6 @@
       }
     });
   }, { threshold: 0.08 });
-
   document.querySelectorAll('.advantage-card,.step,.plan-card,.edu-card,.stake-step,.faq-item,.stat-item').forEach(el => {
     el.style.opacity    = '0';
     el.style.transform  = 'translateY(28px)';
