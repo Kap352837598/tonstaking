@@ -21,6 +21,7 @@
     body::after { content:''; position:fixed; bottom:-200px; left:-200px; width:600px; height:600px; background:radial-gradient(circle,rgba(26,201,255,0.08) 0%,transparent 70%); border-radius:50%; pointer-events:none; z-index:0; animation:bgpulse 10s ease-in-out infinite reverse; }
     @keyframes bgpulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.15);opacity:0.6} }
 
+    /* NAVBAR */
     .navbar { position:fixed; top:0; left:0; right:0; z-index:1000; height:68px; background:rgba(5,10,20,0.88); backdrop-filter:blur(20px); border-bottom:1px solid var(--border); display:flex; align-items:center; }
     .nav-container { max-width:1170px; margin:0 auto; width:100%; display:flex; align-items:center; justify-content:space-between; padding:0 24px; }
     .logo { display:flex; align-items:center; gap:10px; font-size:1.25rem; font-weight:800; color:#fff; text-decoration:none; }
@@ -33,6 +34,7 @@
     .btn-cabinet { background:rgba(255,255,255,0.07); color:#fff; text-decoration:none; padding:10px 20px; border-radius:10px; font-weight:600; font-size:0.88rem; border:1px solid var(--border); transition:background .2s; }
     .btn-cabinet:hover { background:rgba(255,255,255,0.12); }
 
+    /* HERO */
     .section-hero { position:relative; z-index:1; padding:140px 0 80px; min-height:100vh; display:flex; align-items:center; }
     .hero-container { display:flex; align-items:center; gap:60px; max-width:1170px; margin:0 auto; padding:0 24px; }
     .hero-text { flex:1; max-width:580px; }
@@ -47,35 +49,98 @@
     .btn-secondary { display:inline-flex; align-items:center; justify-content:center; background:transparent; color:var(--text); padding:16px 28px; border-radius:14px; font-weight:700; font-size:1rem; border:1px solid var(--border); transition:border-color .2s,background .2s; cursor:pointer; }
     .btn-secondary:hover { border-color:var(--blue); background:rgba(0,152,234,0.08); }
 
-    .hero-image { flex:1; position:relative; display:flex; justify-content:center; align-items:center; min-width:360px; min-height:420px; }
+    /* HERO VISUAL */
+    .hero-image { flex:1; position:relative; display:flex; justify-content:center; align-items:center; min-width:360px; min-height:480px; }
     .hero-visual { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; gap:20px; }
-    .ton-glow { position:absolute; width:440px; height:440px; background:radial-gradient(circle,rgba(0,152,234,0.2) 0%,transparent 70%); border-radius:50%; top:50%; left:50%; transform:translate(-50%,-55%); pointer-events:none; animation:bgpulse 4s ease-in-out infinite; }
 
-    .ton-coin-3d { width:220px; height:220px; position:relative; z-index:2; animation:coinFloat 4s ease-in-out infinite; filter:drop-shadow(0 0 30px rgba(0,152,234,0.9)) drop-shadow(0 0 60px rgba(0,152,234,0.5)); }
-    @keyframes coinFloat {
-      0%,100% { transform:translateY(0px); }
-      25%      { transform:translateY(-18px); }
-      75%      { transform:translateY(-9px); }
+    /* Большое внешнее свечение */
+    .ton-glow { position:absolute; width:500px; height:500px; background:radial-gradient(circle,rgba(0,152,234,0.22) 0%,transparent 70%); border-radius:50%; top:50%; left:50%; transform:translate(-50%,-55%); pointer-events:none; animation:bgpulse 4s ease-in-out infinite; }
+
+    /* Обёртка сцены — анимация float */
+    .ton-coin-3d {
+      width: 240px;
+      height: 240px;
+      position: relative;
+      z-index: 2;
+      animation: coinFloat 4s ease-in-out infinite;
     }
-    .ton-coin-shadow { width:160px; height:24px; background:radial-gradient(ellipse,rgba(0,152,234,0.5) 0%,transparent 70%); border-radius:50%; animation:shadowAnim 4s ease-in-out infinite; }
+    @keyframes coinFloat {
+      0%,100% { transform: translateY(0px); }
+      25%      { transform: translateY(-18px); }
+      75%      { transform: translateY(-9px); }
+    }
+
+    /* Синяя 3D сфера */
+    .ton-sphere {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at 34% 28%, #7de8ff 0%, #0098EA 42%, #002e80 100%);
+      box-shadow:
+        0 0 50px rgba(0,152,234,1),
+        0 0 100px rgba(0,152,234,0.65),
+        0 0 180px rgba(0,152,234,0.3),
+        inset 0 0 70px rgba(0,20,70,0.55);
+    }
+    /* Белый блик сверху */
+    .ton-sphere::before {
+      content: '';
+      position: absolute;
+      width: 95px; height: 60px;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.52) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 17%; left: 14%;
+    }
+    /* Кольцо */
+    .ton-sphere::after {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(120,220,255,0.22);
+      box-shadow: 0 0 28px rgba(0,152,234,0.28);
+    }
+
+    /* Логотип TON поверх сферы */
+    .ton-coin-logo {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3;
+    }
+    .ton-coin-logo img {
+      width: 118px;
+      height: 118px;
+      object-fit: contain;
+      filter:
+        drop-shadow(0 0 18px rgba(0,152,234,1))
+        drop-shadow(0 0 38px rgba(26,201,255,0.85))
+        brightness(1.18);
+    }
+
+    .ton-coin-shadow { width:160px; height:20px; background:radial-gradient(ellipse,rgba(0,152,234,0.5) 0%,transparent 70%); border-radius:50%; animation:shadowAnim 4s ease-in-out infinite; }
     @keyframes shadowAnim { 0%,100%{transform:scaleX(1);opacity:0.6} 50%{transform:scaleX(0.6);opacity:0.2} }
     .staking-label { font-size:1.9rem; font-weight:900; letter-spacing:0.1em; color:#fff; text-shadow:0 0 30px rgba(0,152,234,0.7); }
     .staking-sub { font-size:0.88rem; color:var(--muted); letter-spacing:0.06em; }
 
+    /* Вращающиеся круги */
     .circle { position:absolute; border-radius:50%; border:1px solid rgba(0,152,234,0.12); animation:rotatecircle linear infinite; }
-    .circle-1 { width:280px;height:280px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:22s; }
-    .circle-2 { width:420px;height:420px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:34s;border-style:dashed; }
-    .circle-3 { width:560px;height:560px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:50s; }
+    .circle-1 { width:300px;height:300px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:22s; }
+    .circle-2 { width:440px;height:440px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:34s;border-style:dashed; }
+    .circle-3 { width:580px;height:580px;top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:50s; }
     @keyframes rotatecircle { from{transform:translate(-50%,-50%)rotate(0deg)} to{transform:translate(-50%,-50%)rotate(360deg)} }
 
+    /* STATS */
     .stats-bar { position:relative; z-index:1; background:var(--card); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:28px 0; }
     .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
     .stat-item { text-align:center; }
     .stat-value { font-size:1.9rem; font-weight:800; background:linear-gradient(90deg,var(--blue),var(--blue-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
     .stat-label { font-size:0.82rem; color:var(--muted); margin-top:4px; }
-
     .section-title { font-size:clamp(1.8rem,3vw,2.6rem); font-weight:800; text-align:center; margin-bottom:56px; line-height:1.2; }
 
+    /* ADVANTAGES */
     .section-advantages { padding:100px 0; position:relative; z-index:1; }
     .advantages-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
     .advantage-card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:28px; transition:transform .3s,border-color .3s,box-shadow .3s; }
@@ -86,6 +151,7 @@
     .card-link { color:var(--blue-light); text-decoration:none; font-size:0.84rem; font-weight:600; }
     .card-link:hover { text-decoration:underline; }
 
+    /* HOW TO */
     .section-howto { padding:100px 0; position:relative; z-index:1; background:var(--dark2); }
     .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:900px; margin:0 auto; }
     .step { text-align:center; padding:36px 24px; background:var(--card); border:1px solid var(--border); border-radius:20px; transition:transform .3s,border-color .3s; }
@@ -94,6 +160,7 @@
     .step h3 { font-size:1.05rem; font-weight:700; margin-bottom:10px; }
     .step p { font-size:0.86rem; line-height:1.6; color:var(--muted); }
 
+    /* EDUCATION */
     .section-education { padding:100px 0; position:relative; z-index:1; }
     .edu-subtitle { text-align:center; color:var(--muted); margin-top:-44px; margin-bottom:48px; font-size:0.95rem; line-height:1.6; }
     .edu-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:56px; }
@@ -112,6 +179,7 @@
     .stake-step h4 { font-size:0.95rem; font-weight:700; margin-bottom:6px; }
     .stake-step p { font-size:0.83rem; line-height:1.5; color:var(--muted); }
 
+    /* PLANS */
     .section-plans { padding:100px 0; position:relative; z-index:1; background:var(--dark2); }
     .plans-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1000px; margin:0 auto; }
     .plan-card { background:var(--card); border:1px solid var(--border); border-radius:22px; padding:36px 28px; display:flex; flex-direction:column; gap:18px; transition:transform .3s,border-color .3s,box-shadow .3s; }
@@ -131,6 +199,7 @@
     .plan-btn-pro { background:rgba(255,255,255,0.18); backdrop-filter:blur(8px); box-shadow:none; border:1px solid rgba(255,255,255,0.3); }
     .plan-btn-pro:hover { background:rgba(255,255,255,0.28); }
 
+    /* TOAST */
     .tx-toast { display:none; position:fixed; bottom:32px; left:50%; transform:translateX(-50%); background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px 28px; font-size:0.95rem; font-weight:600; z-index:9999; box-shadow:0 8px 40px rgba(0,0,0,0.4); white-space:nowrap; }
     .tx-toast.show { display:block; animation:fadeInUp .3s ease; }
     .tx-toast.success { border-color:#22c55e; color:#22c55e; }
@@ -138,6 +207,7 @@
     .tx-toast.pending { border-color:var(--blue); color:var(--blue-light); }
     @keyframes fadeInUp { from{opacity:0;transform:translateX(-50%) translateY(16px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
 
+    /* CALCULATOR */
     .section-calculator { padding:100px 0; position:relative; z-index:1; }
     .calculator-card { max-width:900px; margin:0 auto; background:var(--card); border:1px solid var(--border); border-radius:24px; padding:44px; display:grid; grid-template-columns:1fr 1fr; gap:40px; box-shadow:0 10px 50px rgba(0,0,0,0.3); }
     .input-label { display:block; font-size:0.86rem; font-weight:600; color:var(--muted); margin-bottom:10px; }
@@ -154,6 +224,7 @@
     .row-profit .output-value { color:var(--blue-light); font-size:1.5rem; }
     .row-total .output-value { font-size:1.9rem; font-weight:800; background:linear-gradient(90deg,var(--blue),var(--blue-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
 
+    /* FAQ */
     .section-faq { padding:100px 0; position:relative; z-index:1; background:var(--dark2); }
     .faq-list { max-width:800px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
     .faq-item { background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden; transition:border-color .2s; }
@@ -171,6 +242,7 @@
     .btn-outline { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:12px; border:1px solid var(--border); color:var(--text); text-decoration:none; font-weight:600; font-size:0.9rem; transition:border-color .2s,background .2s; }
     .btn-outline:hover { border-color:var(--blue); background:rgba(0,152,234,0.08); }
 
+    /* FOOTER */
     .footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:48px 0 24px; background:var(--dark); }
     .footer-content { display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:40px; margin-bottom:40px; }
     .footer-logo { font-size:1.2rem; font-weight:800; color:#fff; display:flex; align-items:center; gap:10px; margin-bottom:12px; }
@@ -188,13 +260,12 @@
 
 <div class="tx-toast" id="txToast"></div>
 
-<!-- NAVBAR -->
 <header class="navbar">
   <div class="nav-container">
     <a href="/" class="logo">
-  <img src="icon.png.png" width="36" height="36" alt="TON" style="border-radius:50%;">
-  TON Stake
-</a>
+      <img src="icon.png.png" width="36" height="36" alt="TON" style="border-radius:50%;">
+      TON Stake
+    </a>
     <nav class="nav-center">
       <a href="#advantages" class="nav-link">Преимущества</a>
       <a href="#how-to-start" class="nav-link">Как начать</a>
@@ -210,7 +281,6 @@
   </div>
 </header>
 
-<!-- HERO -->
 <section class="section-hero">
   <div class="hero-container">
     <div class="hero-text">
@@ -230,13 +300,15 @@
     <div class="hero-image">
       <div class="hero-visual">
         <div class="ton-glow"></div>
+
+        <!-- Синяя сфера + логотип TON поверх -->
         <div class="ton-coin-3d">
-  <div class="ton-scene">
-    <div class="ton-orb"></div>
-    <div class="ton-orb-inner"></div>
-    <img src="icon.png.png" class="ton-floating-coin" alt="TON">
-  </div>
-</div>
+          <div class="ton-sphere"></div>
+          <div class="ton-coin-logo">
+            <img src="icon.png.png" alt="TON">
+          </div>
+        </div>
+
         <div class="ton-coin-shadow"></div>
         <div class="staking-label">STAKING TON</div>
         <div class="staking-sub">Earn up to 2.3% daily</div>
@@ -248,7 +320,6 @@
   </div>
 </section>
 
-<!-- STATS -->
 <div class="stats-bar">
   <div class="container">
     <div class="stats-grid">
@@ -260,7 +331,6 @@
   </div>
 </div>
 
-<!-- ПРЕИМУЩЕСТВА -->
 <section id="advantages" class="section-advantages">
   <div class="container">
     <h2 class="section-title">Преимущества <span class="gradient-text">TON Stake</span></h2>
@@ -273,7 +343,6 @@
   </div>
 </section>
 
-<!-- КАК НАЧАТЬ -->
 <section id="how-to-start" class="section-howto">
   <div class="container">
     <h2 class="section-title">Как начать <span class="gradient-text">инвестировать</span></h2>
@@ -285,7 +354,6 @@
   </div>
 </section>
 
-<!-- ОБУЧЕНИЕ -->
 <section id="education" class="section-education">
   <div class="container">
     <h2 class="section-title">Стейкинг TON 101 — <span class="gradient-text">Изучите основы</span></h2>
@@ -310,7 +378,6 @@
   </div>
 </section>
 
-<!-- ТАРИФЫ -->
 <section id="plans" class="section-plans">
   <div class="container">
     <h2 class="section-title">Тарифы</h2>
@@ -338,7 +405,6 @@
   </div>
 </section>
 
-<!-- КАЛЬКУЛЯТОР -->
 <section id="calculator" class="section-calculator">
   <div class="container">
     <h2 class="section-title"><span class="gradient-text">Рассчитай</span> свою прибыль</h2>
@@ -365,7 +431,6 @@
   </div>
 </section>
 
-<!-- FAQ -->
 <section id="faq" class="section-faq">
   <div class="container">
     <h2 class="section-title">Часто задаваемые <span class="gradient-text">вопросы</span></h2>
@@ -388,17 +453,12 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="footer">
   <div class="container">
     <div class="footer-content">
       <div>
         <div class="footer-logo">
-          <svg width="32" height="32" viewBox="0 0 56 56" fill="none">
-            <circle cx="28" cy="28" r="28" fill="#0098EA"/>
-            <path d="M28 9.33337L10.5 19.8334V20.5667L26.4167 46.6667H29.5834L45.5 20.5667V19.8334L28 9.33337Z" fill="white"/>
-            <path d="M28 9.33337L10.5 19.8334L28 30.3334L45.5 19.8334L28 9.33337Z" fill="white" opacity="0.4"/>
-          </svg>
+          <img src="icon.png.png" width="32" height="32" alt="TON" style="border-radius:50%;">
           TON Stake
         </div>
         <p class="footer-desc">Стейкинг smart-контракт на базе TON Blockchain. Пассивный доход для каждого.</p>
